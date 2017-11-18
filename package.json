@@ -102,7 +102,10 @@
     "url": "https://github.com/Jack-Q/PreTTY/issues"
   },
   "keywords": [
-    "ssh", "terminal", "putty", "sftp"
+    "ssh",
+    "terminal",
+    "putty",
+    "sftp"
   ],
   "homepage": "https://github.com/Jack-Q/PreTTY#readme",
   "devDependencies": {
@@ -169,7 +172,9 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "source-map-support": "^0.5.0"
+    "source-map-support": "^0.5.0",
+    "ssh2": "^0.5.5",
+    "xterm": "git://github.com/xtermjs/xterm.js.git#v3"
   },
   "devEngines": {
     "node": ">=6.x",

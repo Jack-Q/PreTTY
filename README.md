@@ -3,7 +3,6 @@
 > PreTTY is prettier than PuTTY
 
 
-
 ## Development Setup
 
 ### Install
@@ -17,6 +16,12 @@ cd PreTTY
 # requires a node version >= 6 and an npm version >= 3
 npm install
 ```
+
+> **Important Note**:
+> The xterm module used here is an pre-release version that fetched directly from GitHub
+> which is in lack of proper building process
+> Please download/clone the full repo of xterm from GitHub and build using `npm install`
+> in `node_modules/xterm`
 
 ### Execute
 

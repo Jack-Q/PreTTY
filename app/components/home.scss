@@ -2,7 +2,12 @@
   .container {
     
     text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     h2 {
+      padding: 10px;
+      margin: 0;
       font-size: 2.5rem;
       color: #cacadd;
     }
@@ -22,13 +27,13 @@
       }
     }
     .term-container {
-      height: 100%;
-      position: relative;
+      flex: 1;
     }
 
     .log-message {
       background: #555;
       height: 120px;
+      color: #aaa;
     }
   }
 }

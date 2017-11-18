@@ -92,7 +92,9 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
       x11: false
     }, (err, stream) => {
       if (err) {
-        this.log(err.name + ':' + err.message);
+        this.log('ERROR: ' + err.message);
+        this.setState({ connectionState: ConnectionState.NO_CONNECT });
+        this.connection.destroy()
         return;
       }
       console.log('pipe data together')
@@ -110,6 +112,7 @@ export default class Home extends React.Component<IHomeProps, IHomeState> {
   disposeConnection() {
     if (this.connectionStream) {
       this.connectionStream.close();
+      this.connection.destroy();
     }
   }
 

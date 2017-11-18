@@ -54,9 +54,7 @@ server.on('connection', (client, info) => {
           stream.write("Hello from SSH server!\r\n");
           stream.write("This server provides no actual capability other echo character back to you!\r\n");
           
-          stream.on('data', (msg) => {
-            console.log(msg);
-            
+          stream.on('data', (msg) => {            
             stream.write('\u001b[1;' + (30 + Math.floor(8 * Math.random()))+ 'm'); // random foreground
             // stream.write('\u001b[1;' + (100 + Math.floor(8 * Math.random()))+ 'm'); // random background
             stream.write(msg.toString().replace(/[\u0008\u007f]/g, "\u0008 \u0008").replace(/\r/g, "\r\n"));

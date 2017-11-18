@@ -28,12 +28,17 @@
     }
     .term-container {
       flex: 1;
+      overflow: hidden;
+      padding: 0;
+      background: #000;
     }
 
     .log-message {
       background: #555;
       height: 120px;
       color: #aaa;
+      overflow-y: scroll;
+      text-align: left;
     }
   }
 }

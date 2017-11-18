@@ -47,6 +47,13 @@ npm run test
 npm run build && npm run test-e2e
 ```
 
+A simple SSH server is provide in this repo with extremely limited functionality, which 
+can be used to test part of functionality of main program.
+
+```bash
+npm run ssh-server
+```
+
 ### Build / Package
 
 ```bash

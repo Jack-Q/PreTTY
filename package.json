@@ -20,7 +20,8 @@
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
-    "package-all": "npm run build && build -mwl"
+    "package-all": "npm run build && build -mwl",
+    "ssh-server": "node utility/ssh-server.js"
   },
   "jest": {
     "moduleNameMapper": {

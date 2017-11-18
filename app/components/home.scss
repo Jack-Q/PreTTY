@@ -3,14 +3,32 @@
     
     text-align: center;
     h2 {
-      font-size: 5rem;
+      font-size: 2.5rem;
+      color: #cacadd;
     }
     a {
       font-size: 1.4rem;
     }
+    button {
+      min-width: 60px;
+      padding: 5px;
+      background: none;
+      border: solid 1px #ccc;
+      outline: none;
+      color: #ccc;
+      cursor: pointer;
+      &:hover {
+        color: #09c;
+      }
+    }
     .term-container {
       height: 100%;
       position: relative;
+    }
+
+    .log-message {
+      background: #555;
+      height: 120px;
     }
   }
 }

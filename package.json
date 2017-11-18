@@ -161,6 +161,7 @@
     "webpack-merge": "^2.0.0"
   },
   "dependencies": {
+    "@types/ssh2": "^0.5.35",
     "electron-debug": "^1.1.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",

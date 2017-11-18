@@ -4,7 +4,7 @@ import { History } from 'history';
 
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import Routes from '../routes';
+import Routes from '../routes/index';
 
 interface IRootType {
   store: Redux.Store<any>;

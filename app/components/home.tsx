@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-let styles = require('./Home.scss');
+let styles = require('./home.scss');
 
 export default class Home extends React.Component {
   render() {

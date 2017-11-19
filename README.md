@@ -2,6 +2,7 @@
 
 > PreTTY is prettier than PuTTY
 
+<img src="./artwork/icon-draft-1/flat.png" width="200" style="margin: auto; display: block" />
 
 ## Development Setup
 

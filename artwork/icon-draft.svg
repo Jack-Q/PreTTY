@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   viewBox="0 0 264.05417 264.31876"
+   height="999"
+   width="998">
+  <g
+     transform="translate(0,-32.681233)">
+    <circle
+       r="112.44791"
+       style="fill:#ffffff;stroke-width:0.24909347"
+       cy="164.70831"
+       cx="132.29167"
+       id="path3699-5" />
+    <circle
+       style="fill:#9955ff;stroke-width:0.21978836"
+       cy="164.70833"
+       cx="132.29167"
+       id="path3699"
+       r="99.21875" />
+    <circle
+       r="39.6875"
+       style="fill:#ffffff;stroke-width:0.08791538"
+       cy="237.46873"
+       cx="59.531246"
+       id="path3699-6" />
+    <circle
+       r="39.6875"
+       style="fill:#ffffff;stroke-width:0.08791538"
+       cy="91.947906"
+       cx="205.05209"
+       id="path3699-6-7" />
+    <path
+       id="path3739"
+       d="M 171.97917,32.41665 58.208335,175.29165 124.35417,185.87498 92.604167,296.99998 206.37501,154.12499 140.22917,143.54165 Z"
+       style="fill:#ffffff;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <circle
+       style="fill:#55ff55;stroke-width:0.05861026"
+       cy="237.46873"
+       cx="59.531254"
+       id="path3699-6-3"
+       r="26.458334" />
+    <circle
+       style="fill:#55ff55;stroke-width:0.05861026"
+       cy="91.947899"
+       cx="205.05209"
+       id="path3699-6-3-5"
+       r="26.458334" />
+  </g>
+</svg>

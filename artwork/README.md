@@ -8,7 +8,7 @@ This folder contains relevant artworks for this project.
 
   | type                             | preview                   |
   |:--------------------------------:|:-------------------------:|
-  |<img src="./icon-draft-0.svg" width=200/> | <img src="./icon-draft-0.svg" width=200 />|
+  |[svg version](./icon-draft-0.svg) | <img src="./icon-draft-0.svg" width=200 />|
 
 * Draft version 1
 
@@ -22,3 +22,13 @@ This folder contains relevant artworks for this project.
   (SVGs are exported via Illustrator, which may not rendered correctly in preview mode)
 
   [Adobe Illustrator File](./icon-draft-1.ai)
+
+## User Interface
+
+* Welcome Screen
+  ![Welcome Screen](./ui-draft/welcome-screen.png)
+  [Adobe Illustrator File](./ui-draft/welcome-screen.ai)
+
+* Connection Session
+  ![Connection Session](./ui-draft/connection-session.png)
+  [Adobe Illustrator File](./ui-draft/connection-session.ai)

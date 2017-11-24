@@ -4,9 +4,17 @@
 
 <img src="./artwork/icon-draft-1/flat.png" width="200" style="margin: auto; display: block" />
 
-## Document
+## Project Management & Documentation
 
-Please refer to [Project Wiki](https://github.com/Jack-Q/PreTTY/wiki).
+Most document for this project should be managed via Git and hosted centrally on GitHub.
+
+Project Wiki contains project management relevant documents.
+Please refer to [Project Wiki](https://github.com/Jack-Q/PreTTY/wiki)
+(follow the instructions in Wiki pages for updating project document).
+
+Detailed tasks for current project is briefly listed in [Projects Section](https://github.com/Jack-Q/PreTTY/projects).
+For functionality that requires further discussion and planning, create an
+issue in [Issues Section](https://github.com/Jack-Q/PreTTY/issues).
 
 ## Development Setup
 
@@ -68,7 +76,6 @@ npm run package
 
 note: Package process done by `electro-builder`
 
-
---- 
+---
 
 Licensed under [MIT](./LICENSE).

@@ -4,6 +4,10 @@
 
 <img src="./artwork/icon-draft-1/flat.png" width="200" style="margin: auto; display: block" />
 
+## Document
+
+Please refer to [Project Wiki](https://github.com/Jack-Q/PreTTY/wiki).
+
 ## Development Setup
 
 ### Install

@@ -1,9 +1,10 @@
 import * as electronPath from 'electron';
 import * as path from 'path';
 
+// tslint:disable-next-line:no-var-requires
 const { Application } = require('spectron');
 
-const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time));
+const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time));
 
 describe('main window', function spec() {
   let app: any;
@@ -103,12 +104,12 @@ describe('main window', function spec() {
   it('should navigate to home using back button', async () => {
     const { client } = app;
     await client.element(
-      '[data-tid="backButton"] > a'
+      '[data-tid="backButton"] > a',
     ).click();
     await delay(100);
 
     expect(
-      await client.isExisting('[data-tid="container"]')
+      await client.isExisting('[data-tid="container"]'),
     ).toBe(true);
   });
 });

@@ -74,11 +74,13 @@ module.exports = merge(baseConfig, {
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader',
+            loader: 'typings-for-css-modules-loader',
             options: {
               modules: true,
               sourceMap: true,
               importLoaders: 1,
+              namedExport: true,
+              camelCase: true,
               localIdentName: '[name]__[local]__[hash:base64:5]',
             }
           },

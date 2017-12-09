@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import Home from '../components/home';
 
 export class HomePage extends React.Component<RouteComponentProps<any>, void> {
-  render() {
+  public render() {
     return (
       <Home />
     );

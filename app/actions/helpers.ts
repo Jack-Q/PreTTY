@@ -24,7 +24,7 @@ export const actionCreator = <T>(type: string): IActionCreator<T> =>
     type,
     test(action: IAction): action is IActionWithPayload<T> {
       return action.type === type;
-    }
+    },
   });
 
 export const actionCreatorVoid = (type: string): IActionCreatorVoid =>
@@ -32,5 +32,5 @@ export const actionCreatorVoid = (type: string): IActionCreatorVoid =>
     type,
     test(action: IAction): action is IAction {
       return action.type === type;
-    }
+    },
   });

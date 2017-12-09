@@ -40,13 +40,33 @@ module.exports = merge(baseConfig, {
     loaders: [
       // Extract all .global.css to style.css as is
       {
-        test: /\.(scss|sass)$/,
-        use: ExtractTextPlugin.extract({
-          use: [{
+        test: /\.global\.scss$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
             loader: 'css-loader',
             options: {
-              //modules: true,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(scss|sass)$/,
+        exclude: /\.global\.(scss|sass)$/,
+        use: ExtractTextPlugin.extract({
+          use: [{
+            loader: 'typings-for-css-modules-loader',
+            options: {
+              modules: true,
               importLoaders: 1,
+              namedExport: true,
+              camelCase: true,
               localIdentName: '[name]__[local]__[hash:base64:5]',
             }
           },

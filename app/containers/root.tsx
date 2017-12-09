@@ -8,8 +8,8 @@ import Routes from '../routes/index';
 
 interface IRootType {
   store: Redux.Store<any>;
-  history: History
-};
+  history: History;
+}
 
 export default function Root({ store, history }: IRootType) {
   return (

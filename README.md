@@ -74,7 +74,7 @@ npm run ssh-server
 npm run package
 ```
 
-note: Package process done by `electro-builder`
+note: Package process done by `electron-builder`
 
 ---
 

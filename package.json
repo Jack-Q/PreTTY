@@ -9,7 +9,7 @@
     "test-all": "npm run test && npm run build && npm run test-e2e",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js e2e",
-    "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 server.js",
+    "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 config/hot-server.js",
     "build-main": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config config/webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config config/webpack.config.production.js --progress --profile --colors",
     "build": "npm run build-main && npm run build-renderer && cd dist && npm install && cd ..",

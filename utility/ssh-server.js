@@ -60,11 +60,51 @@ server.on('connection', (client, info) => {
             stream.write(msg.toString().replace(/[\u0008\u007f]/g, "\u0008 \u0008").replace(/\r/g, "\r\n"));
             stream.write('\u001b[0m');
           });
+
+          stream.on("close", () => {
+            console.log("Connection closed");
+          })
         })
-        // TODO: implement SFTP server for testing
-        // .on('sftp', (acc, rej) => {
-        //   const stream = acc();
-        // })
+        // SFTP server for testing
+        .on('sftp', (acc, rej) => {
+          // Refer to library index page https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
+          const stream = acc();
+          const STATUS_CODE = ssh2.SFTP_STATUS_CODE;
+          const log = (id, event, message) => console.log(`[${id}]${event}: ${message}`);
+          const handleList = {};
+          stream.on('OPEN', (requestId, filename, flags, attrs) => {
+            log(requestId, 'OPEN', filename + flags + attrs);
+            debugger;
+          }).on('READDIR', (requestId, handle) => {
+            debugger;
+            log(requestId, 'READDIR', handle.toString());
+            if(handleList[handle.toString()]) {
+              stream.name(requestId, [{filename: 'hello*', longname: 'hello 1212 12vad', attrs:{}}]);
+              delete handleList[handle.toString()];
+            } else {
+              // the end of last file
+              stream.status(requestId, STATUS_CODE.EOF);
+            }
+          }).on('OPENDIR', (requestId, path) => {
+            debugger;
+            log(requestId, 'OPENDIR', path);
+            const handle = "OPEN-DIR:" + path;
+            handleList[handle] = {}
+            stream.handle(requestId, Buffer.from(handle));
+          }).on('SETSTAT', (requestId, path, attrs) => {
+            debugger;
+            log(requestId, 'SETSTAT', path + attrs);
+            stream.status(requestId, STATUS_CODE.OK, "set path successfully");
+          }).on('REALPATH', (requestId, path) => {
+            // translate relative path to canonical path
+            // sftp client may use '.' to initialize a connection session and translate it to realpath before other action
+            debugger;
+            log(requestId, 'REALPATH', path);
+            stream.name(requestId, [{filename: 'initial-path', longname: 'initial path', attrs: {}}])
+          }).on('CLOSE', (requestId, handle) => {
+            stream.status(requestId, STATUS_CODE.OK, "close ok");
+          })
+        })
     });
   });
 

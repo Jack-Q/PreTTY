@@ -3,6 +3,7 @@
  */
 
 const path = require('path');
+const webpack = require('webpack');
 const {
   dependency: externals
 } = './target-package.json';
@@ -36,7 +37,11 @@ module.exports = {
     ]
   },
 
-  plugins: [],
+  plugins: [
+    new webpack.WatchIgnorePlugin([
+      /(css|scss)\.d\.ts$/
+    ]),
+  ],
 
   externals: Object.keys(externals || {})
 };

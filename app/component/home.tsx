@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Client, ClientChannel } from 'ssh2';
-import { Terminal } from 'xterm';
+import * as Terminal from 'xterm';
 import * as styles from './home.scss';
+// const styles = {} as any;
 
 // tslint:disable-next-line:no-var-requires
 require('xterm/lib/addons/fit');
-Terminal.loadAddon('fit');
+(Terminal as any).loadAddon('fit');
 
 enum ConnectionState {
   NO_CONNECT, CONNECTING, CONNECTED,
@@ -22,10 +23,10 @@ interface IHomeState {
   password: string;
 }
 
-export default class Home extends React.Component<IHomeProps, IHomeState> {
+export class Home extends React.Component<IHomeProps, IHomeState> {
   private termContainer: HTMLElement;
   private connection: Client = new Client();
-  private term = new Terminal({ cursorBlink: true, cursorStyle: 'bar' });
+  private term = new Terminal({ cursorBlink: true /* , cursorStyle: 'bar' */ });
   private connectionStream?: ClientChannel;
 
   constructor(props: IHomeProps, state: IHomeState) {

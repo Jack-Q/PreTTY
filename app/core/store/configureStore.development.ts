@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
 import { routerMiddleware, push } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
-import rootReducer from '../reducers';
+import rootReducer from '../reducer';
 
 
 declare const window: Window & {
@@ -47,8 +47,8 @@ export = {
     const store = createStore(rootReducer, initialState, enhancer);
 
     if (module.hot) {
-      module.hot.accept('../reducers', () =>
-        store.replaceReducer(require('../reducers')) // eslint-disable-line global-require
+      module.hot.accept('../reducer', () =>
+        store.replaceReducer(require('../reducer')) // eslint-disable-line global-require
       );
     }
 

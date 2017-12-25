@@ -5,12 +5,12 @@ import Root from './container/root';
 import './app.global.scss';
 
 // tslint:disable-next-line:no-var-requires
-const { configureStore, history } = require('./core/store/configureStore');
+const { configureStore } = require('./core/store/configureStore');
 const store = configureStore();
 
 render(
   <AppContainer>
-    <Root store={store} history={history} />
+    <Root store={store} />
   </AppContainer>,
   document.getElementById('root'),
 );
@@ -20,7 +20,7 @@ if ((module as any).hot) {
     const NextRoot = require('./container/root').default;
     render(
       <AppContainer>
-        <NextRoot store={store} history={history} />
+        <NextRoot store={store} />
       </AppContainer>,
       document.getElementById('root'),
     );

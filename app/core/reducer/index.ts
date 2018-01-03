@@ -5,7 +5,4 @@ const rootReducer = combineReducers({
   routing: routing as Reducer<any>,
 });
 
-export interface IState {
-}
-
 export default rootReducer;

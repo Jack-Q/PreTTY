@@ -7,4 +7,4 @@
 export { DialogOverlay } from './dialog-overlay';
 export { NotificationOverlay } from './notification-overlay';
 export { QuickActionOverlay } from './quick-action-overlay';
-export { TransitionOverlay } from './transition-overay';
+export { TransitionOverlay } from './transition-overlay';

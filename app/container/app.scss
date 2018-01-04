@@ -20,8 +20,6 @@
 .title {
   height: 40px;
   display: flex;
-  // native drag area
-  -webkit-app-region: drag;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -37,32 +35,65 @@
 
 .appControl {
   display: flex;
-  width: 120px;
-  -webkit-app-region: no-drag;
+  width: 160px;
   & > div {
+    position: relative;
     width: 40px;
     transition: all ease 400ms;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 20px;
+    i {
+      line-height: 40px;
+    }
+    &::after {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      bottom: -19px;
+      font-size: 16px;
+      line-height: 15px;
+      right: 0;
+      z-index: 1;
+      transition: inherit;
+      background-color: rgba(220, 220, 220, 0.3);
+      padding: 1px;
+      border-radius: 2px;
+    }
     &:hover {
       background-color: rgba(220, 220, 220, 0.3);
+      &::after {
+        opacity: 1;
+      }
     }
+  }
+}
+
+.dragIcon {
+  // native drag area
+  -webkit-app-region: drag;
+  cursor: move;
+  &::after {
+    content: 'move';
   }
 }
 
 .maxIcon {
   &::after {
-    contain: 'maximize';
+    content: 'maximize';
   }
 }
 
 .minIcon {
   &::after {
-    contain: 'minimize';
+    content: 'minimize';
   }
 }
 
 .closeIcon {
   &::after {
-    contain: 'close';
+    content: 'close';
   }
 }
 

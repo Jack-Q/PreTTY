@@ -24,6 +24,9 @@ export class App extends React.Component<IPropsType> {
             <Title />
           </div>
           <div className={styles.appControl}>
+            <div className={styles.dragIcon}>
+              <i className="material-icons">drag</i>
+            </div>
             <div className={styles.minIcon}>
               <i className="material-icons" onClick={() => BrowserWindow.getFocusedWindow().minimize()}>remove</i>
             </div>

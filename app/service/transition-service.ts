@@ -1,4 +1,4 @@
-import {getLogger} from '../util/logger'
+import {getLogger} from '../util/logger';
 
 export interface ILayerTransitionOption {
   x: number;
@@ -12,12 +12,12 @@ class TransitionService {
   private canvasElement: HTMLCanvasElement | null = null;
 
   public transit(option: ILayerTransitionOption) {
-    this.stateQueue.push({x: 0, y: 0, r: 100});
+    // this.stateQueue.push({x: 0, y: 0, r: 100});
   }
 
   public registerCanvas(canvas: HTMLCanvasElement) {
     if (this.canvasElement) {
-      logger.warn("register new canvas before removing the existing one");
+      logger.warn('register new canvas before removing the existing one');
     }
   }
 

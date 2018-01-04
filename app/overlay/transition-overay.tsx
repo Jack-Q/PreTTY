@@ -8,7 +8,7 @@ export class TransitionOverlay extends React.Component {
   private canvasElement: HTMLCanvasElement;
 
   public componentDidMount() {
-    // transitionService;
+    transitionService.registerCanvas(this.canvasElement);
   }
 
   public render() {

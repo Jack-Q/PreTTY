@@ -11,6 +11,10 @@ export class TransitionOverlay extends React.Component {
     transitionService.registerCanvas(this.canvasElement);
   }
 
+  public componentWillUnmount() {
+    transitionService.removeCanvas(this.canvasElement);
+  }
+
   public render() {
     return (
       <div className={styles.container}>

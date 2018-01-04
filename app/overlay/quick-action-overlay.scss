@@ -16,7 +16,7 @@ $shadowColor: rgba(220, 220, 180, 0.3);
 
 .panel {
   width: 600px;
-  box-shadow: 0 0 5px 2px $shadowColor;
+ // box-shadow: 0 0 5px 2px $shadowColor;
   height: 40px;
   position: absolute;
   top: 45px;
@@ -27,11 +27,12 @@ $shadowColor: rgba(220, 220, 180, 0.3);
 .options {
   max-height: 600px;
   overflow-y: auto;
-  box-shadow: 0 0 5px 2px $shadowColor;
+ // box-shadow: 0 0 5px 2px $shadowColor;
   left: 50%;
-  margin-left: -300px;
+  //margin-left: -300px;
+  margin: 0 0 0 -300px;
   width: 600px;
-  top: 100px;
+  top: 85px;
   position: absolute;
 }
 
@@ -41,13 +42,26 @@ $shadowColor: rgba(220, 220, 180, 0.3);
   padding: 0 12px;
   margin: 0;
   background-color: rgb(79, 79, 83);
-  height: 32px;
+  height: 40px;
+  width: 100%;
   color: rgb(160, 160, 160);
   outline: none;
-  line-height: 32px
+  line-height: 40px;
 }
 .panel input:focus {
   border: 1px solid rgb(58, 119, 233) ;
   box-shadow: none;
 }
 
+.actionOption {
+  padding: 0 12px;
+  background-color:rgb(36, 36, 36);
+  color: rgb(160, 160, 160);
+  //border-bottom:1px solid rgb(56, 56, 56);
+  height: 32px;
+  line-height: 30px;
+  cursor: pointer;
+}
+.actionOption:hover {
+  background-color: rgba(63, 62, 62, 0.596);
+}

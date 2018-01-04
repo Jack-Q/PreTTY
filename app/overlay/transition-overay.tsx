@@ -8,15 +8,14 @@ export class TransitionOverlay extends React.Component {
   private canvasElement: HTMLCanvasElement;
 
   public componentDidMount() {
-    setImmediate(() => {
-      this.canvasElement.width = this.canvasElement.clientWidth;
-      this.canvasElement.height = this.canvasElement.clientHeight;
-    });
+    setImmediate(this.updateEventHandle);
+    window.addEventListener('resize', this.updateEventHandle);
     transitionService.registerCanvas(this.canvasElement);
   }
 
   public componentWillUnmount() {
     transitionService.removeCanvas(this.canvasElement);
+    window.removeEventListener('resize', this.updateEventHandle);
   }
 
   public render() {
@@ -26,5 +25,15 @@ export class TransitionOverlay extends React.Component {
         <div className={styles.message}>Transition Overlay</div>;
       </div>
     );
+  }
+
+  private updateEventHandle = () => this.updateMetrics();
+
+  private updateMetrics() {
+    if (!this.canvasElement) {
+      return;
+    }
+    this.canvasElement.width = this.canvasElement.clientWidth;
+    this.canvasElement.height = this.canvasElement.clientHeight;
   }
 }

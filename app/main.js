@@ -23,7 +23,7 @@ app.on('window-all-closed', () => {
 
 
 const installExtensions = () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (false && process.env.NODE_ENV === 'development') {
     console.log("installing electron dev-tools...")
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 

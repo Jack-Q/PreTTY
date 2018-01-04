@@ -1,0 +1,33 @@
+$shadowColor: rgba(220, 220, 180, 0.3);
+
+.background {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.background.active {
+  background-color: rgba(20, 20, 20, 0.2);
+  pointer-events: all;
+}
+
+.panel {
+  width: 600px;
+  box-shadow: 0 0 5px 2px $shadowColor;
+  height: 40px;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  margin-left: -300px;
+}
+
+.options {
+  max-height: 600px;
+  overflow-y: auto;
+  box-shadow: 0 0 5px 2px $shadowColor;
+  left: 50%;
+  margin-left: -300px;
+  width: 600px;
+  top: 100px;
+  position: absolute;
+}

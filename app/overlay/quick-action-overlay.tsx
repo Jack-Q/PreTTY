@@ -17,7 +17,7 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
   public render() {
     return (
       <div className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
-        onClick={() => quickActionService.closeQuickAction()}>
+        onClick={(e) => this.handleBackgroundClick(e)}>
         <div className={styles.panel}>
           <input type="text" value={this.props.query}
             onKeyPress={(e) => this.handleKeyEvent(e)}
@@ -39,6 +39,14 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
   private handleKeyEvent(e: React.KeyboardEvent<HTMLInputElement>) {
     // TODO: handle up, down, enter, home, end, etc
     // TODO: handle ESC to close
+  }
+
+  private handleBackgroundClick(e: React.MouseEvent<HTMLDivElement>) {
+    // ignore bubbled events
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+    quickActionService.closeQuickAction();
   }
 }
 

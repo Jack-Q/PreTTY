@@ -5,7 +5,7 @@ import * as styles from './button.scss';
 interface IProps {
   label: string;
   tooltip?: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
 }
 

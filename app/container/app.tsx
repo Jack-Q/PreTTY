@@ -1,7 +1,9 @@
 import * as React from 'react';
-import * as styles from './app.scss';
+import { remote } from 'electron';
+const { BrowserWindow } = remote;
 
 import { Title } from './title';
+import * as styles from './app.scss';
 
 interface IPropsType {
   clientArea: React.ReactNode;
@@ -9,6 +11,7 @@ interface IPropsType {
 }
 
 export class App extends React.Component<IPropsType> {
+
   public render() {
     return (
       <div className={styles.container} >
@@ -21,9 +24,15 @@ export class App extends React.Component<IPropsType> {
             <Title />
           </div>
           <div className={styles.appControl}>
-            <div className={styles.minIcon}></div>
-            <div className={styles.maxIcon}></div>
-            <div className={styles.closeIcon}></div>
+            <div className={styles.minIcon}>
+              <i className="material-icons" onClick={() => BrowserWindow.getFocusedWindow().minimize()}>remove</i>
+            </div>
+            <div className={styles.maxIcon}>
+              <i className="material-icons" onClick={() => this.maxIconAction()}>crop_free</i>
+            </div>
+            <div className={styles.closeIcon}>
+              <i className="material-icons" onClick={() => BrowserWindow.getFocusedWindow().close()}>close</i>
+            </div>
           </div>
         </div>
         <div className={styles.body}>
@@ -31,5 +40,14 @@ export class App extends React.Component<IPropsType> {
         </div>
       </div>
     );
+  }
+
+  private maxIconAction() {
+    const currentWindow = BrowserWindow.getFocusedWindow();
+    if (currentWindow.isMaximized()) {
+      currentWindow.unmaximize();
+    } else {
+      currentWindow.maximize();
+    }
   }
 }

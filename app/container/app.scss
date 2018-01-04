@@ -38,6 +38,7 @@
 .appControl {
   display: flex;
   width: 120px;
+  -webkit-app-region: no-drag;
   & > div {
     width: 40px;
     transition: all ease 400ms;

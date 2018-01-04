@@ -1,7 +1,7 @@
 import { getLogger } from '../util/logger';
 import { IApplicationAction } from '../model/action';
 import { AbstractApplicationService, IApplicationService } from '../model/service';
-import { connectToService } from '../util/connect-to-service';
+import { getServiceConnector } from '../util/connect-to-service';
 
 // TODO: add persistence storage based storage for usage statistics and ranking
 
@@ -85,6 +85,4 @@ class QuickActionService extends AbstractApplicationService<IStateEvent> impleme
 const logger = getLogger(QuickActionService.name);
 
 export const quickActionService = new QuickActionService();
-export const quickActionServiceConnector =
-  <P, O = {}>(mapper: (state: IStateEvent, svc: QuickActionService) => P, Component: React.ComponentType<P | O>) =>
-  connectToService<IStateEvent, QuickActionService, O, P>(quickActionService, mapper)(Component);
+export const quickActionServiceConnector = getServiceConnector<IStateEvent, QuickActionService>(quickActionService);

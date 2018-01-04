@@ -13,13 +13,13 @@ interface IPropsType {
 }
 
 class QuickActionOverlayView extends React.Component<IPropsType> {
-
+  
   public render() {
     return (
       <div className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
         onClick={() => quickActionService.closeQuickAction()}>
         <div className={styles.panel}>
-          <input type="text" value={this.props.query}
+          <input type="text" value={this.props.query} placeholder={"查找"}
             onKeyPress={(e) => this.handleKeyEvent(e)}
             onChange={(e) => quickActionService.updateFilter(e.target.value)} />
         </div>

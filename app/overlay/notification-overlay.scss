@@ -1,0 +1,27 @@
+.container {
+  position: absolute;
+  right: 0;
+  top: 40px;
+}
+
+.container.active {
+  width: 320px;
+  height: auto;
+}
+
+.notification {
+  box-sizing: border-box;
+  transition: all ease 200ms;
+  pointer-events: all;
+  position: relative;
+  padding: 20px;
+  width: 320px;
+  border: solid 2px #555;
+  margin: 10px 0;
+  background: #666;
+}
+
+.label {
+  word-break: break-all;
+  padding-right: 40px;
+}

@@ -5,7 +5,7 @@ import { transitionService } from '../service';
 export class ClientArea extends React.Component {
   public render() {
     return (
-      <div onClick={(e) => this.clickTransition(e)}>Client Area</div>
+      <div style={{width: '100%', height: '100%'}} onClick={(e) => this.clickTransition(e)}>Client Area</div>
     );
   }
 
@@ -13,7 +13,7 @@ export class ClientArea extends React.Component {
     transitionService.transit({
       x: e.clientX,
       y: e.clientY,
-      color: '#09c',
+      color: '#9acdad',
     });
   }
 }

@@ -67,12 +67,13 @@ class TransitionService {
       if (e.r >= 1.5 * params.growRadius) {
         queue.splice(i, 1);
       }
-      e.r += elapsedTime * params.radiusSpeed / Math.log(Math.max(e.r, 400));
+      e.r += elapsedTime * params.radiusSpeed / 60 * Math.log(Math.max(e.r, 400));
       if (e.r > params.growRadius) {
         e.alpha = (1.5 * params.growRadius - e.r) / params.growRadius * 2;
       } else {
         e.alpha = e.r / params.growRadius;
       }
+      e.alpha = Math.pow(Math.max(Math.min(1, e.alpha), 0), 1 / 2);
     });
 
     // render state
@@ -111,7 +112,7 @@ class TransitionService {
     this.stateQueue.map((s) => {
       ctx.fillStyle = toRgba(s.option.color, s.alpha);
       ctx.beginPath();
-      ctx.ellipse(s.option.x - s.r / 2, s.option.y - s.r / 2, s.r, s.r, 0, 0, Math.PI * 2);
+      ctx.ellipse(s.option.x, s.option.y, s.r, s.r, 0, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
     });

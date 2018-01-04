@@ -8,6 +8,10 @@ export class TransitionOverlay extends React.Component {
   private canvasElement: HTMLCanvasElement;
 
   public componentDidMount() {
+    setImmediate(() => {
+      this.canvasElement.width = this.canvasElement.clientWidth;
+      this.canvasElement.height = this.canvasElement.clientHeight;
+    });
     transitionService.registerCanvas(this.canvasElement);
   }
 

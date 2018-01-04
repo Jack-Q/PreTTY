@@ -6,6 +6,7 @@ import { IApplicationAction } from '../model/action';
 import { quickActionServiceConnector } from '../service/quick-action-service';
 
 interface IPropsType {
+  // display or hide this overlay
   isOpen: boolean;
   actionList: IApplicationAction[];
   query: string;
@@ -15,7 +16,8 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
 
   public render() {
     return (
-      <div className={styles.background + ' ' + styles.active}>
+      <div className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
+        onClick={() => quickActionService.closeQuickAction()}>
         <div className={styles.panel}>
           <input type="text" value={this.props.query}
             onKeyPress={(e) => this.handleKeyEvent(e)}
@@ -36,6 +38,7 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
 
   private handleKeyEvent(e: React.KeyboardEvent<HTMLInputElement>) {
     // TODO: handle up, down, enter, home, end, etc
+    // TODO: handle ESC to close
   }
 }
 

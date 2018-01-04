@@ -4,9 +4,12 @@ $shadowColor: rgba(220, 220, 180, 0.3);
   width: 100%;
   height: 100%;
   position: relative;
+  opacity: 0;
+  transition: all ease 100ms;
 }
 
 .background.active {
+  opacity: 1;
   background-color: rgba(20, 20, 20, 0.2);
   pointer-events: all;
 }

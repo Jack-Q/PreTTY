@@ -20,6 +20,8 @@
 .title {
   height: 40px;
   display: flex;
+  // native drag area
+  //-webkit-app-region: drag;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -30,7 +32,8 @@
 }
 
 .titleContainer {
-  flex: 1;
+  // flex: 1;
+  width: calc(100% - 200px);
 }
 
 .appControl {

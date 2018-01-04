@@ -4,5 +4,72 @@
 .title {
   width: 100%;
   height: 40px;
+  //text-align: center;
+  background-color: rgb(87, 80, 80);
+  position: relative;
+  padding-right: 40px;
+}
+.tabContainer {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+  height: 40px;
+}
+.tabContainer::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.tabContainer::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(241, 237, 237, 0.76);
+}
+.tabContainer::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.863);
+}
+
+.tab {
+  display: inline-block;
+
+  border-right: 1px solid rgb(39, 37, 37);
+  padding:0 5px 0 5px;
+  line-height: 40px;
+  width: 100px;
+  cursor: pointer;
+  
+}
+
+.addBtn {
+  height: 40px;
+  width: 40px;
+  background-color: #463e61;
+  //display: inline-block;
+  line-height: 40px;
   text-align: center;
+  color: #fffbfb;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.close {
+  //display: inline-block;
+  //height: 40px;
+  right: 0px;
+  float: right;
+  cursor: pointer;
+  display: none;
+}
+
+.close:hover {
+  color: #463e61;
+}
+
+.slideBar {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  height: 2px;
+  background-color: #fff;
 }

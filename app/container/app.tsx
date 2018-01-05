@@ -4,6 +4,7 @@ const { BrowserWindow } = remote;
 
 import { Title } from './title';
 import * as styles from './app.scss';
+import { AppIcon } from '../component';
 
 interface IPropsType {
   clientArea: React.ReactNode;
@@ -19,7 +20,9 @@ export class App extends React.Component<IPropsType> {
           {this.props.stackLayers}
         </div>
         <div className={styles.title}>
-          <div className={styles.appIcon}></div>
+          <div className={styles.appIcon}>
+            <AppIcon fill="#aaa" padding="5px"/>
+          </div>
           <div className={styles.titleContainer}>
             <Title />
           </div>

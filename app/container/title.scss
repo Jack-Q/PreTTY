@@ -5,11 +5,11 @@
   width: 100%;
   height: 40px;
   //text-align: center;
-  background-color: rgb(87, 80, 80);
   position: relative;
   padding-right: 40px;
 }
 .tabContainer {
+  display: flex;
   width: 100%;
   overflow-y: hidden;
   overflow-x: auto;
@@ -28,8 +28,9 @@
 }
 
 .tab {
-  display: inline-block;
-
+  min-width: 100px;
+  flex: 1;
+  transition: all ease 200ms;
   border-right: 1px solid rgb(39, 37, 37);
   padding:0 5px 0 5px;
   line-height: 40px;
@@ -41,11 +42,10 @@
 .addBtn {
   height: 40px;
   width: 40px;
-  background-color: #463e61;
   //display: inline-block;
   line-height: 40px;
   text-align: center;
-  color: #fffbfb;
+  color: #aaa;
   cursor: pointer;
   position: absolute;
   right: 0;

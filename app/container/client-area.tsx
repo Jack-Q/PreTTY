@@ -11,7 +11,7 @@ class ClientAreaView extends React.Component<IProps> {
     return (
       <>
       {
-        this.props.pageList.map((p) => <p.view state={p.state} title={p.title} />)
+        this.props.pageList.map((p) => <p.view key={p.id} state={p.state} title={p.title} />)
       }
       </>
     );

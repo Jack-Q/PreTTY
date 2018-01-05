@@ -76,23 +76,27 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
   }
 
   private createTab(title: string = 'Hello@PreTTY'): ITab {
-    return {
+    const newTab: ITab =  {
       id: getUid(),
       displayText: title,
       alert: false,
       processing: false,
       pageStack: [],
     };
+    this.tabList.push(newTab);
+    return newTab;
   }
 
   private createPage(view: PageViewType): IPage {
-    return {
+    const newPage: IPage = {
       id: getUid(),
       tabId: '',
       state: PageViewState.BACKGROUND,
       title: '',
       view,
     };
+    this.pageList.push(newPage);
+    return newPage;
   }
 }
 

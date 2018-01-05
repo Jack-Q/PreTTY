@@ -1,0 +1,91 @@
+.container {
+  display: flex;
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  margin: 15px auto;
+  height: 40px;
+  line-height: 40px;
+}
+
+.label {
+  color: #555;
+  font-weight: 600;
+  width: 30%;
+  text-align: right;
+  padding-right: 20px;
+  transition: all ease 400ms;
+  &.active {
+    color: #888;
+  }
+}
+
+.inputWrapper{
+  width: 70%;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  line-height: 35px;
+  display: block;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-bottom: solid 2px #888;
+  font-size: 18px;
+  color: #aaa;
+  padding: 0 5px;
+  transition: all ease 400ms;
+  &:focus {
+    border-bottom-color: #09c; 
+  }
+  &[type=password] {
+    letter-spacing: 10px;
+  }
+}
+
+.inputHelp {
+  position: absolute;
+  right: 0;
+
+  .helpIcon {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    transition: all ease 400ms;
+  }
+  .helpMessage {
+    opacity: 0;
+    position: absolute;
+    transition: all ease 400ms;
+    width: 220px;
+    padding: 5px;
+    border-radius: 5px;
+    right: 0;
+    line-height: 20px;
+    font-size: 16px;
+    background: #534432;
+    z-index: 1;
+    pointer-events: none;
+    top: 30px;
+    &::before {
+      content: '';
+      display: block;
+      border-left: 15px solid transparent;
+      border-bottom: 20px solid #534432;
+      position: absolute;
+      right: 20px;
+      top: -10px;
+      z-index: 1;
+    }
+  }
+  &:hover {
+    .helpIcon {
+      color: #ccc;
+    }
+    .helpMessage {
+      opacity: 1;
+    }
+  }
+}

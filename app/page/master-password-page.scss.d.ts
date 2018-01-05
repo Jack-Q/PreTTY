@@ -3,3 +3,4 @@ export const icon: string;
 export const message: string;
 export const inputWrapper: string;
 export const input: string;
+export const subActions: string;

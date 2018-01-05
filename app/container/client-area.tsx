@@ -15,7 +15,7 @@ class ClientAreaView extends React.Component<IProps> {
       <div>
       {
         this.props.pageList.map((p) => (
-          <div style={{
+          <div  key={p.id} style={{
             position: 'absolute',
             overflow: 'hidden',
             top: '0',
@@ -26,7 +26,7 @@ class ClientAreaView extends React.Component<IProps> {
             pointerEvents: isActive(p) ? 'all' : 'none',
             zIndex: isActive(p) ? 1 : 0,
           }}>
-            <p.view key={p.id} state={p.state} title={p.title} tabId={p.tabId} />
+            <p.view state={p.state} title={p.title} tabId={p.tabId} />
           </div>
         ))
       }

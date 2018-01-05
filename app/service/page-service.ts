@@ -39,6 +39,12 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     this.updateState();
   }
 
+  public closeTab(tab: ITab) {
+    // TODO: check confirmation
+    this.removeTab(tab);
+    this.updateState();
+  }
+
   public getState(): IStateEvent {
     return {
       pageList: this.pageList,
@@ -97,6 +103,36 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     };
     this.pageList.push(newPage);
     return newPage;
+  }
+
+  private removeTab(tab: ITab) {
+    const index = this.tabList.indexOf(tab);
+    if (index < 0) {
+      logger.warn('cannot remove tab that does not exist in tab list');
+      return;
+    }
+    if (this.activeTabId === tab.id) {
+      const nextTab = this.tabList[index ? index - 1 : index + 1];
+      if (!nextTab) {
+        this.createTab();
+      } else {
+        this.activeTabId = nextTab.id;
+      }
+    }
+    this.tabList.splice(index, 1);
+    tab.pageStack.forEach((p) => this.removePage(p));
+    this.updateState();
+  }
+
+  // This method won't remove page from tab stack
+  private removePage(page: IPage) {
+    const index = this.pageList.indexOf(page);
+    if (index < 0) {
+      logger.warn('cannot remove page that does not exist in page list');
+      return;
+    }
+    this.pageList.splice(index, 1);
+    this.updateState();
   }
 }
 

@@ -47,6 +47,7 @@ $shadowColor: rgba(220, 220, 180, 0.3);
   color: rgb(160, 160, 160);
   outline: none;
   line-height: 40px;
+  font-size: 18px;
 }
 .panel input:focus {
   border: 1px solid rgb(58, 119, 233) ;
@@ -62,6 +63,14 @@ $shadowColor: rgba(220, 220, 180, 0.3);
   line-height: 30px;
   cursor: pointer;
 }
+
 .actionOption:hover {
-  background-color: rgba(63, 62, 62, 0.596);
+  background-color: rgb(63, 62, 62);
+}
+
+.empty {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+  font-weight: 100;
 }

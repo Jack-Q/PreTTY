@@ -33,12 +33,19 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
               );
             })
           }
+          {
+            this.props.actionList.length === 0 &&
+            <div className={`${styles.actionOption} ${styles.empty}`}>
+              No match command found.
+            </div>
+          }
         </div>
       </div>
     );
   }
 
   private handleAction(a: IApplicationAction) {
+    quickActionService.closeQuickAction();
     actionService.executeAction(a);
   }
 

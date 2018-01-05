@@ -6,3 +6,19 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.headerNavigate {
+  padding: 0 20px;
+  line-height: 40px;
+}
+
+.identityForm {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.submissionArea {
+  line-height: 40px;
+  padding: 20px;
+  text-align: center;
+}

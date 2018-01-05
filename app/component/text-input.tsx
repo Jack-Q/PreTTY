@@ -5,6 +5,7 @@ interface IProps {
   value: string;
   label: string;
   isPassword?: boolean;
+  isTextFiled?: boolean;
   helpMessage?: string;
   onChange: (v: string) => void;
 }
@@ -30,14 +31,25 @@ export class TextInput extends React.Component<IProps, IState> {
           className={`${styles.label} ${this.state.isActive ? styles.active : ''}`}
         >{this.props.label}</div>
         <div className={styles.inputWrapper}>
-          <input
-            className={styles.input}
-            type={this.props.isPassword ? 'password' : 'text'}
-            value={this.props.value}
-            onChange={(e) => this.props.onChange(e.target.value)}
-            onFocus={() => this.setState({ isActive: true })}
-            onBlur={() => this.setState({ isActive: false })}
-          />
+          {
+            this.props.isTextFiled ?
+              <textarea
+                className={styles.input}
+                value={this.props.value}
+                onChange={(e) => this.props.onChange(e.target.value)}
+                onFocus={() => this.setState({ isActive: true })}
+                onBlur={() => this.setState({ isActive: false })}
+              />
+              :
+              <input
+                className={styles.input}
+                type={this.props.isPassword ? 'password' : 'text'}
+                value={this.props.value}
+                onChange={(e) => this.props.onChange(e.target.value)}
+                onFocus={() => this.setState({ isActive: true })}
+                onBlur={() => this.setState({ isActive: false })}
+              />
+          }
         </div>
         {
           this.props.helpMessage &&

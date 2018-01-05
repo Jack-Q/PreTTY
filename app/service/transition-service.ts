@@ -1,4 +1,4 @@
-import {getLogger} from '../util/logger';
+import { getLogger } from '../util/logger';
 import { toRgba } from '../util/color';
 
 export interface ILayerTransitionOption {
@@ -34,6 +34,14 @@ class TransitionService {
         this.nextFrame();
       }
     });
+  }
+
+  public transitOnClick(e: React.MouseEvent<Element>, color: string, onSwitch?: () => void) {
+    this.transit({
+      x: e.clientX,
+      y: e.clientY,
+      color,
+    }).then(onSwitch);
   }
 
   public registerCanvas(canvas: HTMLCanvasElement) {

@@ -4,9 +4,10 @@ import { transitionService, quickActionService, notificationService } from '../s
 import { Button } from '../component';
 import { createNotification } from '../model/notification';
 import { getUid } from '../util/uid';
-import { IPageViewProps } from '../model/page';
+import { IPageViewProps, PageViewType } from '../model/page';
 import { pageService } from '../service/page-service';
 import { MasterPasswordPage } from './master-password-page';
+import { IdentityCreatePage } from './identity-create-page';
 
 export class TestPage extends React.Component<IPageViewProps> {
   public render() {
@@ -17,6 +18,7 @@ export class TestPage extends React.Component<IPageViewProps> {
           <Button onClick={() => quickActionService.openQuickAction()} label="Open Quick Action List" />
           <Button onClick={() => this.pushNotification()} label="Push notification" />
           <Button onClick={(e) => this.requestMasterPassword(e)} label="Request master password" />
+          <Button onClick={(e) => this.createNewIdentity(e)} label="Create new identity" />
         </div>
       </div>
     );
@@ -37,12 +39,19 @@ export class TestPage extends React.Component<IPageViewProps> {
   }
 
   private requestMasterPassword(e: React.MouseEvent<HTMLDivElement>) {
+    this.replaceTabPage(e, MasterPasswordPage);
+  }
+  private createNewIdentity(e: React.MouseEvent<HTMLDivElement>) {
+    this.replaceTabPage(e, IdentityCreatePage);
+  }
+
+  private replaceTabPage(e: React.MouseEvent<HTMLDivElement>, component: PageViewType) {
     transitionService.transit({
       x: e.clientX,
       y: e.clientY,
       color: '#09c',
     }).then(() => {
-      pageService.replaceTabPage(this.props.tabId, MasterPasswordPage);
+      pageService.replaceTabPage(this.props.tabId, component);
     });
   }
 }

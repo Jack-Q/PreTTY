@@ -47,6 +47,34 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     };
   }
 
+  public pushPage(tab: ITab, page: IPage): void {
+    if (page.tabId !== '') {
+      logger.warn(`attempt to add page ${page.id} to multiple tabs`);
+      return;
+    }
+    page.tabId = tab.id;
+    tab.pageStack.push(page);
+  }
+
+  public popPage(tab: ITab): IPage | undefined {
+    const topPage = tab.pageStack[tab.pageStack.length - 1];
+    if (!topPage) {
+      logger.warn(`pop page from empty tab ${tab.id}`);
+      return undefined;
+    }
+    logger.info(`pop page ${topPage.id} from tab ${tab.id}`);
+    tab.pageStack.pop();
+
+    if (topPage.state !== PageViewState.BACKGROUND) {
+      logger.warn(`pop a page before it goes background`);
+    }
+
+    topPage.tabId = '';
+    topPage.state = PageViewState.BACKGROUND;
+
+    return topPage;
+  }
+
   private createTab(title: string = 'Hello@PreTTY'): ITab {
     return {
       id: getUid(),
@@ -65,34 +93,6 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
       title: '',
       view,
     };
-  }
-
-  private pushPage(tab: ITab, page: IPage): void {
-    if (page.tabId !== '') {
-      logger.warn(`attempt to add page ${page.id} to multiple tabs`);
-      return;
-    }
-    page.tabId = tab.id;
-    tab.pageStack.push(page);
-  }
-
-  private popPage(tab: ITab): IPage | undefined {
-    const topPage = tab.pageStack[tab.pageStack.length - 1];
-    if (!topPage) {
-      logger.warn(`pop page from empty tab ${tab.id}`);
-      return undefined;
-    }
-    logger.info(`pop page ${topPage.id} from tab ${tab.id}`);
-    tab.pageStack.pop();
-
-    if (topPage.state !== PageViewState.BACKGROUND) {
-      logger.warn(`pop a page before it goes background`);
-    }
-
-    topPage.tabId = '';
-    topPage.state = PageViewState.BACKGROUND;
-
-    return topPage;
   }
 }
 

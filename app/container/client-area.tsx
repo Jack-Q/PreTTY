@@ -1,14 +1,25 @@
 import * as React from 'react';
 
-import { MasterPasswordPage, TestPage } from '../page';
-export class ClientArea extends React.Component {
+import { pageServiceConnector } from '../service/page-service';
+import { IPage } from '../model/page';
+
+interface IProps {
+  pageList: IPage[];
+}
+class ClientAreaView extends React.Component<IProps> {
   public render() {
-    const ActiveView = TestPage || MasterPasswordPage;
     return (
       <>
-        <ActiveView />
+      {
+        this.props.pageList.map((p) => <p.view state={p.state} title={p.title} />)
+      }
       </>
     );
   }
 
 }
+
+export const ClientArea = pageServiceConnector<IProps, {}>(
+  (state, svc) => ({pageList: state.pageList}),
+  ClientAreaView,
+);

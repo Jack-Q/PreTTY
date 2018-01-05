@@ -31,7 +31,7 @@ class TitleView extends React.Component<IPropsType> {
           {
             this.props.tabs.map((t) => (
               <div key={t.key} className={styles.tab} style={{
-                backgroundColor: t.key === this.props.currentTab ? '#222' : 'rgb(46, 48, 49)',
+                background: t.key === this.props.currentTab ? '#222' : 'none',
                 color: t.key === this.props.currentTab ? '#fff' : 'rgb(156, 149, 149)',
               }}
                 onClick={() => this.props.activeTab(t.key)}
@@ -46,16 +46,14 @@ class TitleView extends React.Component<IPropsType> {
                   onClick={(e) => { this.props.delTabByKey(t.key); e.stopPropagation(); }} >
                   ×
                 </div>
-
               </div>
-
             ))
           }
         </div>
 
         <div className={styles.addBtn} onClick={() => this.props.addTab(getUid(), 'New Tab', false)}>
-          +</div>
-
+          <i className="material-icons">add</i>
+        </div>
       </div>
     );
   }
@@ -93,7 +91,7 @@ export class Title extends React.Component<{}, { currentTab: string, onMouseOver
               index = i;
             }
           }
-          
+
           if (index === -1) { return; }
 
           this.tabs.splice(index, 1);

@@ -28,21 +28,21 @@
 }
 
 .tab {
-  min-width: 100px;
+  min-width: 150px;
   flex: 1;
-  transition: all ease 200ms;
-  border-right: 1px solid rgb(39, 37, 37);
+  transition: all ease 400ms;
   padding:0 5px 0 5px;
   line-height: 40px;
-  width: 100px;
+  width: auto;
   cursor: pointer;
-  
+  & + .tab {
+    border-left: solid 1px #343;
+  }
 }
 
 .addBtn {
   height: 40px;
   width: 40px;
-  //display: inline-block;
   line-height: 40px;
   text-align: center;
   color: #aaa;
@@ -50,6 +50,10 @@
   position: absolute;
   right: 0;
   top: 0;
+  transition: all ease 400ms;
+  &:hover {
+    background-color: rgba(220, 220, 220, 0.3);
+  }
 }
 
 .close {

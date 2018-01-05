@@ -21,7 +21,7 @@ class DialogOverlayView extends React.Component<IProps> {
             <div className={styles.actions}>
               {
                 this.props.dialog.actions.map((a) => (
-                  <Button label={a.title} tooltip={a.tooltip}
+                  <Button label={a.title} tooltip={a.tooltip} key={a.title}
                     onClick={() => this.props.dialog &&
                       dialogService.handleDialogAction(this.props.dialog, a)} />
                 ))

@@ -19,6 +19,11 @@ interface IPropsType {
   delTabByKey: (key: string) => void;
 }
 
+// TODO:
+// * context menu: close, close all
+// * drag & order
+// * pin to left
+
 class TitleView extends React.Component<IPropsType> {
   public render() {
     return (
@@ -26,12 +31,15 @@ class TitleView extends React.Component<IPropsType> {
         <div className={styles.tabContainer} onWheel={(e) => {
           if (e.deltaMode === 0) {
             e.currentTarget.scrollLeft += e.deltaY;
+          } else if (e.deltaMode === 2) {
+            e.currentTarget.scrollLeft += e.deltaY * 50;
           }
+          e.preventDefault();
         }}>
           {
             this.props.tabs.map((t) => (
               <div key={t.key} className={styles.tab} style={{
-                background: t.key === this.props.currentTab ? '#222' : 'none',
+                background: t.key === this.props.currentTab && this.props.tabs.length > 1 ? '#222' : 'none',
                 color: t.key === this.props.currentTab ? '#fff' : 'rgb(156, 149, 149)',
               }}
                 onClick={() => this.props.activeTab(t.key)}
@@ -39,9 +47,10 @@ class TitleView extends React.Component<IPropsType> {
                   this.props.mouseOverTab(t.key);
                 }} >
                 {t.displayText}
-                <div id={'close_' + t.key} className={styles.close} style={{
-                  display: (t.key === this.props.currentTab || t.key === this.props
-                    .onMouseOverTab) ? 'inline-block' : 'none',
+                <div className={styles.close} style={{
+                  display: this.props.tabs.length > 1 &&
+                    (t.key === this.props.currentTab || t.key === this.props.onMouseOverTab) ?
+                    'inline-block' : 'none',
                 }}
                   onClick={(e) => { this.props.delTabByKey(t.key); e.stopPropagation(); }} >
                   ×

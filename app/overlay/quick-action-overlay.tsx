@@ -27,9 +27,10 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
           {
             this.props.actionList.map((a) => {
               return (
-                <div>{a.displayName}</div>
+                <div className={styles.actionOption}>{a.displayName}</div>
               );
             })
+            
           }
         </div>
       </div>

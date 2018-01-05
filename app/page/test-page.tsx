@@ -10,9 +10,11 @@ export class TestPage extends React.Component<IPageViewProps> {
   public render() {
     return (
       <div style={{ width: '100%', height: '100%' }} onClick={(e) => this.clickTransition(e)}>
-        Client Area
-        <Button onClick={() => quickActionService.openQuickAction()} label="Open Quick Action List" />
-        <Button onClick={() => this.pushNotification()} label="Push notification" />
+        Client Area in tab {this.props.tabId}
+        <div>
+          <Button onClick={() => quickActionService.openQuickAction()} label="Open Quick Action List" />
+          <Button onClick={() => this.pushNotification()} label="Push notification" />
+        </div>
       </div>
     );
   }

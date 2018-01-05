@@ -6,11 +6,14 @@ export interface IAccelerator {
   withAlt: boolean;
 }
 
-export interface IApplicationAction {
+export interface IApplicationAction<T = any> {
   key: string;
   displayName: string;
   description: string;
-  internalAction: string;
   accelerator?: IAccelerator;
-  getParams?: () => any;
+  getParams?: () => T;
+}
+
+export interface IApplicationActionClass<T = any> {
+  actionBody: (params: T) => void;
 }

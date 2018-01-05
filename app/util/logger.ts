@@ -1,5 +1,5 @@
 
-import { loggingService } from '../service';
+import { loggingService } from '../service/logging-service';
 
 export enum LogLevel {
   VERBOSE,

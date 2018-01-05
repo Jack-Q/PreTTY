@@ -4,7 +4,7 @@ import { dialogService } from '../service';
 import { defineActionMethod } from '../service/action-service';
 import { IApplicationActionClass } from '../model/action';
 
-@defineActionMethod({ key: 'about', displayName: 'about PreTTY' })
+@defineActionMethod({ key: 'about', displayName: 'About PreTTY' })
 export class AboutAction implements IApplicationActionClass {
 
   public actionBody(params: any) {

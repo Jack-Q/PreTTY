@@ -39,6 +39,21 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     this.updateState();
   }
 
+  public replaceTabPage(tabId: string, pageView: PageViewType) {
+    const tab = this.tabList.find((t) => t.id === tabId);
+    if (!tab) {
+      logger.warn('attempt to replace page of non-exist tab');
+      return;
+    }
+    const oldPage = this.popPage(tab);
+    if (oldPage) {
+      this.removePage(oldPage);
+    }
+    const newPage = this.createPage(pageView);
+    this.pushPage(tab, newPage);
+    this.updateState();
+  }
+
   public closeTab(tab: ITab) {
     // TODO: check confirmation
     this.removeTab(tab);
@@ -53,7 +68,7 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     };
   }
 
-  public pushPage(tab: ITab, page: IPage): void {
+  private pushPage(tab: ITab, page: IPage): void {
     if (page.tabId !== '') {
       logger.warn(`attempt to add page ${page.id} to multiple tabs`);
       return;
@@ -62,7 +77,7 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     tab.pageStack.push(page);
   }
 
-  public popPage(tab: ITab): IPage | undefined {
+  private popPage(tab: ITab): IPage | undefined {
     const topPage = tab.pageStack[tab.pageStack.length - 1];
     if (!topPage) {
       logger.warn(`pop page from empty tab ${tab.id}`);

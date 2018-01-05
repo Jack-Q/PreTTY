@@ -35,8 +35,26 @@ class QuickActionService extends AbstractApplicationService<IStateEvent> impleme
     this.updateState();
   }
 
-  public addActionList(listId: string, items: IApplicationAction[]) {
-    items.forEach((a) => this.actionList.push({ action: a, groupKey: listId }));
+  public addActionList(items: IApplicationAction[], listId: string = 'Global') {
+    items.forEach((a) => {
+      this.actionList.push({ action: a, groupKey: listId });
+      logger.info(`add action: ${listId}:${a.key} (${a.displayName}:${a.description})`);
+    });
+    this.applyFilter();
+  }
+
+  public addActionListDedup(items: IApplicationAction[], listId: string = 'Global') {
+    items.forEach((a) => {
+      const item = this.actionList.find((b) => b.action.key === a.key);
+      if (item) {
+        if (item.groupKey !== listId) {
+          logger.warn('ignore action register from different group using same key');
+        }
+        return;
+      }
+      logger.info(`add action (dedup): ${listId}:${a.key} (${a.displayName}:${a.description})`);
+      this.actionList.push({ action: a, groupKey: listId });
+    });
     this.applyFilter();
   }
 
@@ -52,7 +70,8 @@ class QuickActionService extends AbstractApplicationService<IStateEvent> impleme
   public updateFilter(filter: string): IQuickActionEntry[] {
     if (this.filterQuery === filter) { return this.filterResult; }
     this.filterQuery = filter;
-    return this.applyFilter();
+    this.applyFilter();
+    return this.filterResult;
   }
 
   public getState(): IStateEvent {
@@ -70,15 +89,15 @@ class QuickActionService extends AbstractApplicationService<IStateEvent> impleme
     const result = list.map((a) => {
       // TODO: filter result and labeling the result
       return {
-        weight: (a.action.displayName.indexOf(query) > 0 ? 3 : 0) + (a.action.description.indexOf(query) > 0 ? 1 : 0),
+        weight: (a.action.displayName.indexOf(query) >= 0 ? 3 : 0) + (a.action.description.indexOf(query) >= 0 ? 1 : 0),
         action: a,
       };
     })
       .filter((r) => r.weight > 0)
       .sort((a, b) => a.weight - b.weight)
       .map((r) => r.action);
+    this.filterResult = result;
     this.updateState();
-    return result;
   }
 }
 

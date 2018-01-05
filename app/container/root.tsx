@@ -17,10 +17,10 @@ export default function Root({ store }: IRootType) {
     // Provider provides application state context
     <Provider store={store}>
       <App stackLayers={[
-        <DialogOverlay key="dialog" />,
+        <QuickActionOverlay key="quick-action" />,
         <TransitionOverlay key="transition" />,
         <NotificationOverlay key="notification" />,
-        <QuickActionOverlay key="quick-action" />,
+        <DialogOverlay key="dialog" />,
       ]} clientArea={
         <ClientArea />
       } />

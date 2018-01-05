@@ -11,6 +11,7 @@ interface ILayerTransitionState {
   option: ILayerTransitionOption;
   r: number;
   alpha: number; // from 0 to 1
+  resolver?: () => void;
 }
 
 class TransitionService {
@@ -26,11 +27,13 @@ class TransitionService {
 
   public transit(option: ILayerTransitionOption) {
     logger.verbose(`add new transit at (${option.x},${option.y}) with color ${option.color}`);
-    this.stateQueue.push({option, r: 0, alpha: 0});
-    if (this.lastTimeStamp === 0) {
-      this.lastTimeStamp = Date.now();
-      this.nextFrame();
-    }
+    return new Promise((res, rej) => {
+      this.stateQueue.push({ option, r: 0, alpha: 0, resolver: res });
+      if (this.lastTimeStamp === 0) {
+        this.lastTimeStamp = Date.now();
+        this.nextFrame();
+      }
+    });
   }
 
   public registerCanvas(canvas: HTMLCanvasElement) {
@@ -73,7 +76,11 @@ class TransitionService {
       } else {
         e.alpha = e.r / params.growRadius;
       }
-      e.alpha = Math.pow(Math.max(Math.min(1, e.alpha), 0), 1 / 2);
+      e.alpha = Math.pow(Math.max(Math.min(1, e.alpha * 1.3), 0), 1 / 2);
+      if ((e.alpha >= 0.95) && e.resolver) {
+        e.resolver();
+        e.resolver = undefined;
+      }
     });
 
     // render state

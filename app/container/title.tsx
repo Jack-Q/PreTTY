@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as styles from './title.scss';
 import { pageServiceConnector, pageService } from '../service/page-service';
 import { ITab } from '../model/page';
+import { transitionService } from '../service/transition-service';
 
 interface IProps {
   tabList: ITab[];
@@ -17,6 +18,7 @@ interface IState {
 // * context menu: close, close all
 // * drag & order
 // * pin to left
+// * middle-button to close
 
 class TitleView extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -41,7 +43,7 @@ class TitleView extends React.Component<IProps, IState> {
                 background: t.id === this.props.currentTab && this.props.tabList.length > 1 ? '#222' : 'none',
                 color: t.id === this.props.currentTab ? '#fff' : 'rgb(156, 149, 149)',
               }}
-                onClick={() => this.activeTab(t)}
+                onClick={(e) => this.activeTab(e, t)}
                 onMouseOver={() => this.setState({onMouseOverTab: t.id})} >
                 {t.displayText}
                 <div className={styles.close} style={{
@@ -57,19 +59,31 @@ class TitleView extends React.Component<IProps, IState> {
           }
         </div>
 
-        <div className={styles.addBtn} onClick={() => this.addTab()}>
+        <div className={styles.addBtn} onClick={(e) => this.addTab(e)}>
           <i className="material-icons">add</i>
         </div>
       </div>
     );
   }
 
-  private activeTab(tab: ITab) {
-    pageService.activeTab(tab);
+  private activeTab(e: React.MouseEvent<HTMLDivElement>, tab: ITab) {
+    if (this.props.currentTab === tab.id) {
+      return;
+    }
+
+    transitionService.transit({
+      x: e.clientX, y: e.clientY, color: '#987',
+    }).then(() => {
+      pageService.activeTab(tab);
+    });
   }
 
-  private addTab() {
-    pageService.addNewTab();
+  private addTab(e: React.MouseEvent<HTMLDivElement>) {
+    transitionService.transit({
+      x: e.clientX, y: e.clientY, color: '#987',
+    }).then(() => {
+      pageService.addNewTab();
+    });
   }
 
   private closeTab(tab: ITab) {

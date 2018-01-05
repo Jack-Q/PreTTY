@@ -32,6 +32,18 @@ class ActionService {
     quickActionService.addActionListDedup([actionMeta]);
     return actionBody;
   }
+
+  public executeAction(appAction: IApplicationAction) {
+    const action = this.actionList.find(a => a.actionMeta.key === appAction.key);
+    if (!action) {
+      logger.warn('attempting to execute undefined action ' + appAction.key);
+      return;
+     }
+
+    logger.verbose('execution action ' + action.actionMeta.key);
+    const params = action.actionMeta.getParams ? action.actionMeta.getParams() : undefined;
+    action.actionBody(params);
+  }
 }
 
 const logger = getLogger(ActionService.name);

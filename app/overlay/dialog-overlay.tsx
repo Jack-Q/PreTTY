@@ -26,8 +26,6 @@ class DialogOverlayView extends React.Component<IProps> {
                       dialogService.handleDialogAction(this.props.dialog, a)} />
                 ))
               }
-              <Button label="OK" />
-              <Button label="Cancel" />
             </div>
           </div>
         }

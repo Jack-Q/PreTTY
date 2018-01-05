@@ -85,11 +85,14 @@ class QuickActionService extends AbstractApplicationService<IStateEvent> impleme
   private applyFilter() {
     logger.info('filter action list using query ' + this.filterQuery);
     const list = this.actionList;
-    const query = this.filterQuery;
+    const query = this.filterQuery.toLocaleLowerCase();
     const result = list.map((a) => {
       // TODO: filter result and labeling the result
       return {
-        weight: (a.action.displayName.indexOf(query) >= 0 ? 3 : 0) + (a.action.description.indexOf(query) >= 0 ? 1 : 0),
+        weight:
+          (a.action.displayName.toLowerCase().indexOf(query) >= 0 ? 3 : 0) +
+          (a.action.key.toLowerCase().indexOf(query) >= 0 ? 2 : 0) +
+          (a.action.description.toLowerCase().indexOf(query) >= 0 ? 1 : 0),
         action: a,
       };
     })

@@ -14,12 +14,24 @@ interface IPropsType {
 
 class QuickActionOverlayView extends React.Component<IPropsType> {
 
+  private inputRef: HTMLInputElement;
+
+  public componentWillReceiveProps(nextProps: IPropsType) {
+    if (nextProps.isOpen && !this.props.isOpen) {
+      setImmediate(() => this.inputRef && this.inputRef.focus());
+    }
+  }
+
   public render() {
     return (
       <div className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
         onClick={(e) => this.handleBackgroundClick(e)}>
         <div className={styles.panel}>
-          <input type="text" value={this.props.query} placeholder={'查找'}
+          <input
+            type="text"
+            value={this.props.query}
+            placeholder={'input to filter'}
+            ref={(r) => r && (this.inputRef = r)}
             onKeyPress={(e) => this.handleKeyEvent(e)}
             onChange={(e) => quickActionService.updateFilter(e.target.value)} />
         </div>

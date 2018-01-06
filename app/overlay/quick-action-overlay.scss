@@ -68,6 +68,16 @@ $shadowColor: rgba(220, 220, 180, 0.3);
   background-color: rgb(63, 62, 62);
 }
 
+.actionOptionFocus {
+  padding: 0 12px;
+  background-color:rgba(82, 105, 240, 0.719);
+  color: rgb(160, 160, 160);
+  //border-bottom:1px solid rgb(56, 56, 56);
+  height: 32px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
 .empty {
   text-align: center;
   font-style: italic;

@@ -4,6 +4,7 @@ import { quickActionService, actionService } from '../service';
 import * as styles from './quick-action-overlay.scss';
 import { IApplicationAction } from '../model/action';
 import { quickActionServiceConnector } from '../service/quick-action-service';
+import {translateAcceleratorKeyCode} from '../util/key-code'
 
 interface IPropsType {
   // display or hide this overlay
@@ -12,9 +13,21 @@ interface IPropsType {
   query: string;
 }
 
-class QuickActionOverlayView extends React.Component<IPropsType> {
+interface IState {
+  currentIndex: number;
+}
 
+const initialState: IState = {
+  currentIndex: 0,
+};
+
+class QuickActionOverlayView extends React.Component<IPropsType, IState> {
   private inputRef: HTMLInputElement;
+
+  constructor(props: IPropsType) {
+    super(props);
+    this.state = initialState;
+  }
 
   public componentWillReceiveProps(nextProps: IPropsType) {
     if (nextProps.isOpen && !this.props.isOpen) {
@@ -24,7 +37,10 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
 
   public render() {
     return (
-      <div className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
+      <div 
+      
+      onKeyDown={(e) => this.handleKeyEvent(e)}
+      className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
         onClick={(e) => this.handleBackgroundClick(e)}>
         <div className={styles.panel}>
           <input
@@ -32,14 +48,13 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
             value={this.props.query}
             placeholder={'input to filter'}
             ref={(r) => r && (this.inputRef = r)}
-            onKeyPress={(e) => this.handleKeyEvent(e)}
             onChange={(e) => quickActionService.updateFilter(e.target.value)} />
         </div>
         <div className={styles.options}>
           {
-            this.props.actionList.map((a) => {
+            this.props.actionList.map((a, i) => {
               return (
-                <div key={a.key} className={styles.actionOption} onClick={() => this.handleAction(a)}>
+                <div key={a.key} className={this.state.currentIndex === i ? styles.actionOptionFocus : styles.actionOption} onClick={() => this.handleAction(a)} >
                   {a.displayName}
                 </div>
               );
@@ -61,9 +76,24 @@ class QuickActionOverlayView extends React.Component<IPropsType> {
     actionService.executeAction(a);
   }
 
-  private handleKeyEvent(e: React.KeyboardEvent<HTMLInputElement>) {
+  private handleKeyEvent(e: React.KeyboardEvent<Element>) {
+    const len = this.props.actionList.length;
     // TODO: handle up, down, enter, home, end, etc
+    console.log(e)
+    switch (e.keyCode) {
+      case translateAcceleratorKeyCode("Up"):
+        this.setState({currentIndex: (this.state.currentIndex + len - 1) % len})
+      break;
+      case translateAcceleratorKeyCode("Down"):
+      this.setState({currentIndex: (this.state.currentIndex + 1) % len})
+      
+      break;
+      case translateAcceleratorKeyCode("Enter"):
+      this.handleAction(this.props.actionList[this.state.currentIndex]);
+      break;
+    }
     // TODO: handle ESC to close
+
   }
 
   private handleBackgroundClick(e: React.MouseEvent<HTMLDivElement>) {

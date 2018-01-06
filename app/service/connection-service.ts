@@ -7,16 +7,37 @@ import { getLogger } from '../util/logger';
 import { getUid } from '../util/uid';
 import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { ISshHostServer } from '../model/host-server';
+import { AbstractApplicationService, IApplicationService } from '../model/service';
+import { getServiceConnector } from '../util/connect-to-service';
 
-class ConnectionService {
+interface IStateEvent {
+  connectionList: ISshConnection[];
+  activeConnectionId: string;
+}
+
+class ConnectionService extends AbstractApplicationService<IStateEvent> implements IApplicationService<IStateEvent> {
   private connectionList: ISshConnection[] = [];
+  private activeConnectionId: string;
+
+  public getConnectionById(id: string): ISshConnection {
+    const conn = this.connectionList.find((c) => c.id === id);
+    return conn || this.connectionList[0];
+  }
 
   public createShellConnection(profile: ISshProfile) {
+    return this.createConnection(profile, SshConnectionType.SHELL);
+  }
+
+  public createSftpConnection(profile: ISshProfile) {
+    return this.createConnection(profile, SshConnectionType.SFTP);
+  }
+
+  public createConnection(profile: ISshProfile, type: SshConnectionType) {
     const host = modelService.getHostById(profile.hostId);
     const identity = modelService.getIdentityById(profile.identityId);
     if (!host || !identity) {
       logger.warn('invalid profile for connection');
-      return;
+      return ;
     }
     logger.info(`begin ssh shell connection to ${host.title} using ${identity.profileName}`);
 
@@ -27,21 +48,19 @@ class ConnectionService {
       profileId: profile.id,
       hostId: host.id,
       status: SshConnectionStatus.NOT_CONNECTED,
-      connectionType: SshConnectionType.SHELL,
+      connectionType: type,
       client: connectionClient,
     };
     this.connectionList.push(connection);
     this.clientConnect(connection, host, identity);
+    return connection;
   }
 
-  public createSftpConnection(profile: ISshProfile) {
-    const host = modelService.getHostById(profile.hostId);
-    const identity = modelService.getIdentityById(profile.identityId);
-    if (!host || !identity) {
-      logger.warn('invalid profile for connection');
-      return;
-    }
-    logger.info(`begin ssh sftp connection to ${host.title} using ${identity.profileName}`);
+  public getState(): IStateEvent {
+    return {
+      activeConnectionId: this.activeConnectionId,
+      connectionList: this.connectionList,
+    };
   }
 
   //#region SSH connection event handle
@@ -109,7 +128,7 @@ class ConnectionService {
   }
 
   private handleShellDataEvent(connection: ISshConnection, channel: ClientChannel, data: string) {
-
+    logger.info('received message:' + data);
   }
   //#endregion
 
@@ -143,12 +162,9 @@ class ConnectionService {
     });
   }
 
-  private getConnectionById(id: string): ISshConnection {
-    const conn = this.connectionList.find((c) => c.id === id);
-    return conn || this.connectionList[0];
-  }
 }
 
 const logger = getLogger(ConnectionService.name);
 
 export const connectionService = new ConnectionService();
+export const connectionServiceConnector = getServiceConnector<IStateEvent, ConnectionService>(connectionService);

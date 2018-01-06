@@ -7,6 +7,16 @@
   justify-content: center;
 }
 
+.listPageTitle {
+  height: 40px;
+  margin: 0 0 20px 40px;
+  font-size: 32px;
+}
+
+.createBtn {
+  margin-right: 20px;
+}
+
 .identity {
   width: 204px;
   height: 240px;
@@ -14,11 +24,9 @@
   display: inline-block;
   background-color: rgb(95, 75, 75);
   border-radius: 5px;
-  margin: 0 10px;
+  margin: 10px 20px;
   position: relative;
 }
-
-
 
 .profile {
   height: 180px;

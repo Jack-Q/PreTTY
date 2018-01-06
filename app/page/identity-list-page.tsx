@@ -19,8 +19,8 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        Identity List Page
-        <div>
+        <div className={styles.listPageTitle}>Identity List</div>
+        <div className={styles.createBtn}>
           <Button label="create new identity" onClick={(e) => this.transitToCreatePage(e)} />
         </div>
         <div>

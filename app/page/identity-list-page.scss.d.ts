@@ -1,4 +1,6 @@
 export const container: string;
+export const listPageTitle: string;
+export const createBtn: string;
 export const identity: string;
 export const profile: string;
 export const profileName: string;

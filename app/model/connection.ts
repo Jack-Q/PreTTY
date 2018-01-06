@@ -1,3 +1,5 @@
+import { Client } from 'ssh2';
+
 export enum SshConnectionStatus {
   NOT_CONNECTED,
   CONNECTING,
@@ -16,4 +18,6 @@ export interface ISshConnection {
   hostId: string;
   status: SshConnectionStatus;
   connectionType: SshConnectionType;
+
+  client: Client;
 }

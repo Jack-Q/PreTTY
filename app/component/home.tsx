@@ -12,8 +12,6 @@ enum ConnectionState {
   NO_CONNECT, CONNECTING, CONNECTED,
 }
 
-interface IHomeProps { }
-
 interface IHomeState {
   connectionState: ConnectionState;
   logMessage: string;
@@ -23,13 +21,13 @@ interface IHomeState {
   password: string;
 }
 
-export class Home extends React.Component<IHomeProps, IHomeState> {
+export class Home extends React.Component<{}, IHomeState> {
   private termContainer: HTMLElement;
   private connection: Client = new Client();
   private term = new Terminal({ cursorBlink: true /* , cursorStyle: 'bar' */ });
   private connectionStream?: ClientChannel;
 
-  constructor(props: IHomeProps, state: IHomeState) {
+  constructor(props: {}, state: IHomeState) {
     super(props);
     this.state = {
       connectionState: ConnectionState.NO_CONNECT,

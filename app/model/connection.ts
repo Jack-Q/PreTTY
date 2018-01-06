@@ -1,4 +1,4 @@
-import { Client } from 'ssh2';
+import { Client, ClientChannel, SFTPWrapper } from 'ssh2';
 
 export enum SshConnectionStatus {
   NOT_CONNECTED,
@@ -20,4 +20,6 @@ export interface ISshConnection {
   connectionType: SshConnectionType;
 
   client: Client;
+  channel?: ClientChannel;
+  sftpWrapper?: SFTPWrapper;
 }

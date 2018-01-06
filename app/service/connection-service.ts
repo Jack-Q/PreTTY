@@ -1,4 +1,4 @@
-import { Client, ClientErrorExtensions } from 'ssh2';
+import { Client, ClientErrorExtensions, ClientChannel } from 'ssh2';
 
 import { ISshConnection, SshConnectionStatus, SshConnectionType } from '../model/connection';
 import { ISshProfile } from '../model/profile';
@@ -102,14 +102,44 @@ class ConnectionService {
     });
   }
 
+  //#region SSH Shell channel event handle
+  private handleShellCloseEvent(connection: ISshConnection, channel: ClientChannel) {
+    connection.client.destroy();
+    connection.status = SshConnectionStatus.CLOSED;
+  }
+
+  private handleShellDataEvent(connection: ISshConnection, channel: ClientChannel, data: string) {
+
+  }
+  //#endregion
+
+  //#region SSH SFTP event handle
+
+  //#endregion
+
   private setUpShell(connection: ISshConnection) {
     connection.client.shell({}, { x11: false }, (err, stream) => {
+      if (err) {
+        connection.client.destroy();
+        this.handleSshCloseEvent(connection.id, true);
+        return;
+      }
       logger.info('setup shell connection');
+      connection.channel = stream;
+      stream.on('data', (data: string) => this.handleShellDataEvent(connection, stream, data));
+      stream.on('close', () => this.handleShellCloseEvent(connection, stream));
     });
   }
+
   private setUpSftp(connection: ISshConnection) {
     connection.client.sftp((err, stream) => {
+      if (err) {
+        connection.client.destroy();
+        this.handleSshCloseEvent(connection.id, true);
+        return;
+      }
       logger.info('setup sftp connection');
+      connection.sftpWrapper = stream;
     });
   }
 

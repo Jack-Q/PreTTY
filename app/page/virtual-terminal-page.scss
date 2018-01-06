@@ -6,9 +6,23 @@
 }
 
 .statusBar {
+  position: absolute;
+  top: 0;
+  width: 100%;
   height: 30px;
   background-color: rgba(120, 120, 130, 0.4);
   line-height: 30px;
   padding: 0 10px;
   color: #aaa;
+}
+
+.mainContent {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.terminal {
+  width: 100%;
+  height: 100%;
 }

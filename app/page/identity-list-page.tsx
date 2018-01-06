@@ -10,6 +10,7 @@ import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { modelServiceConnector, modelService } from '../service/model-service';
 import { createDialog } from '../model/dialog';
 import { dialogService } from '../service/dialog-service';
+import { ProfileListPage } from './profile-list-page';
 
 interface IProps {
   identityList: ISshIdentity[];
@@ -20,8 +21,11 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
     return (
       <div className={styles.container}>
         <div className={styles.listPageTitle}>Identity List</div>
-        <div className={styles.createBtn}>
+        <div className={styles.ControlBtn}>
           <Button label="create new identity" onClick={(e) => this.transitToCreatePage(e)} />
+        </div>
+        <div className={styles.ControlBtn}>
+          <Button label="Back to profile list" onClick={(e) => this.transitToProfileListPage(e)} />
         </div>
         <div>
           {
@@ -32,7 +36,7 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
                     <button className={styles.closeIcon} onClick={() => this.removeProfile(i)}><i className="material-icons">close</i></button>
                     <button className={styles.closeIcon} onClick={(e) => this.transitToCreatePage(e, i.id)}><i className="material-icons">edit</i></button>
                     <div className={styles.permIdentity} >
-                      <i className="material-icons" style={{fontSize: 135,lineHeight:"100px"}}>perm_identity</i>
+                      <i className="material-icons" style={{fontSize: 135,lineHeight:"100px"}}>person</i>
                     </div>                  
                   </div>
                   <div className={styles.profileName}>{i.profileName}</div>
@@ -82,7 +86,9 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
   private transitToCreatePage(e: React.MouseEvent<Element>, id?: string) {
     this.transitPage(e, createIdentityCreatePage(id));
   }
-
+  private transitToProfileListPage(e: React.MouseEvent<Element>) {
+    this.transitPage(e, ProfileListPage);
+  }
   private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {
     transitionService.transitOnClick(e, '#09c', () => {
       pageService.replaceTabPage(this.props.tabId, page);

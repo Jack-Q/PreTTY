@@ -16,15 +16,16 @@ class HostListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        Host List Page
-        <div>
+        <div className={styles.PageTitle}>Host List Page</div>
+        <div className={styles.ControlBtn}>
           <Button label="back to profile list" onClick={(e) => this.transitToProfileListPage(e)} />
         </div>
         <div>
           {
             this.props.hostList.map((s) => (
-              <div key={s.id}>
-                {s.title} ({s.hostAddress}:{s.hostPort})
+              <div className={styles.host} key={s.id}>
+                <div className={styles.hostIcon}><i className="material-icons">filter_drama</i></div>
+                <div className={styles.hostAddr}>{s.title} ({s.hostAddress}:{s.hostPort})</div>
               </div>
             ))
           }

@@ -115,6 +115,15 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 
   }
 
+  public getHostById(id: string) {
+    return this.hostList.find((h) => h.id === id);
+  }
+
+  public getHostByAddress(address: string, port: number) {
+    const hostAddress = address.trim();
+    return this.hostList.find((h) => h.hostAddress === hostAddress && h.hostPort === port);
+  }
+
   public saveHostServer(s: ISshHostServer) {
     const index = this.hostList.findIndex((host) => host.id === s.id);
     if (index >= 0) {

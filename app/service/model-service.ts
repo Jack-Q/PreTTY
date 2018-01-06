@@ -20,6 +20,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
   private profileList: ISshProfile[] = [];
   private syncing: boolean = false;
   private initialized: boolean = false;
+  private pendingSync: boolean = false;
 
   public initialize(): Promise<void> {
     if (this.syncing || this.initialized) {
@@ -48,6 +49,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
   public syncStorage(): Promise<void> {
     if (this.syncing) {
       logger.warn('model sync requested while synching in progress');
+      this.pendingSync = true;
       return Promise.reject(new Error('syncing in progress'));
     }
     if (!this.initialized) {
@@ -63,6 +65,10 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
+      if (this.pendingSync) {
+        this.pendingSync = false;
+        this.syncStorage();
+      }
     }).catch((e) => {
       // TODO: generate temporary session profile or request user intervention
       logger.error('failed to initialize model service', e);

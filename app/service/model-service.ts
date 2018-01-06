@@ -65,6 +65,17 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     });
   }
 
+  public saveIdentity(i: ISshIdentity) {
+    const index = this.identityList.findIndex(ind => ind.id === i.id);
+    if (index >= 0) {
+      this.identityList.splice(index, 1, i);
+    } else {
+      this.identityList.push(i);
+    }
+    this.updateState();
+    this.syncStorage();
+  }
+
   public removeIdentity(i: ISshIdentity) {
     const index = this.identityList.findIndex(ind => ind.id === i.id);
     this.identityList.splice(index, 1);

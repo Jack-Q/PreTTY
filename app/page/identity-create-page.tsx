@@ -7,8 +7,8 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
 import { TextInput } from '../component/text-input';
-import { modelServiceConnector } from '../service/model-service';
-import { ISshIdentity } from '../model/identity';
+import { modelServiceConnector, modelService } from '../service/model-service';
+import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { getUid } from '../util/uid';
 import { openLink } from '../util/open-external';
 import { getDefinedExternalUrl } from '../config/url-config';
@@ -68,14 +68,16 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
             value={this.state.passwordRepeat}
             isPassword={true}
             onChange={(v) => this.setState({ passwordRepeat: v })} />
-            <TextInput
-              label="Remark"
-              value={this.state.remark}
-              isTextFiled={true}
-              onChange={(v) => this.setState({ remark: v })} />
+          <TextInput
+            label="Remark"
+            value={this.state.remark}
+            isTextFiled={true}
+            onChange={(v) => this.setState({ remark: v })} />
+        </div>
+        <div>
         </div>
         <div className={styles.submissionArea}>
-          <Button label="Create" onClick={() => { }} />
+          <Button label="Create" onClick={(e) => this.createOrUpdateIdentity(e)} />
           <Button label="Reset" onClick={() => this.setState(initialState)} />
           <Button label="Help" onClick={() => this.openOnlineHelp()} />
         </div>
@@ -85,6 +87,30 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
 
   private openOnlineHelp() {
     openLink(getDefinedExternalUrl('WikiHelpIdentityCreatePage'));
+  }
+
+  private createOrUpdateIdentity(e: React.MouseEvent<Element>) {
+    // TODO: validate config state
+    const identity: ISshIdentity = {
+      id: this.props.currentId,
+      profileName: this.state.profileName,
+      userName: this.state.userName,
+      remark: this.state.remark,
+      authentications: [
+        {
+          mode: SshIdentityAuthMode.PASSWORD,
+          value: this.state.password,
+        },
+      ],
+    };
+    if (this.props.originalIdentity) {
+      identity.authentications.concat(
+        ...this.props.originalIdentity.authentications.filter((i) => i.mode !== SshIdentityAuthMode.PASSWORD),
+      );
+      modelService.saveIdentity(identity);
+    }
+    modelService.saveIdentity(identity);
+    this.transitPage(e, IdentityListPage);
   }
 
   private transitToListPage(e: React.MouseEvent<Element>) {

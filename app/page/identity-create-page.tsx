@@ -10,6 +10,8 @@ import { TextInput } from '../component/text-input';
 import { modelServiceConnector } from '../service/model-service';
 import { ISshIdentity } from '../model/identity';
 import { getUid } from '../util/uid';
+import { openLink } from '../util/open-external';
+import { getDefinedExternalUrl } from '../config/url-config';
 
 interface IProps {
   currentId: string;
@@ -75,10 +77,14 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
         <div className={styles.submissionArea}>
           <Button label="Create" onClick={() => { }} />
           <Button label="Reset" onClick={() => this.setState(initialState)} />
-          <Button label="Help" onClick={() => { }} />
+          <Button label="Help" onClick={() => this.openOnlineHelp()} />
         </div>
       </div>
     );
+  }
+
+  private openOnlineHelp() {
+    openLink(getDefinedExternalUrl('WikiHelpIdentityCreatePage'));
   }
 
   private transitToListPage(e: React.MouseEvent<Element>) {

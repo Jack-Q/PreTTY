@@ -84,6 +84,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 
   public removeIdentity(i: ISshIdentity) {
     const index = this.identityList.findIndex((ind) => ind.id === i.id);
+    if (index < 0) { return; }
     this.identityList.splice(index, 1);
     this.updateState();
     this.syncStorageBackground();
@@ -101,6 +102,35 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     } else {
       this.profileList.push(p);
     }
+    this.updateState();
+    this.syncStorageBackground();
+  }
+
+  public removeProfile(p: ISshProfile) {
+    const index = this.profileList.findIndex((pro) => pro.id === p.id);
+    if (index < 0) { return; }
+    this.profileList.splice(index, 1);
+    this.updateState();
+    this.syncStorageBackground();
+
+  }
+
+  public saveHostServer(s: ISshHostServer) {
+    const index = this.hostList.findIndex((host) => host.id === s.id);
+    if (index >= 0) {
+      this.hostList.splice(index, 1, s);
+    } else {
+      this.hostList.push(s);
+    }
+    this.updateState();
+    this.syncStorageBackground();
+
+  }
+
+  public removeHostServer(s: ISshHostServer) {
+    const index = this.hostList.findIndex((host) => host.id === s.id);
+    if (index < 0) { return; }
+    this.hostList.splice(index, 1);
     this.updateState();
     this.syncStorageBackground();
   }

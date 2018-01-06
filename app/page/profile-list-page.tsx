@@ -11,12 +11,8 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
 import { createProfileEditPage } from './profile-edit-page';
-<<<<<<< HEAD
 import { DefaultPage } from './index';
-=======
-import { WelcomePage } from './welcome-page';
 import { createVirtualTerminalPage } from './virtual-terminal-page';
->>>>>>> 8b1c2a88aee71dd61edf33e5c36141f141d8e866
 interface IProps {
   profileList: ISshProfile[];
   hostList: ISshHostServer[];
@@ -27,7 +23,6 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-<<<<<<< HEAD
       <div className={styles.Header}>
           <div className={styles.PageTitle}>
           <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
@@ -35,15 +30,6 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
           </div>
       </div>
         <div >
-=======
-        <div className={styles.PageTitle}>
-          <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}>
-            <i className="material-icons">arrow_back</i>
-          </button>
-          Profile List Page
-        </div>
-        <div>
->>>>>>> 8b1c2a88aee71dd61edf33e5c36141f141d8e866
           {
             this.props.profileList.map((p) => (
               <div className={styles.profile} key={p.id}>

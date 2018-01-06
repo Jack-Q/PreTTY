@@ -23,13 +23,14 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        Profile List Page
+        <div className={styles.PageTitle}>Profile List Page</div>
         <div>
           {
             this.props.profileList.map((p) => (
-              <div key={p.id}>
-                {p.title}
-                {p.remark}
+              <div className={styles.profile} key={p.id}>
+                <div className={styles.profileIcon}><i className="material-icons">computer</i></div>
+                <div className={styles.profileInfo}>{p.title}</div>
+                <div className={styles.profileInfo}>{p.remark}</div>
               </div>
             ))
           }
@@ -44,6 +45,9 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
           <Button label="new profile" onClick={(e) => this.transitPage(e, createProfileEditPage())} />
           <Button label="host list" onClick={(e) => this.transitPage(e, HostListPage)} />
           <Button label="identity list" onClick={(e) => this.transitPage(e, IdentityListPage)} />
+          <button><i className="material-icons">plus</i></button>
+          <button><i className="material-icons">person</i></button>
+          <button><i className="material-icons">person</i></button>
         </div>
       </div>
     );

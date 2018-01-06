@@ -13,7 +13,7 @@ type AcceleratorKeyCode =
 export interface IAccelerator {
   keyCode: AcceleratorKeyCode;
   withShift?: boolean;
-  withCtrl?: boolean;
+  withCmdOrCtrl?: boolean; // TODO: test Cmd key on Mac environment
   withMeta?: boolean;
   withAlt?: boolean;
 }

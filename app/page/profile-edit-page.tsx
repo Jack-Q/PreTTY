@@ -58,7 +58,7 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
   public render() {
     return (
       <div className={styles.container}>
-        Profile New Page
+        <div className={styles.PageTitle}>Profile New Page</div>
         <div>
           <TextInput
             label="Profile Title"

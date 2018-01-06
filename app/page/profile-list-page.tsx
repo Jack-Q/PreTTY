@@ -22,11 +22,13 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        <div className={styles.PageTitle}>
-        <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
-          Profile List Page
-        </div>
-        <div>
+      <div className={styles.Header}>
+          <div className={styles.PageTitle}>
+          <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
+            Profile List Page
+          </div>
+      </div>
+        <div >
           {
             this.props.profileList.map((p) => (
               <div className={styles.profile} key={p.id}>

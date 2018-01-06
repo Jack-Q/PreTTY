@@ -1,4 +1,6 @@
 export const container: string;
+export const Header: string;
+export const header: string;
 export const PageTitle: string;
 export const pageTitle: string;
 export const arrowBack: string;

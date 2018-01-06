@@ -13,6 +13,14 @@
   font-size: 32px;
 }
 
+.arrowBack {
+  width: 36px;
+  height: 36px;
+  margin-right: 20px;
+  border-radius: 100%;
+  border-style: none;
+  cursor: pointer;
+}
 
 .profile {
   width: 200px;
@@ -38,4 +46,30 @@
   padding-left: 12px;
   line-height: 30px;
   color: #c4c1c1;
+}
+
+.btnGroup {
+  width: 90%;
+  height: 60px;
+  margin: 50px auto 0px auto;
+}
+
+.NavBtn {
+  width: 30%;
+  height: 100%;
+  margin: 0 10px;
+  background-color: rgb(37, 30, 25);
+  border: none;
+  color: #c4c1c1;
+  cursor: pointer;
+  outline: none;
+  transition: 300ms background-color;
+}
+
+.NavBtn:hover {
+  background-color: rgba(117, 117, 121, 0.815);
+}
+
+.NavBtn i {
+  font-size: 60px;
 }

@@ -3,7 +3,7 @@ import * as Terminal from 'xterm';
 
 import * as styles from './virtual-terminal-page.scss';
 import { IPageViewProps } from '../model/page';
-import { ISshConnection, SshConnectionStatus } from '../model/connection';
+import { ISshConnection, SshConnectionStatus, SshConnectionEvent } from '../model/connection';
 import { connectionServiceConnector, connectionService } from '../service/connection-service';
 import { ISshProfile } from '../model/profile';
 import { getMessagePage } from './message-page';
@@ -21,6 +21,7 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
 
   public componentDidMount() {
     const term = this.props.terminal;
+    const sshEvents = this.props.connection.events;
 
     // bind event handler
     term.on('resize', this.handleTermResize);
@@ -29,6 +30,9 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     // handle resize
     window.addEventListener('resize', this.handleWindowResize);
 
+    // ssh events
+    sshEvents.addListener(SshConnectionEvent.data, this.handleSshData);
+
     // display content
     term.open(this.termRef, true);
     this.handleWindowResize();
@@ -36,9 +40,11 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
 
   public componentWillUnmount() {
     const term = this.props.terminal;
+    const sshEvents = this.props.connection.events;
     term.off('resize', this.handleTermResize);
     term.off('data', this.handleTermData);
     window.removeEventListener('resize', this.handleWindowResize);
+    sshEvents.removeListener(SshConnectionEvent.data, this.handleSshData);
   }
 
   public render() {
@@ -80,6 +86,10 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
   private handleWindowResize = () => {
     // cast to any to use extension function
     (this.props.terminal as any).fit();
+  }
+
+  private handleSshData = (data: any) => {
+    this.props.terminal.write(data && data.toString());
   }
 
   // private getBondHandler(key: keyof VirtualTerminalPageView) {

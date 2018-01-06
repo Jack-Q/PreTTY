@@ -5,5 +5,5 @@ export interface ISshProfile {
   hostId: string;
   identityId: string;
   lastUsedTimeStamp: number;
-  createdAt: string;
+  createdAtTimeStamp: number;
 }

@@ -89,6 +89,22 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     this.syncStorageBackground();
   }
 
+  public getProfileById(id: string) {
+    return this.profileList.find((p) => p.id === id);
+  }
+
+  public saveProfile(p: ISshProfile) {
+    // TODO: validate host/identity reference
+    const index = this.profileList.findIndex((pro) => pro.id === p.id);
+    if (index >= 0) {
+      this.profileList.splice(index, 1, p);
+    } else {
+      this.profileList.push(p);
+    }
+    this.updateState();
+    this.syncStorageBackground();
+  }
+
   public getState(): IStateEvent {
     return {
       initialized: this.initialized,

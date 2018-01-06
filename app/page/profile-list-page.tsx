@@ -11,6 +11,7 @@ import { HostListPage } from './host-list-page';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
+import { createProfileEditPage } from './profile-edit-page';
 
 interface IProps {
   profileList: ISshProfile[];
@@ -40,7 +41,7 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
           }
         </div>
         <div>
-          <Button label="new profile" onClick={(e) => this.transitPage(e, HostListPage) } />
+          <Button label="new profile" onClick={(e) => this.transitPage(e, createProfileEditPage())} />
           <Button label="host list" onClick={(e) => this.transitPage(e, HostListPage)} />
           <Button label="identity list" onClick={(e) => this.transitPage(e, IdentityListPage)} />
         </div>

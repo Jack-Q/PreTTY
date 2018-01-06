@@ -9,11 +9,11 @@ export { HistoryListPage } from './history-list-page';
 export { HostListPage } from './host-list-page';
 export { IdentityListPage } from './identity-list-page';
 export { ProfileListPage } from './profile-list-page';
-export { ProfileNewPage } from './profile-new-page';
 export { SettingsPage } from './settings-page';
 export { VirtualTerminalPage } from './virtual-terminal-page';
 
 export { createIdentityCreatePage } from './identity-create-page';
+export { createProfileEditPage } from './profile-edit-page';
 
 // Default page is loaded for each new page creation
 export const DefaultPage = TestPage;

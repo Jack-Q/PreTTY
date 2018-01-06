@@ -5,7 +5,7 @@ import { IPageViewProps, PageViewType } from '../model/page';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { Button } from '../component/button';
-import { IdentityCreatePage } from './identity-create-page';
+import { createIdentityCreatePage } from './identity-create-page';
 
 export class IdentityListPage extends React.Component<IPageViewProps> {
   public render() {
@@ -20,7 +20,7 @@ export class IdentityListPage extends React.Component<IPageViewProps> {
   }
 
   private transitToCreatePage(e: React.MouseEvent<Element>) {
-    this.transitPage(e, IdentityCreatePage);
+    this.transitPage(e, createIdentityCreatePage());
   }
 
   private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {

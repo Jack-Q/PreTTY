@@ -4,7 +4,7 @@ import { quickActionService, actionService } from '../service';
 import * as styles from './quick-action-overlay.scss';
 import { IApplicationAction } from '../model/action';
 import { quickActionServiceConnector } from '../service/quick-action-service';
-import {translateAcceleratorKeyCode} from '../util/key-code'
+import { translateAcceleratorKeyCode } from '../util/key-code';
 
 interface IPropsType {
   // display or hide this overlay
@@ -41,9 +41,9 @@ class QuickActionOverlayView extends React.Component<IPropsType, IState> {
   public render() {
     return (
       <div 
-      style={{userFocus: true}}
-      onKeyDown={(e) => this.handleKeyEvent(e)}
-      className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
+        style={{userFocus: true}}
+        onKeyDown={(e) => this.handleKeyEvent(e)}
+        className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
         onClick={(e) => this.handleBackgroundClick(e)}>
         <div className={styles.panel}>
           <input
@@ -57,7 +57,10 @@ class QuickActionOverlayView extends React.Component<IPropsType, IState> {
           {
             this.props.actionList.map((a, i) => {
               return (
-                <div key={a.key} className={this.state.currentIndex === i ? styles.actionOptionFocus : styles.actionOption} onClick={() => this.handleAction(a)} >
+                <div
+                  key={a.key} className={this.state.currentIndex === i ? styles.actionOptionFocus : styles.actionOption}
+                  onClick={() => this.handleAction(a)}
+                >
                   {a.displayName}
                 </div>
               );
@@ -82,18 +85,17 @@ class QuickActionOverlayView extends React.Component<IPropsType, IState> {
   private handleKeyEvent(e: React.KeyboardEvent<Element>) {
     if(!this.props.isOpen) {return;}
     const len = this.props.actionList.length;
-    // TODO: handle up, down, enter, home, end, etc
+    // TODO: handle home, end, etc
     switch (e.keyCode) {
-      case translateAcceleratorKeyCode("Up"):
-        this.setState({currentIndex: (this.state.currentIndex + len - 1) % len})
-      break;
-      case translateAcceleratorKeyCode("Down"):
-      this.setState({currentIndex: (this.state.currentIndex + 1) % len})
-      
-      break;
-      case translateAcceleratorKeyCode("Enter"):
-      this.handleAction(this.props.actionList[this.state.currentIndex]);
-      break;
+      case translateAcceleratorKeyCode('Up'):
+        this.setState({ currentIndex: (this.state.currentIndex + len - 1) % len });
+        break;
+      case translateAcceleratorKeyCode('Down'):
+        this.setState({ currentIndex: (this.state.currentIndex + 1) % len });
+        break;
+      case translateAcceleratorKeyCode('Enter'):
+        this.handleAction(this.props.actionList[this.state.currentIndex]);
+        break;
     }
     // TODO: handle ESC to close
 

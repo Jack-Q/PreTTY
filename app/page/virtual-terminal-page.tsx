@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as styles from './virtual-terminal-page.scss';
 import { IPageViewProps } from '../model/page';
-import { ISshConnection } from '../model/connection';
+import { ISshConnection, SshConnectionStatus } from '../model/connection';
 import { connectionServiceConnector, connectionService } from '../service/connection-service';
 import { ISshProfile } from '../model/profile';
 import { getMessagePage } from './message-page';
@@ -16,12 +16,22 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     return (
       <div className={styles.container}>
         <div className={styles.statusBar}>
-          {conn.status}
+          {this.getConnectionStateName(conn.status)}
         </div>
       </div>
     );
   }
- }
+
+  private getConnectionStateName(state: SshConnectionStatus) {
+    switch (state) {
+      case SshConnectionStatus.NOT_CONNECTED: return 'not connected';
+      case SshConnectionStatus.CONNECTING: return 'connecting';
+      case SshConnectionStatus.CONNECTED: return 'connected';
+      case SshConnectionStatus.CLOSED: return 'closed';
+    }
+    return 'unknown';
+  }
+}
 
 export const createVirtualTerminalPage = (profile: ISshProfile) => {
   const conn = connectionService.createShellConnection(profile);
@@ -29,7 +39,7 @@ export const createVirtualTerminalPage = (profile: ISshProfile) => {
     return getMessagePage('failed to start connection');
   }
   const VirtualTerminalPage = connectionServiceConnector<IProps, IPageViewProps>(
-    (state, svc) => ({connection: conn}),
+    (state, svc) => ({ connection: conn }),
     VirtualTerminalPageView,
   );
   return VirtualTerminalPage;

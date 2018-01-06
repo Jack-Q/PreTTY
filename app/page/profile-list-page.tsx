@@ -12,6 +12,7 @@ import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
 import { createProfileEditPage } from './profile-edit-page';
 import { WelcomePage } from './welcome-page';
+import { createVirtualTerminalPage } from './virtual-terminal-page';
 interface IProps {
   profileList: ISshProfile[];
   hostList: ISshHostServer[];
@@ -23,14 +24,18 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
     return (
       <div className={styles.container}>
         <div className={styles.PageTitle}>
-        <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
+          <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}>
+            <i className="material-icons">arrow_back</i>
+          </button>
           Profile List Page
         </div>
         <div>
           {
             this.props.profileList.map((p) => (
               <div className={styles.profile} key={p.id}>
-                <div className={styles.profileIcon}><i className="material-icons">computer</i></div>
+                <div className={styles.profileIcon} onClick={(e) => this.connectShell(e, p)}>
+                  <i className="material-icons">computer</i>
+                </div>
                 <div className={styles.profileInfo}>{p.title}</div>
                 <div className={styles.profileInfo}>{p.remark}</div>
               </div>
@@ -44,12 +49,22 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
           }
         </div>
         <div className={styles.btnGroup}>
-          <button className={styles.NavBtn} onClick={(e) => this.transitPage(e, createProfileEditPage())}><i className="material-icons">add_box</i></button>
-          <button className={styles.NavBtn} onClick={(e) => this.transitPage(e, HostListPage)}><i className="material-icons">computer</i></button>
-          <button className={styles.NavBtn} onClick={(e) => this.transitPage(e, IdentityListPage)}><i className="material-icons">person</i></button>
+          <button className={styles.NavBtn} onClick={(e) => this.transitPage(e, createProfileEditPage())}>
+            <i className="material-icons">add_box</i>
+          </button>
+          <button className={styles.NavBtn} onClick={(e) => this.transitToHostList(e)}>
+            <i className="material-icons">computer</i>
+          </button>
+          <button className={styles.NavBtn} onClick={(e) => this.transitPage(e, IdentityListPage)}>
+            <i className="material-icons">person</i>
+          </button>
         </div>
       </div>
     );
+  }
+
+  private transitToHostList(e: React.MouseEvent<Element>) {
+    this.transitPage(e, HostListPage);
   }
 
   private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {
@@ -60,6 +75,10 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
 
   private transitToWelcomePage(e: React.MouseEvent<Element>) {
     this.transitPage(e, WelcomePage);
+  }
+
+  private connectShell(e: React.MouseEvent<Element>, profile: ISshProfile) {
+    this.transitPage(e, createVirtualTerminalPage(profile));
   }
 
 }

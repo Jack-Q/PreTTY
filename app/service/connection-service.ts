@@ -53,6 +53,7 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
     };
     this.connectionList.push(connection);
     this.clientConnect(connection, host, identity);
+    this.updateState();
     return connection;
   }
 
@@ -76,12 +77,14 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
     logger.info('SSH Error: ' + err.name + ' ' + err.description, err);
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   private handleSshReadyEvent(id: string) {
     logger.info('SSH Client ready: ' + id);
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CONNECTED;
+    this.updateState();
     switch (connection.connectionType) {
       case SshConnectionType.SHELL:
         return this.setUpShell(connection);
@@ -93,6 +96,7 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
   private handleSshCloseEvent(id: string, hasError: boolean) {
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   //#endregion
@@ -119,12 +123,14 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
       username: identity.userName,
       password,
     });
+    this.updateState();
   }
 
   //#region SSH Shell channel event handle
   private handleShellCloseEvent(connection: ISshConnection, channel: ClientChannel) {
     connection.client.destroy();
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   private handleShellDataEvent(connection: ISshConnection, channel: ClientChannel, data: string) {

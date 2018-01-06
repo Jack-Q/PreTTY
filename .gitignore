@@ -64,3 +64,6 @@ dist
 
 .idea
 .vscode
+
+# generated config files 
+*.json.enc

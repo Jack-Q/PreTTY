@@ -25,9 +25,9 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     this.syncing = true;
     const option = this.getStorageOption();
     return Promise.all([
-      storageService.loadModel<ISshIdentity>(getStorageConfig('IDENTITY_FILE'), option)
+      storageService.loadOrCreateModel<ISshIdentity>(getStorageConfig('IDENTITY_FILE'), option)
         .then((v) => this.identityList = v),
-      storageService.loadModel<ISshHostServer>(getStorageConfig('HOST_FILE'), option)
+      storageService.loadOrCreateModel<ISshHostServer>(getStorageConfig('HOST_FILE'), option)
         .then((v) => this.hostList = v),
     ]).then(() => {
       this.initialized = true;
@@ -66,21 +66,21 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
   }
 
   public saveIdentity(i: ISshIdentity) {
-    const index = this.identityList.findIndex(ind => ind.id === i.id);
+    const index = this.identityList.findIndex((ind) => ind.id === i.id);
     if (index >= 0) {
       this.identityList.splice(index, 1, i);
     } else {
       this.identityList.push(i);
     }
     this.updateState();
-    this.syncStorage();
+    this.syncStorageBackground();
   }
 
   public removeIdentity(i: ISshIdentity) {
-    const index = this.identityList.findIndex(ind => ind.id === i.id);
+    const index = this.identityList.findIndex((ind) => ind.id === i.id);
     this.identityList.splice(index, 1);
     this.updateState();
-    this.syncStorage();
+    this.syncStorageBackground();
   }
 
   public getState(): IStateEvent {
@@ -93,6 +93,10 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 
   private getStorageOption(): IModelStorageOption {
     return defaultStorageOption;
+  }
+
+  private syncStorageBackground() {
+    this.syncStorage().catch((e) => logger.warn('background sync error', e));
   }
 }
 

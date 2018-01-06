@@ -44,52 +44,71 @@ class StorageService {
 
   public loadModel<Model>(file: string, option: IModelStorageOption): Promise<Model[]> {
     return new Promise((res, rej) => {
-      let stream: Stream = fs.createReadStream(file);
-      if (option.encryption) {
-        stream = stream.pipe(this.getDecryptionStream(option.encryption));
-      }
-      if (option.compression) {
-        stream = stream.pipe(this.getDecompressionStream(option.compression));
-      }
-      const dataBuffs: Buffer[] = [];
-      stream.on('data', (d: Buffer) => {
-        dataBuffs.push(d);
-      }).on('end', () => {
-        try {
-          const stringData = Buffer.concat(dataBuffs).toString('utf8');
-          const model = JSON.parse(stringData) as Model[];
-          res(model);
-        } catch (e) {
-          rej(e);
+      try {
+        let stream: Stream = fs.createReadStream(file);
+        if (option.encryption) {
+          stream.on('error', (e) => rej(e));
+          stream = stream.pipe(this.getDecryptionStream(option.encryption));
         }
-      }).on('error', (e) => {
+        if (option.compression) {
+          stream.on('error', (e) => rej(e));
+          stream = stream.pipe(this.getDecompressionStream(option.compression));
+        }
+        const dataBuffs: Buffer[] = [];
+        stream.on('data', (d: Buffer) => {
+          dataBuffs.push(d);
+        }).on('end', () => {
+          try {
+            const stringData = Buffer.concat(dataBuffs).toString('utf8');
+            const model = JSON.parse(stringData) as Model[];
+            res(model);
+          } catch (e) {
+            rej(e);
+          }
+        }).on('error', (e) => {
+          rej(e);
+        });
+      } catch (e) {
         rej(e);
-      });
+      }
     });
+  }
+
+  public loadOrCreateModel<Model>(file: string, options: IModelStorageOption, defaultModel: Model[] = [])
+    : Promise<Model[]> {
+    return this.loadModel<Model>(file, options)
+      .catch((e) =>
+        this.saveModel(file, defaultModel, options)
+          .then(() => defaultModel),
+    );
   }
 
   public saveModel<Model>(file: string, data: Model[], option: IModelStorageOption): Promise<void> {
     return new Promise((res, rej) => {
-      let stream: NodeJS.WritableStream = fs.createWriteStream(file);
-      stream.on('finish', () => {
-        res();
-      }).on('error', (e) => {
+      try {
+        let stream: NodeJS.WritableStream = fs.createWriteStream(file);
+        stream.on('finish', () => {
+          res();
+        }).on('error', (e) => {
+          rej(e);
+        });
+
+        if (option.encryption) {
+          const encryptionStream = this.getEncryptionStream(option.encryption);
+          encryptionStream.pipe(stream);
+          stream = encryptionStream;
+        }
+        if (option.compression) {
+          const compressionStream = this.getCompressionStream(option.compression);
+          compressionStream.pipe(stream);
+          stream = compressionStream;
+        }
+
+        const buffer = Buffer.from(JSON.stringify(data), 'utf8');
+        stream.end(buffer);
+      } catch (e) {
         rej(e);
-      });
-
-      if (option.encryption) {
-        const encryptionStream = this.getEncryptionStream(option.encryption);
-        encryptionStream.pipe(stream);
-        stream = encryptionStream;
       }
-      if (option.compression) {
-        const compressionStream = this.getCompressionStream(option.compression);
-        compressionStream.pipe(stream);
-        stream = compressionStream;
-      }
-
-      const buffer = Buffer.from(JSON.stringify(data), 'utf8');
-      stream.end(buffer);
     });
   }
 

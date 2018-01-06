@@ -7,7 +7,14 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
 import { TextInput } from '../component/text-input';
+import { modelServiceConnector } from '../service/model-service';
+import { ISshIdentity } from '../model/identity';
+import { getUid } from '../util/uid';
 
+interface IProps {
+  currentId: string;
+  originalIdentity?: ISshIdentity;
+}
 interface IState {
   userName: string;
   profileName: string;
@@ -25,8 +32,8 @@ const initialState: IState = {
   passwordRepeat: '',
   remark: '',
 };
-export class IdentityCreatePage extends React.Component<IPageViewProps, IState> {
-  constructor(props: IPageViewProps) {
+class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IState> {
+  constructor(props: IProps & IPageViewProps) {
     super(props);
     this.state = initialState;
   }
@@ -84,3 +91,15 @@ export class IdentityCreatePage extends React.Component<IPageViewProps, IState> 
     });
   }
 }
+
+// create page component with bond model id on demand
+export const createIdentityCreatePage = (id: string = getUid()) => {
+  const IdentityCreatePage = modelServiceConnector<IProps, IPageViewProps>(
+    (state, svc) => ({
+      currentId: id,
+      originalIdentity: state.identityList.find((i) => i.id === id),
+    }),
+    IdentityCreatePageView,
+  );
+  return IdentityCreatePage;
+};

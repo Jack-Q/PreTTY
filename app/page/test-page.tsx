@@ -7,10 +7,10 @@ import { getUid } from '../util/uid';
 import { IPageViewProps, PageViewType } from '../model/page';
 import { pageService } from '../service/page-service';
 import { MasterPasswordPage } from './master-password-page';
-import { IdentityCreatePage } from './identity-create-page';
 import { storageService } from '../service/storage-service';
 import { dialogService } from '../service/dialog-service';
 import { createDialog } from '../model/dialog';
+import { IdentityListPage } from './identity-list-page';
 
 export class TestPage extends React.Component<IPageViewProps> {
   public render() {
@@ -21,7 +21,7 @@ export class TestPage extends React.Component<IPageViewProps> {
           <Button onClick={() => quickActionService.openQuickAction()} label="Open Quick Action List" />
           <Button onClick={() => this.pushNotification()} label="Push notification" />
           <Button onClick={(e) => this.requestMasterPassword(e)} label="Request master password" />
-          <Button onClick={(e) => this.createNewIdentity(e)} label="Create new identity" />
+          <Button onClick={(e) => this.listIdentity(e)} label="Create new identity" />
           <Button onClick={() => this.writeFile()} label="Write File" />
           <Button onClick={() => this.readFile()} label="Read File" />
         </div>
@@ -46,8 +46,8 @@ export class TestPage extends React.Component<IPageViewProps> {
   private requestMasterPassword(e: React.MouseEvent<HTMLDivElement>) {
     this.replaceTabPage(e, MasterPasswordPage);
   }
-  private createNewIdentity(e: React.MouseEvent<HTMLDivElement>) {
-    this.replaceTabPage(e, IdentityCreatePage);
+  private listIdentity(e: React.MouseEvent<HTMLDivElement>) {
+    this.replaceTabPage(e, IdentityListPage);
   }
 
   private replaceTabPage(e: React.MouseEvent<HTMLDivElement>, component: PageViewType) {

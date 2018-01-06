@@ -4,8 +4,10 @@ import { ISshHostServer } from '../model/host-server';
 import { IModelStorageOption, storageService } from './storage-service';
 import { getStorageConfig, defaultStorageOption } from '../config/storage-config';
 import { getLogger } from '../util/logger';
+import { getServiceConnector } from '../util/connect-to-service';
 
 interface IStateEvent {
+  initialized: boolean;
   identityList: ISshIdentity[];
   hostList: ISshHostServer[];
 }
@@ -65,6 +67,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 
   public getState(): IStateEvent {
     return {
+      initialized: this.initialized,
       identityList: this.identityList,
       hostList: this.hostList,
     };
@@ -78,3 +81,4 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 const logger = getLogger(ModelService.name);
 
 export const modelService = new ModelService();
+export const modelServiceConnector = getServiceConnector<IStateEvent, ModelService>(modelService);

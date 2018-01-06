@@ -6,3 +6,4 @@ export const closeIcon: string;
 export const user: string;
 export const permIdentity: string;
 export const username: string;
+export const keyIcon: string;

@@ -6,7 +6,7 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { Button } from '../component/button';
 import { createIdentityCreatePage } from './identity-create-page';
-import { ISshIdentity } from '../model/identity';
+import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { modelServiceConnector, modelService } from '../service/model-service';
 import { createDialog } from '../model/dialog';
 import { dialogService } from '../service/dialog-service';
@@ -39,15 +39,13 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
                 </div>
                 <div className={styles.user}>
                   <div  className={styles.username}>{i.userName}</div>
-                  <button><i className="material-icons">vpn_key</i></button>
-                  <button><i className="material-icons">keyboard</i></button>
                   {
-                    i.authentications.map((a) => (
-                      <div>
-                        {/* display icon indicator */}
-                        {a.mode}
-                      </div>
-                    ))
+                    i.authentications.find(a => a.mode === SshIdentityAuthMode.PASSWORD) && 
+                    <span className={styles.keyIcon}><i className="material-icons">keyboard</i></span>
+                  }
+                  {
+                    i.authentications.find(a => a.mode === SshIdentityAuthMode.SSH_KEY) && 
+                    <span className={styles.keyIcon}><i className="material-icons">vpn_key</i></span>
                   }
                 </div>
               </div>

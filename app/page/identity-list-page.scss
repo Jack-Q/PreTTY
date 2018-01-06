@@ -6,3 +6,63 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.identity {
+  width: 204px;
+  height: 240px;
+  margin: 5px auto;
+  display: inline-block;
+  background-color: rgb(95, 75, 75);
+  border-radius: 5px;
+  margin: 0 10px;
+  position: relative;
+}
+
+
+
+.profile {
+  height: 180px;
+  width: 100%;
+  position: relative;
+}
+
+.profileName {
+  position: absolute;
+  bottom: 0px;
+  padding-left: 12px;
+}
+
+.closeIcon {
+  float: right;
+  background-color: rgb(95, 75, 75);
+  border-style: none;
+  cursor: pointer;
+  transition: 300ms background-color;
+  width: 35px;
+  height: 35px;
+  color: #b1a7a7;
+}
+.closeIcon:hover {
+  background-color: rgb(236, 220, 220);
+}
+
+.user {
+  height: 60px;
+  width: 100%;
+  line-height: 100px;
+}
+
+.permIdentity {
+  height: 150px;
+  width: 100%;
+  text-align: center;
+  font-size: 135px;
+}
+
+.username {
+  display: inline-block;
+  padding-left: 12px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 60px;
+}

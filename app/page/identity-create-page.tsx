@@ -12,7 +12,9 @@ import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { getUid } from '../util/uid';
 import { openLink } from '../util/open-external';
 import { getDefinedExternalUrl } from '../config/url-config';
-
+import { createDialog } from '../model/dialog';
+import { dialogService } from '../service';
+import { logger } from '../util/logger';
 interface IProps {
   currentId: string;
   originalIdentity?: ISshIdentity;
@@ -35,10 +37,23 @@ const initialState: IState = {
   remark: '',
 };
 class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IState> {
+  private initialized: boolean = false; 
   constructor(props: IProps & IPageViewProps) {
     super(props);
     this.state = initialState;
   }
+
+  componentWillMount() {
+    if(!this.initialized) {
+      this.resetState();
+      this.initialized = true;
+    }
+  }
+
+  componentWillReceiveProps(nextProps: IProps) {
+    this.resetState(nextProps);
+  }
+
   public render() {
     return (
       <div className={styles.container}>
@@ -77,12 +92,34 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
         <div>
         </div>
         <div className={styles.submissionArea}>
-          <Button label="Create" onClick={(e) => this.createOrUpdateIdentity(e)} />
-          <Button label="Reset" onClick={() => this.setState(initialState)} />
+          <Button label={"Save"} onClick={(e) => this.createOrUpdateIdentity(e)} />
+          <Button label="Reset" onClick={() => this.resetState()} />
           <Button label="Help" onClick={() => this.openOnlineHelp()} />
         </div>
       </div>
     );
+  }
+
+  private resetState(props: IProps = this.props) {
+    
+    if(props.originalIdentity) {
+      const i = props.originalIdentity;
+      const passAuth = i.authentications.find(i => i.mode === SshIdentityAuthMode.PASSWORD);
+      this.setState({
+        userName: i.userName,
+        profileName: i.profileName,
+        remark: i.remark,
+        isProfileNameSet: true,
+      })
+      if(passAuth) {
+        this.setState({
+          password: passAuth.value,
+          passwordRepeat: passAuth.value,
+        })
+      }
+    }else {
+      this.setState(initialState);
+    }
   }
 
   private openOnlineHelp() {
@@ -93,7 +130,7 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
     // TODO: validate config state
     const identity: ISshIdentity = {
       id: this.props.currentId,
-      profileName: this.state.profileName,
+      profileName: this.state.isProfileNameSet ? this.state.profileName : this.state.userName,
       userName: this.state.userName,
       remark: this.state.remark,
       authentications: [
@@ -103,6 +140,17 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
         },
       ],
     };
+    if(this.state.passwordRepeat !== this.state.password) {
+      
+      const errorDialog = createDialog('Attention', 'Password Repeat shout equal to Password!', [
+        {
+          title: 'OK',
+          action: () => { logger.verbose('close about dialog'); },
+        },
+      ]);
+      dialogService.showDialog(errorDialog);
+      return;
+    }
     if (this.props.originalIdentity) {
       identity.authentications.concat(
         ...this.props.originalIdentity.authentications.filter((i) => i.mode !== SshIdentityAuthMode.PASSWORD),

@@ -26,11 +26,21 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
         <div>
           {
             this.props.identityList.map((i) => (
-              <div key={i.id}>
-                {i.profileName}
-                {i.userName}
-                {i.remark}
-                <div>
+              <div className={styles.identity} key={i.id}>
+                <div className={styles.profile}>
+                  <div>
+                    <button className={styles.closeIcon} onClick={() => this.removeProfile(i)}><i className="material-icons">close</i></button>
+                    <button className={styles.closeIcon} onClick={(e) => this.transitToCreatePage(e, i.id)}><i className="material-icons">edit</i></button>
+                    <div className={styles.permIdentity} >
+                      <i className="material-icons" style={{fontSize: 135,lineHeight:"100px"}}>perm_identity</i>
+                    </div>                  
+                  </div>
+                  <div className={styles.profileName}>{i.profileName}</div>
+                </div>
+                <div className={styles.user}>
+                  <div  className={styles.username}>{i.userName}</div>
+                  <button><i className="material-icons">vpn_key</i></button>
+                  <button><i className="material-icons">keyboard</i></button>
                   {
                     i.authentications.map((a) => (
                       <div>
@@ -39,10 +49,6 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
                       </div>
                     ))
                   }
-                </div>
-                <div>
-                <Button label="edit" onClick={(e) => this.transitToCreatePage(e, i.id)} />
-                  <Button label="remove" onClick={() => this.removeProfile(i)} />
                 </div>
               </div>
             ))

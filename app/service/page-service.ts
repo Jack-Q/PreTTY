@@ -54,6 +54,35 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     this.updateState();
   }
 
+  public closeActiveTab() {
+    const tab = this.tabList.find((t) => t.id === this.activeTabId);
+    if (tab) {
+      this.closeTab(tab);
+    }
+  }
+
+  public getCurrentActiveTabId() {
+    return this.activeTabId;
+  }
+
+  public getNextTab(tabId: string, loop: boolean = false) {
+    const curIndex = this.tabList.findIndex((t) => t.id === tabId);
+    if (curIndex === -1) {
+      return this.tabList[0];
+    }
+    const newId = loop ? (curIndex + 1) % this.tabList.length : Math.max(curIndex + 1, this.tabList.length - 1);
+    return this.tabList[newId];
+  }
+
+  public getPrevTab(tabId: string, loop: boolean = false): ITab {
+    const curIndex = this.tabList.findIndex((t) => t.id === tabId);
+    if (curIndex === -1) {
+      return this.tabList[0];
+    }
+    const newId = loop ? (curIndex + this.tabList.length - 1) % this.tabList.length : Math.max(curIndex - 1, 0);
+    return this.tabList[newId];
+  }
+
   public closeTab(tab: ITab) {
     // TODO: check confirmation
     this.removeTab(tab);

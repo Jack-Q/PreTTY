@@ -12,6 +12,7 @@ import { Button } from '../component/button';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { ProfileListPage } from './profile-list-page';
+import { createIdentityCreatePage } from './identity-create-page';
 
 interface IProps {
   profileId: string;
@@ -22,14 +23,16 @@ interface IProps {
 interface IState {
   title: string;
   remark: string;
-  hostId: string;
+  hostAddress: string;
+  hostPort: number;
   identityId: string;
 }
 
 const initialState = {
   title: '',
   remark: '',
-  hostId: '',
+  hostAddress: '',
+  hostPort: 22,
   identityId: '',
 };
 
@@ -63,19 +66,41 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
             onChange={(v) => this.setState({ title: v })} />
           <TextInput
             label="Profile Remark"
+            isTextFiled={true}
             value={this.state.remark}
             onChange={(v) => this.setState({ remark: v })} />
           <div>
             {
               this.props.identityList.map((i) => (
-                <div key={i.id} onClick={() => this.setState({identityId: i.id})}>
+                <div
+                  key={i.id}
+                  onClick={() => this.setState({ identityId: i.id })}
+                  style={{ color: this.state.identityId === i.id ? '#eee' : '#aaa' }}>
                   {i.profileName}
                 </div>
               ))
             }
+            {
+              <div>
+                <Button label="new identity" onClick={(e) => this.createNewIdentity(e)} />
+              </div>
+            }
           </div>
           <div>
-            {/* Pick Host */}
+            <TextInput
+              label="Host Address"
+              value={this.state.hostAddress}
+              onChange={(v) => this.setState({ hostAddress: v })} />
+            <TextInput
+              label="Port"
+              value={this.state.hostPort.toString()}
+              onChange={(v) => this.setState({ hostPort: parseInt(v, 10) })} />
+
+            {
+              this.props.hostList.map((h) => (
+                <div>{h.title}({h.hostAddress}:{h.hostPort})</div>
+              ))
+            }
           </div>
         </div>
         <div>
@@ -88,9 +113,24 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
   }
 
   private saveProfile(e: React.MouseEvent<Element>) {
+    // TODO: validate identity
+    const hostServer: ISshHostServer =
+      modelService.getHostByAddress(this.state.hostAddress, this.state.hostPort) || {
+        id: getUid(),
+        title: `${this.state.hostAddress}:${this.state.hostPort}`,
+        hostAddress: this.state.hostAddress,
+        hostPort: this.state.hostPort,
+        publicKey: '',
+        keyTrusted: false,
+      };
+    modelService.saveHostServer(hostServer);
     const profile = {
       ...this.profile,
-      ...this.state,
+      id: this.props.profileId,
+      title: this.state.title,
+      remark: this.state.remark,
+      hostId: hostServer.id,
+      identityId: this.state.identityId,
       createdAtTimeStamp: Date.now(),
     };
     modelService.saveProfile(profile);
@@ -99,17 +139,30 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
 
   private resetState(e?: React.MouseEvent<Element>) {
     if (!e) {
-      this.state = {
+      const host = modelService.getHostById(this.profile.id);
+      const newState = {
         title: this.profile.title,
         remark: this.profile.remark,
-        hostId: this.profile.hostId,
+        hostAddress: host ? host.hostAddress : '',
+        hostPort: host ? host.hostPort : 22,
         identityId: this.profile.identityId,
       };
+      if (this.state) {
+        this.setState(newState);
+      } else {
+        this.state = newState;
+      }
       return;
     }
     transitionService.transitOnClick(e, '#09c', () => {
       this.resetState();
     });
+  }
+
+  private createNewIdentity(e: React.MouseEvent<Element>) {
+    const newIdentityId = getUid();
+    this.setState({ identityId: newIdentityId });
+    this.transitPage(e, createIdentityCreatePage(newIdentityId));
   }
 
   private transitProfileListPage(e: React.MouseEvent<Element>) {

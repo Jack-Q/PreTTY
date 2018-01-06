@@ -63,7 +63,7 @@ export class TestPage extends React.Component<IPageViewProps> {
 
   private writeFile() {
     const list = [1, 2, 3, 4, 5, 6];
-    const file = storageService.getFullFilePath('sampleData');
+    const file = 'sampleData';
     storageService.saveModel(file, list, {
       compression: {
         format: 'zlib',
@@ -82,7 +82,7 @@ export class TestPage extends React.Component<IPageViewProps> {
   private readFile() {
     // this can be verified using following command
     // cat sampleData | openssl aes-256-cbc -d -nosalt -pass "pass:PreTTY" | zlib-flate -uncompress
-    const file = storageService.getFullFilePath('sampleData');
+    const file = 'sampleData';
     storageService.loadModel<number>(file, {
       compression: {
         format: 'zlib',

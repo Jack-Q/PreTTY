@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import * as styles from './profile-edit-page.scss';
-import { IPageViewProps } from '../model/page';
+import { IPageViewProps, PageViewType } from '../model/page';
 import { ISshIdentity } from '../model/identity';
 import { modelService, modelServiceConnector } from '../service/model-service';
 import { ISshHostServer } from '../model/host-server';
@@ -9,6 +9,9 @@ import { ISshProfile } from '../model/profile';
 import { TextInput } from '../component/text-input';
 import { getUid } from '../util/uid';
 import { Button } from '../component/button';
+import { transitionService } from '../service/transition-service';
+import { pageService } from '../service/page-service';
+import { ProfileListPage } from './profile-list-page';
 
 interface IProps {
   profileId: string;
@@ -63,7 +66,13 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
             value={this.state.remark}
             onChange={(v) => this.setState({ remark: v })} />
           <div>
-            {/* Pick Identity */}
+            {
+              this.props.identityList.map((i) => (
+                <div key={i.id} onClick={() => this.setState({identityId: i.id})}>
+                  {i.profileName}
+                </div>
+              ))
+            }
           </div>
           <div>
             {/* Pick Host */}
@@ -71,7 +80,8 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
         </div>
         <div>
           <Button label="create" onClick={(e) => this.saveProfile(e)} />
-          <Button label="reset" onClick={(e) => this.resetState()} />
+          <Button label="reset" onClick={(e) => this.resetState(e)} />
+          <Button label="cancel" onClick={(e) => this.transitProfileListPage(e)} />
         </div>
       </div>
     );
@@ -84,15 +94,32 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
       createdAtTimeStamp: Date.now(),
     };
     modelService.saveProfile(profile);
+    this.transitPage(e, ProfileListPage);
   }
 
-  private resetState() {
-    this.state = {
-      title: this.profile.title,
-      remark: this.profile.remark,
-      hostId: this.profile.hostId,
-      identityId: this.profile.identityId,
-    };
+  private resetState(e?: React.MouseEvent<Element>) {
+    if (!e) {
+      this.state = {
+        title: this.profile.title,
+        remark: this.profile.remark,
+        hostId: this.profile.hostId,
+        identityId: this.profile.identityId,
+      };
+      return;
+    }
+    transitionService.transitOnClick(e, '#09c', () => {
+      this.resetState();
+    });
+  }
+
+  private transitProfileListPage(e: React.MouseEvent<Element>) {
+    this.transitPage(e, ProfileListPage);
+  }
+
+  private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {
+    transitionService.transitOnClick(e, '#09c', () => {
+      pageService.replaceTabPage(this.props.tabId, page);
+    });
   }
 }
 

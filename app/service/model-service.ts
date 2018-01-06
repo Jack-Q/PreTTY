@@ -5,9 +5,11 @@ import { IModelStorageOption, storageService } from './storage-service';
 import { getStorageConfig, defaultStorageOption } from '../config/storage-config';
 import { getLogger } from '../util/logger';
 import { getServiceConnector } from '../util/connect-to-service';
+import { ISshProfile } from '../model/profile';
 
 interface IStateEvent {
   initialized: boolean;
+  profileList: ISshProfile[];
   identityList: ISshIdentity[];
   hostList: ISshHostServer[];
 }
@@ -15,6 +17,7 @@ interface IStateEvent {
 class ModelService extends AbstractApplicationService<IStateEvent> implements IApplicationService<IStateEvent> {
   private identityList: ISshIdentity[] = [];
   private hostList: ISshHostServer[] = [];
+  private profileList: ISshProfile[] = [];
   private syncing: boolean = false;
   private initialized: boolean = false;
 
@@ -29,6 +32,8 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
         .then((v) => this.identityList = v),
       storageService.loadOrCreateModel<ISshHostServer>(getStorageConfig('HOST_FILE'), option)
         .then((v) => this.hostList = v),
+      storageService.loadOrCreateModel<ISshProfile>(getStorageConfig('PROFILE_FILE'), option)
+        .then((v) => this.profileList = v),
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
@@ -54,6 +59,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     return Promise.all([
       storageService.saveModel(getStorageConfig('IDENTITY_FILE'), this.identityList, option),
       storageService.saveModel(getStorageConfig('HOST_FILE'), this.hostList, option),
+      storageService.saveModel(getStorageConfig('PROFILE_FILE'), this.profileList, option),
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
@@ -87,6 +93,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     return {
       initialized: this.initialized,
       identityList: this.identityList,
+      profileList: this.profileList,
       hostList: this.hostList,
     };
   }

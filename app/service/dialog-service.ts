@@ -24,7 +24,9 @@ class DialogService extends AbstractApplicationService<IStateEvent> implements I
       logger.warn('no corresponding dialog in registry, register it or trigger it for only once');
       return;
     }
-    action.action();
+    if (action.action) {
+      action.action();
+    }
     this.dialogList.splice(dialogIndex, 1);
     this.updateState();
   }

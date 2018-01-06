@@ -1,7 +1,7 @@
 export enum SshIdentityAuthMode {
-  EMPTY,
-  PASSWORD,
-  SSH_KEY,
+  EMPTY = 'Empty',
+  PASSWORD = 'Password',
+  SSH_KEY = 'SSH Key',
 }
 
 export interface ISshIdentityAuth {
@@ -12,6 +12,7 @@ export interface ISshIdentityAuth {
 export interface ISshIdentity {
   id: string;
   profileName: string;
+  userName: string;
   remark: string;
-  authentications: SshIdentityAuthMode[];
+  authentications: ISshIdentityAuth[];
 }

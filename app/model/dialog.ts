@@ -3,7 +3,7 @@ import { logger } from '../util/logger';
 export interface IDialogAction {
   title: string;
   tooltip?: string;
-  action: () => void;
+  action: null | (() => void);
 }
 
 export interface IDialog {

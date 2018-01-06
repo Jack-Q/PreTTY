@@ -7,7 +7,9 @@ import { pageService } from '../service/page-service';
 import { Button } from '../component/button';
 import { createIdentityCreatePage } from './identity-create-page';
 import { ISshIdentity } from '../model/identity';
-import { modelServiceConnector } from '../service/model-service';
+import { modelServiceConnector, modelService } from '../service/model-service';
+import { createDialog } from '../model/dialog';
+import { dialogService } from '../service/dialog-service';
 
 interface IProps {
   identityList: ISshIdentity[];
@@ -24,17 +26,31 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
         <div>
           {
             this.props.identityList.map((i) => (
-              <div>
+              <div key={i.id}>
                 {i.profileName}
-                {/* {i.userName} */}
+                {i.userName}
                 {i.remark}
+                <div>
+                  {
+                    i.authentications.map((a) => (
+                      <div>
+                        {/* display icon indicator */}
+                        {a.mode}
+                      </div>
+                    ))
+                  }
+                </div>
+                <div>
+                <Button label="edit" onClick={(e) => this.transitToCreatePage(e, i.id)} />
+                  <Button label="remove" onClick={() => this.removeProfile(i)} />
+                </div>
               </div>
             ))
           }
           {
             this.props.identityList.length === 0 &&
             <div className="empty-tip">
-
+              No identity profile available, please create one first.
             </div>
           }
         </div>
@@ -42,8 +58,25 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
     );
   }
 
-  private transitToCreatePage(e: React.MouseEvent<Element>) {
-    this.transitPage(e, createIdentityCreatePage());
+  private removeProfile(i: ISshIdentity) {
+    // TODO: add profile detail
+    const dialog = createDialog('Confirm', 'Sure to remove this profile? ', [
+      {
+        title: 'remove',
+        action: () => {
+          modelService.removeIdentity(i);
+        },
+      },
+      {
+        title: 'cancel',
+        action: null,
+      },
+    ]);
+    dialogService.showDialog(dialog);
+  }
+
+  private transitToCreatePage(e: React.MouseEvent<Element>, id?: string) {
+    this.transitPage(e, createIdentityCreatePage(id));
   }
 
   private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {

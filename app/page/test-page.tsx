@@ -24,6 +24,7 @@ export class TestPage extends React.Component<IPageViewProps> {
           <Button onClick={(e) => this.createNewIdentity(e)} label="Create new identity" />
           <Button onClick={() => this.writeFile()} label="Write File" />
           <Button onClick={() => this.readFile()} label="Read File" />
+          <Button onClick={() => this.dialogTest()} label="Dialog Test" />
         </div>
       </div>
     );
@@ -95,5 +96,23 @@ export class TestPage extends React.Component<IPageViewProps> {
     }).catch((e) => {
       console.log(e);
     });
+  }
+
+  private dialogTest() {
+    const dialog = createDialog("Test", "...", [
+      {
+        title: 'YES',
+        action: () => {}
+      }, 
+      {
+        title: 'NO',
+        action: () => {}
+      }, 
+      {
+        title: 'CANCAL',
+        action: () => {}
+      }, 
+    ]);
+    dialogService.showDialog(dialog);
   }
 }

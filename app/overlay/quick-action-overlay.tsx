@@ -33,12 +33,15 @@ class QuickActionOverlayView extends React.Component<IPropsType, IState> {
     if (nextProps.isOpen && !this.props.isOpen) {
       setImmediate(() => this.inputRef && this.inputRef.focus());
     }
+    if (!nextProps.isOpen && this.props.isOpen) {
+      setImmediate(() => this.inputRef && this.inputRef.blur());
+    }
   }
 
   public render() {
     return (
       <div 
-      
+      style={{userFocus: true}}
       onKeyDown={(e) => this.handleKeyEvent(e)}
       className={`${styles.background} ${this.props.isOpen ? styles.active : ''}`}
         onClick={(e) => this.handleBackgroundClick(e)}>
@@ -77,9 +80,9 @@ class QuickActionOverlayView extends React.Component<IPropsType, IState> {
   }
 
   private handleKeyEvent(e: React.KeyboardEvent<Element>) {
+    if(!this.props.isOpen) {return;}
     const len = this.props.actionList.length;
     // TODO: handle up, down, enter, home, end, etc
-    console.log(e)
     switch (e.keyCode) {
       case translateAcceleratorKeyCode("Up"):
         this.setState({currentIndex: (this.state.currentIndex + len - 1) % len})

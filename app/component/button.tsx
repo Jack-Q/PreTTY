@@ -7,6 +7,7 @@ interface IProps {
   tooltip?: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   disabled?: boolean;
+  focused?: boolean;
 }
 
 interface IState {
@@ -24,8 +25,9 @@ export class Button extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const isFocused = this.props.focused === true;
     return (
-      <div className={`${styles.button}`} onClick={this.props.disabled ? undefined : this.props.onClick}>
+      <div className={isFocused ? styles.currentBtn : styles.button} onClick={this.props.disabled ? undefined : this.props.onClick}>
         <div className={styles.label}>{this.props.label}</div>
         {this.props.tooltip && <div className={styles.tooltip}>{this.props.tooltip}</div>}
       </div>

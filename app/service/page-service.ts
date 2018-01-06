@@ -70,7 +70,7 @@ class PageService extends AbstractApplicationService<IStateEvent> implements IAp
     if (curIndex === -1) {
       return this.tabList[0];
     }
-    const newId = loop ? (curIndex + 1) % this.tabList.length : Math.max(curIndex + 1, this.tabList.length - 1);
+    const newId = loop ? (curIndex + 1) % this.tabList.length : Math.min(curIndex + 1, this.tabList.length - 1);
     return this.tabList[newId];
   }
 

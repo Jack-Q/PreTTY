@@ -44,6 +44,8 @@ class AcceleratorService {
       if (action) {
         logger.info('trigger accelerator ' + keyHash + ' for ' + action.displayName);
         actionService.executeAction(action);
+        e.preventDefault();
+        e.stopPropagation();
       }
     });
   }

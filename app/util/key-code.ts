@@ -109,7 +109,7 @@ const hashKeyEventImpl = (ev: {
   metaKey: boolean,
   ctrlKey: boolean,
 }) => {
-  const keyCode = toString36(unifyKeyCode(ev.keyCode));
+  const keyCode = toString36(unifyKeyCode(ev.keyCode), 2);
   const modifier = encodeKeyModifier({
     withShift: ev.shiftKey,
     withAlt: ev.altKey,

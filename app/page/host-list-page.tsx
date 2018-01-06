@@ -7,7 +7,6 @@ import { modelServiceConnector } from '../service/model-service';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { ProfileListPage } from './profile-list-page';
-import { Button } from '../component/button';
 
 interface IProps {
   hostList: ISshHostServer[];
@@ -16,9 +15,8 @@ class HostListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        <div className={styles.PageTitle}>Host List Page</div>
-        <div className={styles.ControlBtn}>
-          <Button label="back to profile list" onClick={(e) => this.transitToProfileListPage(e)} />
+                <div className={styles.Header}>
+          <div className={styles.PageTitle}><button onClick={(e) => this.transitToProfileListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>Host List</div>
         </div>
         <div>
           {

@@ -11,7 +11,7 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { IdentityListPage } from './identity-list-page';
 import { createProfileEditPage } from './profile-edit-page';
-import { WelcomePage } from './welcome-page';
+import { DefaultPage } from './index';
 interface IProps {
   profileList: ISshProfile[];
   hostList: ISshHostServer[];
@@ -61,7 +61,7 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
   }
 
   private transitToWelcomePage(e: React.MouseEvent<Element>) {
-    this.transitPage(e, WelcomePage);
+    this.transitPage(e, DefaultPage);
   }
 
 }

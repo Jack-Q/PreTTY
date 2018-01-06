@@ -61,6 +61,16 @@ class ConnectionService
     return connection;
   }
 
+  public closeConnection(connection: ISshConnection) {
+    if (connection.channel) {
+      connection.channel.destroy();
+    }
+    if (connection.sftpWrapper) {
+      connection.sftpWrapper.end();
+    }
+    connection.client.destroy();
+  }
+
   public getState(): IStateEvent {
     return {
       activeConnectionId: this.activeConnectionId,

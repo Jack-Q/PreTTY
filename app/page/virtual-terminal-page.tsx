@@ -2,11 +2,16 @@ import * as React from 'react';
 import * as Terminal from 'xterm';
 
 import * as styles from './virtual-terminal-page.scss';
-import { IPageViewProps } from '../model/page';
+import { IPageViewProps, PageViewType } from '../model/page';
 import { ISshConnection, SshConnectionStatus, SshConnectionEvent } from '../model/connection';
 import { connectionServiceConnector, connectionService } from '../service/connection-service';
 import { ISshProfile } from '../model/profile';
 import { getMessagePage } from './message-page';
+import { Button } from '../component/button';
+import { transitionService } from '../service/transition-service';
+import { pageService } from '../service/page-service';
+import { HistoryListPage } from './history-list-page';
+import { modelService } from '../service/model-service';
 
 // tslint:disable-next-line:no-var-requires
 require('xterm/lib/addons/fit');
@@ -17,7 +22,6 @@ interface IProps {
 }
 class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
   private termRef: HTMLDivElement;
-  // private handlerRefs: { [key: string]: () => void };
 
   public componentDidMount() {
     const term = this.props.terminal;
@@ -52,12 +56,49 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     return (
       <div className={styles.container}>
         <div className={styles.statusBar}>
-          {this.getConnectionStateName(conn.status)}
+          <div className={styles.statusBarMsg}>
+            {this.getConnectionStateName(conn.status)}
+          </div>
+          <div className={styles.statusBarAction}>
+            {
+              conn.status === SshConnectionStatus.CONNECTED &&
+              <Button label="close" onClick={() => this.closeConnection()} />
+            }
+          </div>
+        </div>
+        <div
+          className={`${styles.connectingOverlay} ${
+            conn.status === SshConnectionStatus.CONNECTING ? styles.active : ''
+            }`}>
+          <div className={styles.overlayIcon}>
+            <i className="material-icons">loop</i>
+          </div>
+          <div className={styles.overlayMessage}>
+            connecting
+          </div>
+          <div className={styles.overlayActions}>
+            <Button label="cancel" onClick={() => this.closeConnection()} />
+          </div>
+        </div>
+        <div
+          className={`${styles.closeOverlay} ${
+            conn.status === SshConnectionStatus.CLOSED ? styles.active : ''
+            }`}>
+          <div className={styles.overlayIcon}>
+            <i className="material-icons">portable_wifi_off</i>
+          </div>
+          <div className={styles.overlayMessage}>
+            connection to server is closed
+          </div>
+          <div className={styles.overlayActions}>
+            <Button label="view history" onClick={(e) => this.viewHistory(e)} />
+            <Button label="connect again" onClick={(e) => this.connectAgain(e)} />
+          </div>
         </div>
         <div className={styles.mainContent}>
-          <div className={styles.terminal} ref={(r) => r && (this.termRef = r) } />
-        </div>
-      </div>
+          <div className={styles.terminal} ref={(r) => r && (this.termRef = r)} />
+        </div>;
+      </div >
     );
   }
 
@@ -69,6 +110,21 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
       case SshConnectionStatus.CLOSED: return 'closed';
     }
     return 'unknown';
+  }
+
+  private closeConnection() {
+    connectionService.closeConnection(this.props.connection);
+  }
+
+  private viewHistory(e: React.MouseEvent<Element>) {
+    this.transitPage(e, HistoryListPage);
+  }
+
+  private connectAgain(e: React.MouseEvent<Element>) {
+    const profile = modelService.getProfileById(this.props.connection.profileId);
+    if (profile) {
+      this.transitPage(e, createVirtualTerminalPage(profile));
+    }
   }
 
   private handleTermResize = (data: any) => {
@@ -92,14 +148,11 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     this.props.terminal.write(data && data.toString());
   }
 
-  // private getBondHandler(key: keyof VirtualTerminalPageView) {
-  //   if (this.handlerRefs.hasOwnProperty(key)) {
-  //     return this.handlerRefs[key];
-  //   }
-  //   const func = this[key].bind(this);
-  //   this.handlerRefs[key] = func;
-  //   return func;
-  // }
+  private transitPage(e: React.MouseEvent<Element>, page: PageViewType) {
+    transitionService.transitOnClick(e, '#09c', () => {
+      pageService.replaceTabPage(this.props.tabId, page);
+    });
+  }
 }
 
 export const createVirtualTerminalPage = (profile: ISshProfile) => {

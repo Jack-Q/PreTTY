@@ -1,4 +1,5 @@
 import { Client, ClientChannel, SFTPWrapper } from 'ssh2';
+import { EventEmitter } from 'events';
 
 export enum SshConnectionStatus {
   NOT_CONNECTED,
@@ -12,6 +13,10 @@ export enum SshConnectionType {
   SFTP,
 }
 
+export enum SshConnectionEvent {
+  data = 'data',
+}
+
 export interface ISshConnection {
   id: string;
   profileId: string;
@@ -22,4 +27,5 @@ export interface ISshConnection {
   client: Client;
   channel?: ClientChannel;
   sftpWrapper?: SFTPWrapper;
+  events: EventEmitter;
 }

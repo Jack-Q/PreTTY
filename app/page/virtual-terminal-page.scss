@@ -2,12 +2,84 @@
   width: 100%;
   height: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: block;
 }
 
 .statusBar {
-  height: 30px;
-  background-color: rgba(120, 120, 130, 0.4);
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  background-color: rgba(40, 50, 40, 0.8);
+  line-height: 30px;
+  padding: 0 10px;
+  color: #aaa;
+  display: flex;
 }
+
+.statusBarMsg {
+  flex: 1;
+}
+
+.statusBarAction {
+  padding: 0 20px;
+}
+
+.mainContent {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.terminal {
+  width: 100%;
+  height: 100%;
+}
+
+.closeOverlay, .connectingOverlay {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  pointer-events: none;
+  transition: all ease 400ms;
+  opacity: 0;
+  background-color: rgba(40, 50, 40, 0.8);
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.overlayIcon {
+  padding: 60px;
+  i {
+    font-size: 80px;
+  }
+}
+
+.overlayMessage {
+  font-size: 25px;
+}
+
+.overlayActions {
+  padding: 15px;
+}
+
+@keyframes loop {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+.connectingOverlay {
+  .overlayIcon {
+    animation: loop 1s infinite;
+  }
+}
+

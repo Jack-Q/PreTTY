@@ -1,6 +1,6 @@
 import { Client, ClientErrorExtensions, ClientChannel } from 'ssh2';
 
-import { ISshConnection, SshConnectionStatus, SshConnectionType } from '../model/connection';
+import { ISshConnection, SshConnectionStatus, SshConnectionType, SshConnectionEvent } from '../model/connection';
 import { ISshProfile } from '../model/profile';
 import { modelService } from './model-service';
 import { getLogger } from '../util/logger';
@@ -9,13 +9,16 @@ import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { ISshHostServer } from '../model/host-server';
 import { AbstractApplicationService, IApplicationService } from '../model/service';
 import { getServiceConnector } from '../util/connect-to-service';
+import { EventEmitter } from 'events';
 
 interface IStateEvent {
   connectionList: ISshConnection[];
   activeConnectionId: string;
 }
 
-class ConnectionService extends AbstractApplicationService<IStateEvent> implements IApplicationService<IStateEvent> {
+class ConnectionService
+  extends AbstractApplicationService<IStateEvent>
+  implements IApplicationService<IStateEvent> {
   private connectionList: ISshConnection[] = [];
   private activeConnectionId: string;
 
@@ -50,10 +53,22 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
       status: SshConnectionStatus.NOT_CONNECTED,
       connectionType: type,
       client: connectionClient,
+      events: new EventEmitter(),
     };
     this.connectionList.push(connection);
     this.clientConnect(connection, host, identity);
+    this.updateState();
     return connection;
+  }
+
+  public closeConnection(connection: ISshConnection) {
+    if (connection.channel) {
+      connection.channel.destroy();
+    }
+    if (connection.sftpWrapper) {
+      connection.sftpWrapper.end();
+    }
+    connection.client.destroy();
   }
 
   public getState(): IStateEvent {
@@ -76,12 +91,14 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
     logger.info('SSH Error: ' + err.name + ' ' + err.description, err);
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   private handleSshReadyEvent(id: string) {
     logger.info('SSH Client ready: ' + id);
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CONNECTED;
+    this.updateState();
     switch (connection.connectionType) {
       case SshConnectionType.SHELL:
         return this.setUpShell(connection);
@@ -93,6 +110,7 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
   private handleSshCloseEvent(id: string, hasError: boolean) {
     const connection = this.getConnectionById(id);
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   //#endregion
@@ -119,16 +137,19 @@ class ConnectionService extends AbstractApplicationService<IStateEvent> implemen
       username: identity.userName,
       password,
     });
+    this.updateState();
   }
 
   //#region SSH Shell channel event handle
   private handleShellCloseEvent(connection: ISshConnection, channel: ClientChannel) {
     connection.client.destroy();
     connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
   }
 
   private handleShellDataEvent(connection: ISshConnection, channel: ClientChannel, data: string) {
     logger.info('received message:' + data);
+    connection.events.emit(SshConnectionEvent.data, data);
   }
   //#endregion
 

@@ -1,6 +1,7 @@
 import { IApplicationAction, IApplicationActionClass } from '../model/action';
 import { getLogger } from '../util/logger';
 import { quickActionService } from './quick-action-service';
+import { acceleratorService } from './accelerator-service';
 
 interface IActionServiceAction<T = any> {
   actionMeta: IApplicationAction<T>;
@@ -30,11 +31,12 @@ class ActionService {
     logger.info('register application action: ' + serviceAction.actionMeta.key);
     this.actionList.push(serviceAction);
     quickActionService.addActionListDedup([actionMeta]);
+    acceleratorService.addAcceleratorList([actionMeta]);
     return actionBody;
   }
 
   public executeAction(appAction: IApplicationAction) {
-    const action = this.actionList.find(a => a.actionMeta.key === appAction.key);
+    const action = this.actionList.find((a) => a.actionMeta.key === appAction.key);
     if (!action) {
       logger.warn('attempting to execute undefined action ' + appAction.key);
       return;

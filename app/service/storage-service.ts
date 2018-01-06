@@ -45,7 +45,7 @@ class StorageService {
   public loadModel<Model>(file: string, option: IModelStorageOption): Promise<Model[]> {
     return new Promise((res, rej) => {
       try {
-        let stream: Stream = fs.createReadStream(file);
+        let stream: Stream = fs.createReadStream(this.getFullFilePath(file));
         if (option.encryption) {
           stream.on('error', (e) => rej(e));
           stream = stream.pipe(this.getDecryptionStream(option.encryption));
@@ -86,7 +86,7 @@ class StorageService {
   public saveModel<Model>(file: string, data: Model[], option: IModelStorageOption): Promise<void> {
     return new Promise((res, rej) => {
       try {
-        let stream: NodeJS.WritableStream = fs.createWriteStream(file);
+        let stream: NodeJS.WritableStream = fs.createWriteStream(this.getFullFilePath(file));
         stream.on('finish', () => {
           res();
         }).on('error', (e) => {

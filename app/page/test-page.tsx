@@ -10,7 +10,7 @@ import { MasterPasswordPage } from './master-password-page';
 import { storageService } from '../service/storage-service';
 import { dialogService } from '../service/dialog-service';
 import { createDialog } from '../model/dialog';
-import { IdentityListPage } from './identity-list-page';
+import { ProfileListPage } from './profile-list-page';
 
 export class TestPage extends React.Component<IPageViewProps> {
   public render() {
@@ -21,7 +21,7 @@ export class TestPage extends React.Component<IPageViewProps> {
           <Button onClick={() => quickActionService.openQuickAction()} label="Open Quick Action List" />
           <Button onClick={() => this.pushNotification()} label="Push notification" />
           <Button onClick={(e) => this.requestMasterPassword(e)} label="Request master password" />
-          <Button onClick={(e) => this.listIdentity(e)} label="Create new identity" />
+          <Button onClick={(e) => this.listProfile(e)} label="Profile list" />
           <Button onClick={() => this.writeFile()} label="Write File" />
           <Button onClick={() => this.readFile()} label="Read File" />
           <Button onClick={() => this.dialogTest()} label="Dialog Test" />
@@ -47,8 +47,8 @@ export class TestPage extends React.Component<IPageViewProps> {
   private requestMasterPassword(e: React.MouseEvent<HTMLDivElement>) {
     this.replaceTabPage(e, MasterPasswordPage);
   }
-  private listIdentity(e: React.MouseEvent<HTMLDivElement>) {
-    this.replaceTabPage(e, IdentityListPage);
+  private listProfile(e: React.MouseEvent<HTMLDivElement>) {
+    this.replaceTabPage(e, ProfileListPage);
   }
 
   private replaceTabPage(e: React.MouseEvent<HTMLDivElement>, component: PageViewType) {
@@ -63,7 +63,7 @@ export class TestPage extends React.Component<IPageViewProps> {
 
   private writeFile() {
     const list = [1, 2, 3, 4, 5, 6];
-    const file = storageService.getFullFilePath('sampleData');
+    const file = 'sampleData';
     storageService.saveModel(file, list, {
       compression: {
         format: 'zlib',
@@ -82,7 +82,7 @@ export class TestPage extends React.Component<IPageViewProps> {
   private readFile() {
     // this can be verified using following command
     // cat sampleData | openssl aes-256-cbc -d -nosalt -pass "pass:PreTTY" | zlib-flate -uncompress
-    const file = storageService.getFullFilePath('sampleData');
+    const file = 'sampleData';
     storageService.loadModel<number>(file, {
       compression: {
         format: 'zlib',
@@ -99,19 +99,19 @@ export class TestPage extends React.Component<IPageViewProps> {
   }
 
   private dialogTest() {
-    const dialog = createDialog("Test", "...", [
+    const dialog = createDialog('Test', '...', [
       {
         title: 'YES',
-        action: () => {}
-      }, 
+        action: () => {},
+      },
       {
         title: 'NO',
-        action: () => {}
-      }, 
+        action: () => {},
+      },
       {
         title: 'CANCAL',
-        action: () => {}
-      }, 
+        action: () => {},
+      },
     ]);
     dialogService.showDialog(dialog);
   }

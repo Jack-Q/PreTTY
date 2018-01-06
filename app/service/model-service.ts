@@ -5,9 +5,11 @@ import { IModelStorageOption, storageService } from './storage-service';
 import { getStorageConfig, defaultStorageOption } from '../config/storage-config';
 import { getLogger } from '../util/logger';
 import { getServiceConnector } from '../util/connect-to-service';
+import { ISshProfile } from '../model/profile';
 
 interface IStateEvent {
   initialized: boolean;
+  profileList: ISshProfile[];
   identityList: ISshIdentity[];
   hostList: ISshHostServer[];
 }
@@ -15,6 +17,7 @@ interface IStateEvent {
 class ModelService extends AbstractApplicationService<IStateEvent> implements IApplicationService<IStateEvent> {
   private identityList: ISshIdentity[] = [];
   private hostList: ISshHostServer[] = [];
+  private profileList: ISshProfile[] = [];
   private syncing: boolean = false;
   private initialized: boolean = false;
 
@@ -29,6 +32,8 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
         .then((v) => this.identityList = v),
       storageService.loadOrCreateModel<ISshHostServer>(getStorageConfig('HOST_FILE'), option)
         .then((v) => this.hostList = v),
+      storageService.loadOrCreateModel<ISshProfile>(getStorageConfig('PROFILE_FILE'), option)
+        .then((v) => this.profileList = v),
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
@@ -54,6 +59,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     return Promise.all([
       storageService.saveModel(getStorageConfig('IDENTITY_FILE'), this.identityList, option),
       storageService.saveModel(getStorageConfig('HOST_FILE'), this.hostList, option),
+      storageService.saveModel(getStorageConfig('PROFILE_FILE'), this.profileList, option),
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
@@ -78,7 +84,53 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
 
   public removeIdentity(i: ISshIdentity) {
     const index = this.identityList.findIndex((ind) => ind.id === i.id);
+    if (index < 0) { return; }
     this.identityList.splice(index, 1);
+    this.updateState();
+    this.syncStorageBackground();
+  }
+
+  public getProfileById(id: string) {
+    return this.profileList.find((p) => p.id === id);
+  }
+
+  public saveProfile(p: ISshProfile) {
+    // TODO: validate host/identity reference
+    const index = this.profileList.findIndex((pro) => pro.id === p.id);
+    if (index >= 0) {
+      this.profileList.splice(index, 1, p);
+    } else {
+      this.profileList.push(p);
+    }
+    this.updateState();
+    this.syncStorageBackground();
+  }
+
+  public removeProfile(p: ISshProfile) {
+    const index = this.profileList.findIndex((pro) => pro.id === p.id);
+    if (index < 0) { return; }
+    this.profileList.splice(index, 1);
+    this.updateState();
+    this.syncStorageBackground();
+
+  }
+
+  public saveHostServer(s: ISshHostServer) {
+    const index = this.hostList.findIndex((host) => host.id === s.id);
+    if (index >= 0) {
+      this.hostList.splice(index, 1, s);
+    } else {
+      this.hostList.push(s);
+    }
+    this.updateState();
+    this.syncStorageBackground();
+
+  }
+
+  public removeHostServer(s: ISshHostServer) {
+    const index = this.hostList.findIndex((host) => host.id === s.id);
+    if (index < 0) { return; }
+    this.hostList.splice(index, 1);
     this.updateState();
     this.syncStorageBackground();
   }
@@ -87,6 +139,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     return {
       initialized: this.initialized,
       identityList: this.identityList,
+      profileList: this.profileList,
       hostList: this.hostList,
     };
   }

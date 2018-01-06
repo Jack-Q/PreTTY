@@ -5,10 +5,100 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  overflow-y: scroll;
 }
-
+.Header {
+  width: 100%;
+  height: 40px;
+  position:fixed;
+  top: 60px;
+}
 .PageTitle {
   height: 40px;
   margin: 0 0 20px 40px;
   font-size: 32px;
+}
+.arrowBack {
+  width: 36px;
+  height: 36px;
+  margin-right: 20px;
+  border-radius: 100%;
+  border-style: none;
+  cursor: pointer;
+  display: inline-block;
+}
+.contentContainer {
+  width: 100%;
+  height: 768px;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: fixed;
+  top: 106px;
+}
+
+.ListArea {
+  display: inline-block;
+  width: 30%;
+  overflow: auto;
+  padding-left: 12px;
+}
+
+.formContainer {
+  width: 70%;
+  overflow: auto;
+  padding-right: 20%;
+  float: right;
+}
+
+.identityList {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.identityListTitle {
+  font-size: 18px;
+  color: rgb(87, 87, 87);
+}
+.identityListOption {
+  cursor: pointer;
+  margin: 5px 0;
+  transition: 300ms background-color;
+  &:hover {
+   background-color: rgb(97, 96, 96); 
+  }
+}
+.addIdBtn {
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    background-color: rgb(197, 122, 47);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.addIdBtn i {
+  vertical-align: sub;
+}
+
+.hostList {
+  width: 100%;
+}
+
+.host {
+  display: inline-block;
+  border: 1px solid rgb(59, 133, 218);
+  margin: 5px 3px;
+  padding: 3px 1px;
+  transition:300ms background-color,300ms color;
+}
+
+.host:hover {
+  background-color: rgb(59, 133, 218);
+  color: rgb(210, 227, 247);
+}
+
+.btnGroup {
+  width: 75%;
+  margin: 0 auto;
+  text-align: center;
 }

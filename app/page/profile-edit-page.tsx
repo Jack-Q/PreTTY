@@ -58,55 +58,63 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
   public render() {
     return (
       <div className={styles.container}>
-        <div className={styles.PageTitle}>Profile New Page</div>
-        <div>
-          <TextInput
-            label="Profile Title"
-            value={this.state.title}
-            onChange={(v) => this.setState({ title: v })} />
-          <TextInput
-            label="Profile Remark"
-            isTextFiled={true}
-            value={this.state.remark}
-            onChange={(v) => this.setState({ remark: v })} />
-          <div>
-            {
-              this.props.identityList.map((i) => (
-                <div
-                  key={i.id}
-                  onClick={() => this.setState({ identityId: i.id })}
-                  style={{ color: this.state.identityId === i.id ? '#eee' : '#aaa' }}>
-                  {i.profileName}
-                </div>
-              ))
-            }
-            {
-              <div>
-                <Button label="new identity" onClick={(e) => this.createNewIdentity(e)} />
-              </div>
-            }
-          </div>
-          <div>
-            <TextInput
-              label="Host Address"
-              value={this.state.hostAddress}
-              onChange={(v) => this.setState({ hostAddress: v })} />
-            <TextInput
-              label="Port"
-              value={this.state.hostPort.toString()}
-              onChange={(v) => this.setState({ hostPort: parseInt(v, 10) })} />
-
-            {
-              this.props.hostList.map((h) => (
-                <div>{h.title}({h.hostAddress}:{h.hostPort})</div>
-              ))
-            }
-          </div>
+        <div className={styles.Header}>
+          <div className={styles.PageTitle}><button onClick={(e) => this.transitProfileListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>Profile New Page</div>
         </div>
-        <div>
-          <Button label="create" onClick={(e) => this.saveProfile(e)} />
-          <Button label="reset" onClick={(e) => this.resetState(e)} />
-          <Button label="cancel" onClick={(e) => this.transitProfileListPage(e)} />
+        <div className={styles.contentContainer}>
+          <div className={styles.ListArea}>
+            <div className={styles.identityList}>
+              <div className={styles.identityListTitle}>Idnetity list</div>
+                {             
+                  this.props.identityList.map((i) => (              
+                    <div
+                      className={styles.identityListOption}
+                      key={i.id}
+                      onClick={() => this.setState({ identityId: i.id })}
+                      style={{ color: this.state.identityId === i.id ? 'rgb(255, 238, 0)' : 'rgb(144, 137, 75)' }}>
+                      {i.profileName}
+                    </div>
+                  ))
+                }
+                {
+                  <div>                
+                    <button className={styles.addIdBtn} onClick={(e) => this.createNewIdentity(e)}><i className="material-icons">add</i>new identity</button>
+                  </div>
+                }
+              </div>
+              <div className={styles.hostList}>
+                <div className={styles.identityListTitle}>Host List</div>
+                {
+                  this.props.hostList.map((h) => (
+                    <div className={styles.host}>{h.title}({h.hostAddress}:{h.hostPort})</div>
+                  ))
+                }
+              </div>
+          </div>  
+          <div className={styles.formContainer}>
+            <TextInput
+              label="Profile Title"
+              value={this.state.title}
+              onChange={(v) => this.setState({ title: v })} />
+            <TextInput
+              label="Profile Remark"
+              isTextFiled={true}
+              value={this.state.remark}
+              onChange={(v) => this.setState({ remark: v })} />
+              <TextInput
+                label="Host Address"
+                value={this.state.hostAddress}
+                onChange={(v) => this.setState({ hostAddress: v })} />
+              <TextInput
+                label="Port"
+                value={this.state.hostPort.toString()}
+                onChange={(v) => this.setState({ hostPort: parseInt(v, 10) })} />
+              <div className={styles.btnGroup}>
+                <Button label="create" onClick={(e) => this.saveProfile(e)} />
+                <Button label="reset" onClick={(e) => this.resetState(e)} />
+                <Button label="cancel" onClick={(e) => this.transitProfileListPage(e)} />
+              </div>
+          </div>
         </div>
       </div>
     );

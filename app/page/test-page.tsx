@@ -11,6 +11,7 @@ import { storageService } from '../service/storage-service';
 import { dialogService } from '../service/dialog-service';
 import { createDialog } from '../model/dialog';
 import { ProfileListPage } from './profile-list-page';
+import { createVirtualTerminalPage } from './virtual-terminal-page';
 
 export class TestPage extends React.Component<IPageViewProps> {
   public render() {
@@ -25,6 +26,7 @@ export class TestPage extends React.Component<IPageViewProps> {
           <Button onClick={() => this.writeFile()} label="Write File" />
           <Button onClick={() => this.readFile()} label="Read File" />
           <Button onClick={() => this.dialogTest()} label="Dialog Test" />
+          <Button onClick={(e) => this.createTerm(e)} label="Create Term (failure)" />
         </div>
       </div>
     );
@@ -114,5 +116,15 @@ export class TestPage extends React.Component<IPageViewProps> {
       },
     ]);
     dialogService.showDialog(dialog);
+  }
+
+  private createTerm(e: React.MouseEvent<Element>) {
+    transitionService.transit({
+      x: e.clientX,
+      y: e.clientY,
+      color: '#09c',
+    }).then(() => {
+      pageService.replaceTabPage(this.props.tabId, createVirtualTerminalPage({} as any));
+    });
   }
 }

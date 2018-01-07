@@ -17,7 +17,9 @@ export class FileEntry extends React.Component<IProps> {
       <div className={styles.fileEntry} onClick={() => this.props.openEntry()}>
         <div className={styles.fileIcon}>
           <div className={styles.icon}>
-            <i className="material-icons">insert_drive_file</i>
+            <i className="material-icons">
+              {this.getFileIcon(file)}
+            </i>
           </div>
         </div>
         <div className={styles.fileName}>
@@ -25,7 +27,7 @@ export class FileEntry extends React.Component<IProps> {
         </div>
         <div className={styles.fileOptions}>
           <div className={styles.fileAttrs}>
-            {file.mode.toString(8)}
+            {file.modeNumber.toString(8)}
           </div>
           <div className={styles.fileActions}>
             <div className={styles.fileAction} onClick={(e) => this.showFileInfo(e)}>
@@ -49,4 +51,10 @@ export class FileEntry extends React.Component<IProps> {
     e.stopPropagation();
   }
 
+  private getFileIcon(file: ISftpFile) {
+    if (file.mode.isDirectory) { return 'folder'; }
+    if (file.mode.isLink) { return 'link'; }
+    // TODO: more file mode
+    return 'insert_drive_file';
+  }
 }

@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { SFTPWrapper } from 'ssh2';
+import { IFileMode, parseFileMode } from './file-mode';
 
 export interface ISftpFile {
   name: string;
@@ -7,7 +8,8 @@ export interface ISftpFile {
   userId: number;
   groupId: number;
   size: number;
-  mode: number;
+  modeNumber: number;
+  mode: IFileMode;
   accessTime: Date;
   modificationTime: Date;
 }
@@ -63,6 +65,10 @@ export class SftpContext extends EventEmitter {
 
   }
 
+  public changeDirectory(path: string) {
+
+  }
+
   //#region Promisify the sftp API
 
   public sftpRealPath(path: string): Promise<string> {
@@ -108,7 +114,8 @@ export class SftpContext extends EventEmitter {
           userId: f.attrs.uid,
           groupId: f.attrs.gid,
           size: f.attrs.size,
-          mode: f.attrs.mode,
+          modeNumber: f.attrs.mode,
+          mode: parseFileMode(f.attrs.mode),
           accessTime: new Date(f.attrs.atime * 1000),
           modificationTime: new Date(f.attrs.mtime * 1000),
         }));

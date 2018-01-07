@@ -169,6 +169,10 @@ class ConnectionService
     logger.info('sftp continue');
   }
 
+  private handleSftpUpdateEvent(connection: ISshConnection, channel: SftpContext) {
+    this.updateState();
+  }
+
   //#endregion
 
   private setUpShell(connection: ISshConnection) {
@@ -198,6 +202,7 @@ class ConnectionService
       ctx.on('close', () => this.handleSftpCloseEvent(connection, ctx));
       ctx.on('error', (e) => this.handleSftpErrorEvent(connection, ctx, e));
       ctx.on('continue', () => this.handleSftpContinueEvent(connection, ctx));
+      ctx.on('update', () => this.handleSftpUpdateEvent(connection, ctx));
 
       ctx.initialize();
     });

@@ -6,3 +6,40 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.header {
+  height: 60px;
+  padding: 0 40px 20px;
+  display: flex;
+}
+
+.arrowBack {
+  color: #eee;
+  font-size: 30px;
+
+}
+
+.currentPath {
+  flex: 1;
+  line-height: 35px;
+  height: 35px;
+  margin: 5px 20px 0;
+  background-color: rgba(110, 90, 120, 0.2);
+  border-radius: 5px;
+}
+
+.headerActions {
+  line-height: 30px;
+}
+
+.fileArea {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer {
+  height: 20px;
+  line-height: 20px;
+}

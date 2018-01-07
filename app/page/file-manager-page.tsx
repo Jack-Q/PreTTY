@@ -14,6 +14,8 @@ import { ISftpFile } from '../util/sftp-context';
 import { FileEntry } from '../component/file-entry';
 import { createDialog } from '../model/dialog';
 import { dialogService } from '../service/dialog-service';
+import { dialog as ElectronDialog } from 'electron';
+import { openFileExternal } from '../util/open-external';
 
 interface IProps {
   connection: ISshConnection;
@@ -87,7 +89,14 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
   private downloadFile(file: ISftpFile) {
     const sftp = this.props.connection.sftpContext;
     if (sftp) {
-      sftp.downloadFile(file);
+      const path = ElectronDialog.showSaveDialog({
+        title: 'save as',
+        defaultPath: file.name,
+        message: 'download and save file to local storage',
+      });
+      sftp.downloadFile(file, path).then((f) => {
+        openFileExternal(f);
+      });
     }
   }
 

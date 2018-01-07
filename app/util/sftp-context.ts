@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events';
 import { SFTPWrapper } from 'ssh2';
 import { IFileMode, parseFileMode } from './file-mode';
+import { openFileExternal } from './open-external';
+import { getLogger } from './logger';
 
 export interface ISftpFile {
   name: string;
@@ -58,15 +60,43 @@ export class SftpContext extends EventEmitter {
   }
 
   public openFile(file: ISftpFile) {
-
+    if (file.mode.isDirectory) {
+      return this.changeDirectory(this.currentPath + '/' + file.name);
+    }
+    return this.downloadFile(file).then((f) => openFileExternal(f));
   }
 
-  public downloadFile(file: ISftpFile) {
-
+  public downloadFile(file: ISftpFile, localFileName = '/tmp/' + file.name): Promise<string> {
+    return new Promise<string>((res, rej) => {
+      this.sftp.fastGet(this.currentPath + '/' + file.name, localFileName, (err) => {
+        if (err) {
+          logger.warn('download error', err);
+          rej(err);
+          return;
+        }
+        res(localFileName);
+      });
+    });
   }
 
   public changeDirectory(path: string) {
-
+    return Promise.resolve(path)
+      .then((realPath) => {
+        this.setCurrentPath(realPath);
+        return this.sftpOpenDir(realPath);
+      })
+      .then((dirHandle) => {
+        return this.sftpReadDir(dirHandle);
+      })
+      .then((fileList) => {
+        this.isInitialized = true;
+        this.processing = false;
+        this.setFileList(fileList);
+      }).catch((err) => {
+        this.isInitialized = false;
+        this.processing = false;
+        this.updateState();
+      });
   }
 
   //#region Promisify the sftp API
@@ -183,3 +213,5 @@ export class SftpContext extends EventEmitter {
   }
 
 }
+
+const logger = getLogger(SftpContext.name);

@@ -18,14 +18,14 @@ to support remote terminal connection and file management based on **`ssh`** pro
 
 ## UI Pages
 
-* Master password page (`/protected/:path`)
-* Welcome page (`/welcome`)
-* Create identity page (`/identity/new`)
-* Identity management page (`/identity`)
-* Create host profile page (`/host/new`)
-* Virtual terminal page (`/terminal/:host/:port`)
-* SFTP file listing page ()
-* SFTP file transfering page
+* Master password page
+* Welcome page
+* Create identity page
+* Identity management page
+* Create host profile page
+* Virtual terminal page
+* SFTP file listing page
+* SFTP file transferring page
 * Connection history page
 * Known/trusted host page
 * Settings page
@@ -51,8 +51,6 @@ to support remote terminal connection and file management based on **`ssh`** pro
 * SSH keygen
 * SSH copy-id
 * Global stylesheet
-
-
 
 
 ## Alignment and Relevant Documents

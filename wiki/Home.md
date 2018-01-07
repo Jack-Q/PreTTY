@@ -19,8 +19,10 @@ The document of this ptoject including the following components:
 * [ ] Specific Design Specification
 * [ ] Data Model & Storage Design
 * [x] Work Breakdown Structure
-* [ ] Testing Plan & Report
-* [ ] Project Review
+
+> Note:
+> These document are merely applicable to first initial draft version of this project
+> and reside in this branch as an archive. Issues in this branch are not considered.
 
 ## Update the wiki
 

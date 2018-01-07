@@ -22,20 +22,20 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        File Manager Page
-        <div>
-          <div>
-            <div
-              onClick={(e) => this.transitToProfileList(e)} >
-              <i className="material-icons">arrow_back</i>
-            </div>
+        <div className={styles.header}>
+          <div
+            className={styles.arrowBack}
+            onClick={(e) => this.transitToProfileList(e)} >
+            <i className="material-icons">arrow_back</i>
           </div>
-          <div>{this.props.currentPath}</div>
-          <div>
+          <div className={styles.currentPath}>
+            {this.props.currentPath}
+          </div>
+          <div className={styles.headerActions}>
             <Button label="close" onClick={() => this.closeConnection()} />
           </div>
         </div>
-        <div>
+        <div className={styles.fileArea}>
           {
             this.props.fileList.map((f) => (
               <div key={f.longName}>
@@ -44,7 +44,7 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
             ))
           }
         </div>
-        <div>
+        <div className={styles.footer}>
           <div>
             {this.getConnectionStateName(this.props.connection.status)}
           </div>

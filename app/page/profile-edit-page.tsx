@@ -62,36 +62,8 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
           <div className={styles.PageTitle}><button onClick={(e) => this.transitProfileListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>Profile New Page</div>
         </div>
         <div className={styles.contentContainer}>
-          <div className={styles.ListArea}>
-            <div className={styles.identityList}>
-              <div className={styles.identityListTitle}>Idnetity list</div>
-                {             
-                  this.props.identityList.map((i) => (              
-                    <div
-                      className={styles.identityListOption}
-                      key={i.id}
-                      onClick={() => this.setState({ identityId: i.id })}
-                      style={{ color: this.state.identityId === i.id ? 'rgb(255, 238, 0)' : 'rgb(144, 137, 75)' }}>
-                      {i.profileName}
-                    </div>
-                  ))
-                }
-                {
-                  <div>                
-                    <button className={styles.addIdBtn} onClick={(e) => this.createNewIdentity(e)}><i className="material-icons">add</i>new identity</button>
-                  </div>
-                }
-              </div>
-              <div className={styles.hostList}>
-                <div className={styles.identityListTitle}>Host List</div>
-                {
-                  this.props.hostList.map((h) => (
-                    <div className={styles.host}>{h.title}({h.hostAddress}:{h.hostPort})</div>
-                  ))
-                }
-              </div>
-          </div>  
-          <div className={styles.formContainer}>
+        {/* ---------------------------Identity------------------------ */}
+          <div className={styles.Identity}>
             <TextInput
               label="Profile Title"
               value={this.state.title}
@@ -101,6 +73,33 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
               isTextFiled={true}
               value={this.state.remark}
               onChange={(v) => this.setState({ remark: v })} />
+            <div className={styles.identityList}>
+              <div className={styles.identityListTitle}>Idnetity list</div>
+                {             
+                  this.props.identityList.map((i) => (              
+                    <div
+                      className={styles.identityListOption}
+                      key={i.id}
+                      onClick={() => this.setState({ identityId: i.id })}
+                      style={{ color: this.state.identityId === i.id ? 'rgb(255, 238, 0)' : 'rgb(144, 137, 75)' }}>
+                      <i className="material-icons">person</i>
+                      <div className={styles.profileName}>{i.profileName}</div>
+                    </div>
+                  ))
+                }
+                {
+                  <div className={styles.btnContainer}>
+                    new identity                
+                    <button className={styles.addIdBtn} onClick={(e) => this.createNewIdentity(e)}><i className="material-icons">add</i></button>
+                  </div>
+                }
+              </div>
+          </div>
+
+          {/* ---------------------------Host----------------------------- */}
+
+          <div className={styles.Host}>
+              
               <TextInput
                 label="Host Address"
                 value={this.state.hostAddress}
@@ -109,11 +108,24 @@ export class ProfileEditPageView extends React.Component<IPageViewProps & IProps
                 label="Port"
                 value={this.state.hostPort.toString()}
                 onChange={(v) => this.setState({ hostPort: parseInt(v, 10) })} />
-              <div className={styles.btnGroup}>
+                <div className={styles.hostList}>
+                <div className={styles.identityListTitle}>Host List</div>
+                {
+                  this.props.hostList.map((h) => (
+                    <div className={styles.hostListOprion}>
+                        <i className="material-icons">computer</i>
+                        <div className={styles.hostInfo}>
+                          {h.title}({h.hostAddress}:{h.hostPort})
+                        </div>
+                      </div>
+                  ))
+                }
+              </div>
+          </div>
+          <div className={styles.btnGroup}>
                 <Button label="create" onClick={(e) => this.saveProfile(e)} />
                 <Button label="reset" onClick={(e) => this.resetState(e)} />
                 <Button label="cancel" onClick={(e) => this.transitProfileListPage(e)} />
-              </div>
           </div>
         </div>
       </div>

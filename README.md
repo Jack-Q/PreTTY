@@ -22,19 +22,13 @@ issue in [Issues Section](https://github.com/Jack-Q/PreTTY/issues).
 
 ```bash
 # clone this repo
-git clone git@github.com:Jack-Q/PreTTY.git
+git clone https://github.com/Jack-Q/PreTTY.git
 cd PreTTY
 
 # install dependencies
 # requires a node version >= 6 and an npm version >= 3
 npm install
 ```
-
-> **Important Note**:
-> The xterm module used here is an pre-release version that fetched directly from GitHub
-> which is in lack of proper building process
-> Please download/clone the full repo of xterm from GitHub and build using `npm install`
-> in `node_modules/xterm`
 
 ### Execute
 

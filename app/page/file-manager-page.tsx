@@ -30,14 +30,14 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
         <div className={styles.header}>
           <div
             className={styles.arrowBack}
-            onClick={(e) => this.transitToProfileList(e)} >
+            onClick={(e) => this.popPathStack(e)} >
             <i className="material-icons">arrow_back</i>
           </div>
           <div className={styles.currentPath}>
             {this.props.currentPath}
           </div>
           <div className={styles.headerActions}>
-            <Button label="close" onClick={() => this.closeConnection()} />
+            <Button label="close" onClick={(e) => this.closeConnection(e)} />
           </div>
         </div>
         <div className={styles.fileArea}>
@@ -72,8 +72,18 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
     return 'unknown';
   }
 
-  private closeConnection() {
+  private closeConnection(e: React.MouseEvent<Element>) {
     connectionService.closeConnection(this.props.connection);
+    this.transitToProfileList(e);
+  }
+
+  private popPathStack(e: React.MouseEvent<Element>) {
+    const sftp = this.props.connection.sftpContext;
+    if (sftp) {
+        transitionService.transitOnClick(e, '#09c', () => {
+          sftp.popCurrentPath();
+        });
+    }
   }
 
   private transitToProfileList(e: React.MouseEvent<Element>) {

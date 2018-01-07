@@ -31,6 +31,8 @@ export class SftpContext extends EventEmitter {
   private errorState: boolean = false;
   private statusMessage: string = '';
 
+  private pathStack: string[] = [];
+
   private handlePool: ISftpHandle[] = [];
 
   constructor(sftp: SFTPWrapper, isInitialized: boolean = false) {
@@ -79,10 +81,12 @@ export class SftpContext extends EventEmitter {
     });
   }
 
-  public changeDirectory(path: string) {
+  public changeDirectory(path: string, pushStack = true) {
     return Promise.resolve(path)
       .then((realPath) => {
-        this.setCurrentPath(realPath);
+        if (pushStack) {
+          this.pushCurrentPath(realPath);
+        }
         return this.sftpOpenDir(realPath);
       })
       .then((dirHandle) => {
@@ -186,6 +190,20 @@ export class SftpContext extends EventEmitter {
 
   public end() {
     this.sftp.end();
+  }
+
+  public popCurrentPath() {
+    const path = this.pathStack.pop();
+    if (!path) {
+      return;
+    }
+    this.setCurrentPath(path);
+    this.changeDirectory(path, false);
+  }
+
+  private pushCurrentPath(path: string) {
+    this.pathStack.push(this.currentPath);
+    this.setCurrentPath(path);
   }
 
   // TODO: use js getter/setter syntax

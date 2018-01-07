@@ -1,0 +1,10 @@
+{
+  "line-length": true,
+  "no-inline-html": {
+    "allowed_elements": [
+      "svg", "a", "text", "g", "polygon", "path"
+    ]
+  },
+  "first-header-h1": {"level": 2},
+  "first-line-h1": false
+}

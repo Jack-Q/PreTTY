@@ -38,8 +38,8 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
         <div>
           {
             this.props.fileList.map((f) => (
-              <div key={f.handle}>
-                {f.name}
+              <div key={f.longName}>
+                {f.name} ({f.longName})
               </div>
             ))
           }

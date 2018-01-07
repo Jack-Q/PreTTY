@@ -55,6 +55,14 @@ export class SftpContext extends EventEmitter {
     return this.statusMessage;
   }
 
+  public openFile(file: ISftpFile) {
+
+  }
+
+  public downloadFile(file: ISftpFile) {
+
+  }
+
   //#region Promisify the sftp API
 
   public sftpRealPath(path: string): Promise<string> {

@@ -12,6 +12,8 @@ import { pageService } from '../service/page-service';
 import { transitionService } from '../service/transition-service';
 import { ISftpFile } from '../util/sftp-context';
 import { FileEntry } from '../component/file-entry';
+import { createDialog } from '../model/dialog';
+import { dialogService } from '../service/dialog-service';
 
 interface IProps {
   connection: ISshConnection;
@@ -39,7 +41,13 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
         <div className={styles.fileArea}>
           {
             this.props.fileList.map((f) => (
-              <FileEntry key={f.name} file={f} />
+              <FileEntry
+                key={f.name}
+                file={f}
+                openEntry={() => this.openFile(f)}
+                downloadFile={() => this.downloadFile(f)}
+                showFileInfo={() => this.showFileInfo(f)}
+              />
             ))
           }
         </div>
@@ -74,6 +82,36 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
     transitionService.transitOnClick(e, '#09c', () => {
       pageService.replaceTabPage(this.props.tabId, page);
     });
+  }
+
+  private downloadFile(file: ISftpFile) {
+    const sftp = this.props.connection.sftpContext;
+    if (sftp) {
+      sftp.downloadFile(file);
+    }
+  }
+
+  private openFile(file: ISftpFile) {
+    const sftp = this.props.connection.sftpContext;
+    if (sftp) {
+      sftp.openFile(file);
+    }
+  }
+
+  private showFileInfo(file: ISftpFile) {
+    const dialog = createDialog(
+      'File Info: ' + file.name,
+      [
+        `file name: ${file.name}`,
+        `long name: ${file.longName}`,
+        `size: ${file.size}`,
+        `user id: ${file.userId}`,
+        `group id: ${file.groupId}`,
+        `modification time: ${file.modificationTime}`,
+        `accessTime time: ${file.accessTime}`,
+      ].join('\n'),
+    );
+    dialogService.showDialog(dialog);
   }
 
 }

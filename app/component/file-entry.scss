@@ -1,7 +1,67 @@
 .fileEntry {
   display: block;
-  margin: 5px;
-  width: 120px;
-  height: 120px;
+  margin: 10px;
+  width: 220px;
+  height: 220px;
+  border-radius: 5px;
   background: rgba(120, 120, 120, 0.3);
 }
+
+.fileIcon {
+  height: 160px;
+  position: relative;
+  .icon {
+    text-align: center;
+    i {
+      font-size: 120px;
+      line-height: 160px;
+    }
+  }
+}
+
+.fileName {
+  font-size: 20px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #cacaca;
+  background-color: rgba(120, 120, 120, 0.3);
+}
+
+.fileOptions {
+  height: 30px;
+  display: flex;
+  background-color: rgba(120, 120, 120, 0.3);
+}
+
+.fileAttrs {
+  flex: 1;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+.fileActions {
+  padding: 0 5px;
+  display: flex;
+} 
+
+.fileAction {
+  height: 30px;
+  width: 30px;
+  transition: all ease 400ms;
+  text-align: center;
+  
+  i {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  &:hover {
+    background-color: rgba(120, 80, 90, 0.3);
+    color: #eee;
+  }
+}
+

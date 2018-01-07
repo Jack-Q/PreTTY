@@ -29,6 +29,7 @@
   padding: 15px 0;
   border-bottom: solid 1px #666;
   min-height: 85px;
+  white-space: pre-line; // preserve line breaks
 }
 
 .actions {

@@ -6,6 +6,7 @@ export const pageTitle: string;
 export const arrowBack: string;
 export const profile: string;
 export const profileIcon: string;
+export const actions: string;
 export const profileInfo: string;
 export const btnGroup: string;
 export const NavBtn: string;

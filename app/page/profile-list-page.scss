@@ -44,10 +44,55 @@
   width: 100%;
   height: 140px;
   text-align: center;
+  position: relative;
+  .actions {
+    opacity: 0;
+    transition: all ease 400ms;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    background-color: rgba(120, 120, 120, 0.3);
+    & > div {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+      i {
+        color: #ccc;
+        display: block;
+        font-size: 60px;
+        transition: all ease 400ms;
+      }
+      &:hover {
+        box-shadow: 0 0 5px 2px rgba(140, 140, 140, 0.5);
+        i {
+          color: #cbf;
+        }
+      }
+    }
+  }
+  i {
+    transition: all ease 400ms;
+    font-size: 140px;
+  }
+  &:hover {
+    & > i {
+      transform: scale(1.1);
+      filter: blur(10px);
+    }
+    .actions {
+      opacity: 1;
+    }
+  }
+
 }
-.profileIcon i {
-  font-size: 140px;
-}
+
 
 .profileInfo {
   width: 100px;

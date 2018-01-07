@@ -38,6 +38,7 @@ class ModelService extends AbstractApplicationService<IStateEvent> implements IA
     ]).then(() => {
       this.initialized = true;
       this.syncing = false;
+      this.updateState();
     }).catch((e) => {
       // TODO: generate temporary session profile or request user intervention
       logger.error('failed to initialize model service', e);

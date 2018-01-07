@@ -18,12 +18,19 @@ class HostListPageView extends React.Component<IPageViewProps & IProps> {
                 <div className={styles.Header}>
           <div className={styles.PageTitle}><button onClick={(e) => this.transitToProfileListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>Host List</div>
         </div>
-        <div>
+        <div className={styles.hostContainer}>
           {
             this.props.hostList.map((s) => (
               <div className={styles.host} key={s.id}>
                 <div className={styles.hostIcon}><i className="material-icons">filter_drama</i></div>
-                <div className={styles.hostAddr}>{s.title} ({s.hostAddress}:{s.hostPort})</div>
+                <div>
+                  <div className={styles.hostAddrTitle}>
+                    {s.title}
+                  </div>
+                  <div className={styles.hostAddrPort}> 
+                    ({s.hostAddress}:{s.hostPort})
+                  </div>
+              </div>
               </div>
             ))
           }

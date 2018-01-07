@@ -25,9 +25,6 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
             Identity List Page
           </div>
         </div>
-        <div className={styles.ControlBtn}>
-          <button onClick={(e) => this.transitToCreatePage(e)} className={styles.arrowBack}><i className="material-icons">add</i></button>
-        </div>
         <div className={styles.identityContainer}>
           {
             this.props.identityList.map((i) => (
@@ -62,6 +59,12 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
               No identity profile available, please create one first.
             </div>
           }
+        </div>
+        <div className={styles.ControlBtn}>
+          Add new identity
+          <button onClick={(e) => this.transitToCreatePage(e)} className={styles.arrowBack}>
+            <i className="material-icons">add</i>
+          </button>
         </div>
       </div>
     );

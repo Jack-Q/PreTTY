@@ -14,8 +14,9 @@
 }
 
 .ControlBtn {
-  margin-right: 20px;
-  float: right;
+  width: 90%;
+  text-align: right;
+  margin: 0 auto;
 }
 
 .Header {
@@ -33,6 +34,7 @@
   width: 36px;
   height: 36px;
   margin-right: 20px;
+  margin-left: 20px;
   border-radius: 100%;
   border-style: none;
   cursor: pointer;
@@ -41,7 +43,7 @@
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
   overflow: auto;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
 }
 

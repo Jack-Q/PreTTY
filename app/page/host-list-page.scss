@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .PageTitle {
@@ -17,6 +19,7 @@
   height: 40px;
   position:fixed;
   top: 60px;
+  background-color: rgb(37, 30, 25);
 }
 .arrowBack {
   width: 36px;
@@ -32,30 +35,45 @@
   float: right;
 }
 
-.host {
-  width: 220px;
-  height: 42px;
-  margin: 10px 12px;
-  display: inline-block;
+.hostContainer {
+  width: 90%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  margin: 0 auto;
   position: relative;
-  background-color: rgb(95, 75, 75);
+  top: 120px;
+  z-index: -1;
+}
+
+.host {
+  width: 150px;
+    height: 180px;
+    margin: 10px 12px;
+    display: inline-block;
+    position: relative;
+    background-color: #5f4b4b;
+    border-radius: 5px;
 }
 
 .hostIcon {
-  width: 40px;
-  height: 40px;
-  margin-left: 5px;
-  display: inline-block;
+  width: 130px;
+    height: 130px;
+    margin: 0 auto;
 }
 
 .hostIcon i {
-  font-size: 42px;
+  font-size: 130px;
 }
 
-.hostAddr {
-  width: 148px;
-  height: 40px;
-  position: absolute;
-  left: 52px;
-  top: 0;
+.hostAddrTitle {
+  width: 100%;
+  padding: 0 5px;
+}
+
+.hostAddrPort {
+  width: 100%;
+    background-color: rgba(20, 20, 20, 0.3);
+    height: 29px;
+    padding: 5px 5px;
+    margin: 0;
 }

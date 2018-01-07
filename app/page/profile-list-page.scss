@@ -30,7 +30,7 @@
 }
 
 .profileContainer {
-  width: 80%;
+  width: 82%;
   margin: 0 auto;
   overflow: auto;
   display: grid;
@@ -107,11 +107,12 @@
 }
 
 .btnGroup {
-  width: 90%;
+  width: 80%;
   height: 60px;
   margin: 50px auto 0px auto;
   position: fixed;
   bottom: 25px;
+  left: 10%;
 }
 
 .NavBtn {

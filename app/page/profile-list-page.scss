@@ -29,28 +29,77 @@
   cursor: pointer;
 }
 
-
-
+.profileContainer {
+  width: 82%;
+  margin: 0 auto;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: auto; 
+}
 .profile {
   width: 200px;
   height: 200px;
   display: inline-block;
   margin: 5px 12px;
   background-color:  rgba(66, 58, 58, 0.96);
+  vertical-align: top;
 }
-
-
 .profileIcon {
   width: 100%;
   height: 140px;
   text-align: center;
-}
-.profileIcon i {
-  font-size: 140px;
+  position: relative;
+  .actions {
+    opacity: 0;
+    transition: all ease 400ms;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    background-color: rgba(120, 120, 120, 0.3);
+    & > div {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+      i {
+        color: #ccc;
+        display: block;
+        font-size: 60px;
+        transition: all ease 400ms;
+      }
+      &:hover {
+        box-shadow: 0 0 5px 2px rgba(140, 140, 140, 0.5);
+        i {
+          color: #cbf;
+        }
+      }
+    }
+  }
+  i {
+    transition: all ease 400ms;
+    font-size: 140px;
+  }
+  &:hover {
+    & > i {
+      transform: scale(1.1);
+      filter: blur(10px);
+    }
+    .actions {
+      opacity: 1;
+    }
+  }
+
 }
 
+
 .profileInfo {
-  width: 100px;
   height: 30px;
   padding-left: 12px;
   line-height: 30px;
@@ -58,11 +107,12 @@
 }
 
 .btnGroup {
-  width: 90%;
+  width: 80%;
   height: 60px;
   margin: 50px auto 0px auto;
   position: fixed;
   bottom: 25px;
+  left: 10%;
 }
 
 .NavBtn {

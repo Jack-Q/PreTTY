@@ -37,68 +37,87 @@
   top: 106px;
 }
 
-.ListArea {
-  display: inline-block;
-  width: 30%;
-  overflow: auto;
-  padding-left: 12px;
-}
-
-.formContainer {
-  width: 70%;
-  overflow: auto;
-  padding-right: 20%;
-  float: right;
+.Identity {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .identityList {
-  width: 100%;
-  margin-bottom: 20px;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .identityListTitle {
-  font-size: 18px;
-  color: rgb(87, 87, 87);
+  margin: 0 auto;
+  font-size: 24px;
+  color: #967b7b;
 }
+
+.profileName {
+  vertical-align: top;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+}
+
 .identityListOption {
-  cursor: pointer;
-  margin: 5px 0;
-  transition: 300ms background-color;
-  &:hover {
-   background-color: rgb(97, 96, 96); 
-  }
+  width: 50%;
+  display: inline-block;
+}
+.identityListOption i {
+  vertical-align: top;
+}
+.btnContainer {
+  //display: inline-block;
+  text-align: right;
+  height: 36px;
+
 }
 .addIdBtn {
-    text-align: center;
-    font-size: 24px;
-    border: none;
-    background-color: rgb(197, 122, 47);
-    border-radius: 5px;
+  border-radius: 100%;
+    border-style: none;
+    width: 36px;
+    height: 36px;
+    margin-left: 20px;
     cursor: pointer;
 }
-.addIdBtn i {
-  vertical-align: sub;
+.Host {
+  width: 80%;
+  margin: 0 auto;
 }
+
 
 .hostList {
-  width: 100%;
+  width: 60%;
+  max-height: 300px;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin: 0 0 0 25%;
 }
 
-.host {
+.hostListOprion {
+  margin: 0;
+  height: 30px;
+  line-height: 30px;
+  transition: 300ms background-color;
+  cursor: pointer;
+}
+
+.hostListOprion:hover {
+  background-color: rgb(131, 131, 131);
+}
+
+.hostInfo {
   display: inline-block;
-  border: 1px solid rgb(59, 133, 218);
-  margin: 5px 3px;
-  padding: 3px 1px;
-  transition:300ms background-color,300ms color;
-}
-
-.host:hover {
-  background-color: rgb(59, 133, 218);
-  color: rgb(210, 227, 247);
+  height: 24px;
+  line-height: 24px;
+  padding-left: 10px;
+  vertical-align: top;
+  cursor: pointer;
 }
 
 .btnGroup {
-  width: 75%;
-  margin: 0 auto;
-  text-align: center;
+  width: 65%;
+    margin: 0 auto;
+    text-align: center;
 }

@@ -57,9 +57,10 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
   public render() {
     return (
       <div className={styles.container}>
-        <div className={styles.headerNavigate}>
-          <Button onClick={(e) => this.transitToListPage(e)} label="back to identity list" />
-        </div>
+        <div className={styles.PageTitle}>
+          <button onClick={(e) => this.transitToListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
+          back to identity list
+          </div>
         <div className={styles.identityForm}>
           <TextInput
             label="User Name"
@@ -88,14 +89,15 @@ class IdentityCreatePageView extends React.Component<IProps & IPageViewProps, IS
             value={this.state.remark}
             isTextFiled={true}
             onChange={(v) => this.setState({ remark: v })} />
+            <div className={styles.submissionArea}>
+              <Button label={"Save"} onClick={(e) => this.createOrUpdateIdentity(e)} />
+              <Button label="Reset" onClick={() => this.resetState()} />
+              <Button label="Help" onClick={() => this.openOnlineHelp()} />
+            </div>
         </div>
         <div>
         </div>
-        <div className={styles.submissionArea}>
-          <Button label={"Save"} onClick={(e) => this.createOrUpdateIdentity(e)} />
-          <Button label="Reset" onClick={() => this.resetState()} />
-          <Button label="Help" onClick={() => this.openOnlineHelp()} />
-        </div>
+        
       </div>
     );
   }

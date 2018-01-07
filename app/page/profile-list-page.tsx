@@ -13,6 +13,7 @@ import { IdentityListPage } from './identity-list-page';
 import { createProfileEditPage } from './profile-edit-page';
 import { DefaultPage } from './index';
 import { createVirtualTerminalPage } from './virtual-terminal-page';
+import { createFileManagerPage } from './file-manager-page';
 interface IProps {
   profileList: ISshProfile[];
   hostList: ISshHostServer[];
@@ -23,18 +24,39 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-      <div className={styles.Header}>
+        <div className={styles.Header}>
           <div className={styles.PageTitle}>
-          <button onClick={(e) => this.transitToWelcomePage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
+            <button
+              onClick={(e) => this.transitToWelcomePage(e)}
+              className={styles.arrowBack}
+            >
+              <i className="material-icons">arrow_back</i>
+            </button>
             Profile List Page
           </div>
       </div>
-        <div >
+        <div className={styles.profileContainer}>
           {
             this.props.profileList.map((p) => (
               <div className={styles.profile} key={p.id}>
-                <div className={styles.profileIcon} onClick={(e) => this.connectShell(e, p)}>
+                <div
+                  className={styles.profileIcon}
+                >
                   <i className="material-icons">computer</i>
+                  <div className={styles.actions}>
+                    <div
+                      onClick={(e) => this.connectSftp(e, p)}
+                    >
+                      <i className="material-icons">folder_open</i>
+                      <div>SFTP</div>
+                    </div>
+                    <div
+                      onClick={(e) => this.connectShell(e, p)}
+                    >
+                    <i className="material-icons">dvr</i>
+                    <div>Shell</div>
+                    </div>
+                  </div>
                 </div>
                 <div className={styles.profileInfo}>{p.title}</div>
                 <div className={styles.profileInfo}>{p.remark}</div>
@@ -79,6 +101,9 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
 
   private connectShell(e: React.MouseEvent<Element>, profile: ISshProfile) {
     this.transitPage(e, createVirtualTerminalPage(profile));
+  }
+  private connectSftp(e: React.MouseEvent<Element>, profile: ISshProfile) {
+    this.transitPage(e, createFileManagerPage(profile));
   }
 
 }

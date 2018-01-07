@@ -10,6 +10,7 @@ import { ISshHostServer } from '../model/host-server';
 import { AbstractApplicationService, IApplicationService } from '../model/service';
 import { getServiceConnector } from '../util/connect-to-service';
 import { EventEmitter } from 'events';
+import { SftpContext } from '../util/sftp-context';
 
 interface IStateEvent {
   connectionList: ISshConnection[];
@@ -65,8 +66,8 @@ class ConnectionService
     if (connection.channel) {
       connection.channel.destroy();
     }
-    if (connection.sftpWrapper) {
-      connection.sftpWrapper.end();
+    if (connection.sftpContext) {
+      connection.sftpContext.end();
     }
     connection.client.destroy();
   }
@@ -154,6 +155,23 @@ class ConnectionService
   //#endregion
 
   //#region SSH SFTP event handle
+  private handleSftpCloseEvent(connection: ISshConnection, channel: SftpContext) {
+    connection.client.destroy();
+    connection.status = SshConnectionStatus.CLOSED;
+    this.updateState();
+  }
+
+  private handleSftpErrorEvent(connection: ISshConnection, channel: SftpContext, err: any) {
+    logger.warn('sftp error', err);
+  }
+
+  private handleSftpContinueEvent(connection: ISshConnection, channel: SftpContext) {
+    logger.info('sftp continue');
+  }
+
+  private handleSftpUpdateEvent(connection: ISshConnection, channel: SftpContext) {
+    this.updateState();
+  }
 
   //#endregion
 
@@ -172,14 +190,21 @@ class ConnectionService
   }
 
   private setUpSftp(connection: ISshConnection) {
-    connection.client.sftp((err, stream) => {
+    connection.client.sftp((err, sftp) => {
       if (err) {
         connection.client.destroy();
         this.handleSshCloseEvent(connection.id, true);
         return;
       }
       logger.info('setup sftp connection');
-      connection.sftpWrapper = stream;
+      const ctx = new SftpContext(sftp);
+      connection.sftpContext = ctx;
+      ctx.on('close', () => this.handleSftpCloseEvent(connection, ctx));
+      ctx.on('error', (e) => this.handleSftpErrorEvent(connection, ctx, e));
+      ctx.on('continue', () => this.handleSftpContinueEvent(connection, ctx));
+      ctx.on('update', () => this.handleSftpUpdateEvent(connection, ctx));
+
+      ctx.initialize();
     });
   }
 

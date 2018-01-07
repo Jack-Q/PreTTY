@@ -4,6 +4,7 @@ export const header: string;
 export const PageTitle: string;
 export const pageTitle: string;
 export const arrowBack: string;
+export const profileContainer: string;
 export const profile: string;
 export const profileIcon: string;
 export const profileInfo: string;

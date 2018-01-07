@@ -4,7 +4,6 @@ import * as styles from './identity-list-page.scss';
 import { IPageViewProps, PageViewType } from '../model/page';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
-import { Button } from '../component/button';
 import { createIdentityCreatePage } from './identity-create-page';
 import { ISshIdentity, SshIdentityAuthMode } from '../model/identity';
 import { modelServiceConnector, modelService } from '../service/model-service';
@@ -20,14 +19,16 @@ class IdentityListPageView extends React.Component<IPageViewProps & IProps> {
   public render() {
     return (
       <div className={styles.container}>
-        <div className={styles.listPageTitle}>Identity List</div>
-        <div className={styles.ControlBtn}>
-          <Button label="create new identity" onClick={(e) => this.transitToCreatePage(e)} />
+        <div className={styles.Header}>
+        <div className={styles.PageTitle}>
+          <button onClick={(e) => this.transitToProfileListPage(e)} className={styles.arrowBack}><i className="material-icons">arrow_back</i></button>
+            Identity List Page
+          </div>
         </div>
         <div className={styles.ControlBtn}>
-          <Button label="Back to profile list" onClick={(e) => this.transitToProfileListPage(e)} />
+          <button onClick={(e) => this.transitToCreatePage(e)} className={styles.arrowBack}><i className="material-icons">add</i></button>
         </div>
-        <div>
+        <div className={styles.identityContainer}>
           {
             this.props.identityList.map((i) => (
               <div className={styles.identity} key={i.id}>

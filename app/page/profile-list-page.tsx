@@ -29,7 +29,7 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
             Profile List Page
           </div>
       </div>
-        <div >
+        <div className={styles.profileContainer}>
           {
             this.props.profileList.map((p) => (
               <div className={styles.profile} key={p.id}>

@@ -4,7 +4,7 @@ export { MasterPasswordPage } from './master-password-page';
 export { TestPage } from './test-page';
 export { WelcomePage } from './welcome-page';
 export { FileActionPage } from './file-action-page';
-export { FileManagerPage } from './file-manager-page';
+//export { FileManagerPage } from './file-manager-page';
 export { HistoryListPage } from './history-list-page';
 export { HostListPage } from './host-list-page';
 export { IdentityListPage } from './identity-list-page';

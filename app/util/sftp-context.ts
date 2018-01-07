@@ -31,13 +31,29 @@ export class SftpContext extends EventEmitter {
     return this.currentPath;
   }
 
+  public sftpRealPath(path: string): Promise<string> {
+    return new Promise<string>((res, rej) => {
+      this.sftp.realpath(path, (err, absPath) => {
+        if (err) {
+          rej(err);
+          return;
+        }
+        res(absPath);
+      });
+    });
+  }
+
   public initialize() {
     if (this.isInitialized || this.processing) {
       return;
     }
     // get current active directory
     this.processing = true;
+    this
+      .sftpRealPath('.')
+      .then();
     this.isInitialized = true;
+    this.processing = false;
   }
 
   public end() {

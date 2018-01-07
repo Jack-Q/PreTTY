@@ -10,7 +10,7 @@ import { getMessagePage } from './message-page';
 import { Button } from '../component/button';
 import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
-import { HistoryListPage } from './history-list-page';
+// import { HistoryListPage } from './history-list-page';
 import { modelService } from '../service/model-service';
 import { ProfileListPage } from './profile-list-page';
 

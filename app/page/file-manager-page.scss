@@ -35,6 +35,8 @@
 .fileArea {
   flex: 1;
   overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .footer {

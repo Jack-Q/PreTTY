@@ -11,6 +11,7 @@ import { ProfileListPage } from './profile-list-page';
 import { pageService } from '../service/page-service';
 import { transitionService } from '../service/transition-service';
 import { ISftpFile } from '../util/sftp-context';
+import { FileEntry } from '../component/file-entry';
 
 interface IProps {
   connection: ISshConnection;
@@ -38,9 +39,7 @@ class FileManagerPageView extends React.Component<IPageViewProps & IProps> {
         <div className={styles.fileArea}>
           {
             this.props.fileList.map((f) => (
-              <div key={f.longName}>
-                {f.name} ({f.longName})
-              </div>
+              <FileEntry key={f.name} file={f} />
             ))
           }
         </div>

@@ -1,4 +1,4 @@
-import { TestPage } from './test-page';
+import { ProfileListPage } from './profile-list-page';
 
 export { MasterPasswordPage } from './master-password-page';
 export { TestPage } from './test-page';
@@ -16,4 +16,4 @@ export { createVirtualTerminalPage } from './virtual-terminal-page';
 export { createFileManagerPage } from './file-manager-page';
 
 // Default page is loaded for each new page creation
-export const DefaultPage = TestPage;
+export const DefaultPage = ProfileListPage;

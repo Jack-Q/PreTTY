@@ -12,6 +12,7 @@ import { transitionService } from '../service/transition-service';
 import { pageService } from '../service/page-service';
 import { HistoryListPage } from './history-list-page';
 import { modelService } from '../service/model-service';
+import { ProfileListPage } from './profile-list-page';
 
 // tslint:disable-next-line:no-var-requires
 require('xterm/lib/addons/fit');
@@ -91,7 +92,7 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
             connection to server is closed
           </div>
           <div className={styles.overlayActions}>
-            <Button label="view history" onClick={(e) => this.viewHistory(e)} />
+            <Button label="view profiles" onClick={(e) => this.viewHistory(e)} />
             <Button label="connect again" onClick={(e) => this.connectAgain(e)} />
           </div>
         </div>
@@ -117,7 +118,7 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
   }
 
   private viewHistory(e: React.MouseEvent<Element>) {
-    this.transitPage(e, HistoryListPage);
+    this.transitPage(e, ProfileListPage);
   }
 
   private connectAgain(e: React.MouseEvent<Element>) {

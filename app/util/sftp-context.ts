@@ -109,8 +109,8 @@ export class SftpContext extends EventEmitter {
           groupId: f.attrs.gid,
           size: f.attrs.size,
           mode: f.attrs.mode,
-          accessTime: new Date(f.attrs.atime),
-          modificationTime: new Date(f.attrs.mtime),
+          accessTime: new Date(f.attrs.atime * 1000),
+          modificationTime: new Date(f.attrs.mtime * 1000),
         }));
         res(fileList);
       });

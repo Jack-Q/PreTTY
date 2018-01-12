@@ -195,6 +195,8 @@ export class SftpContext extends EventEmitter {
   public popCurrentPath() {
     const path = this.pathStack.pop();
     if (!path) {
+      this.setCurrentPath('/');
+      this.changeDirectory('/', false);
       return;
     }
     this.setCurrentPath(path);

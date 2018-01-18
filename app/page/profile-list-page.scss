@@ -9,15 +9,13 @@
 
 .Header {
   width: 100%;
-  height: 40px;
-  position:fixed;
-  top: 60px;
 }
 
 .PageTitle {
-  height: 40px;
-  margin: 0 0 20px 40px;
+  padding: 20px;
   font-size: 32px;
+  line-height: 40px;
+  font-weight: 100;
 }
 
 .arrowBack {
@@ -30,10 +28,12 @@
 }
 
 .profileContainer {
+  position: relative;
   width: 82%;
   margin: 0 auto;
   overflow: auto;
   display: grid;
+  flex: 1;
   grid-template-columns: 25% 25% 25% 25%;
   grid-template-rows: auto; 
 }
@@ -107,18 +107,14 @@
 }
 
 .btnGroup {
-  width: 80%;
-  height: 60px;
-  margin: 50px auto 0px auto;
-  position: fixed;
-  bottom: 25px;
-  left: 10%;
+  display: flex;
 }
 
 .NavBtn {
-  width: 30%;
+  display: block;
+  flex: 1;
   height: 100%;
-  margin: 0 10px;
+  padding: 20px 0;
   background-color: rgb(37, 30, 25);
   border: none;
   color: #c4c1c1;
@@ -133,4 +129,24 @@
 
 .NavBtn i {
   font-size: 60px;
+}
+
+.emptyTip {
+  font-size: 35px;
+  text-align: center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  position: absolute;
+  color: transparentize($color: #555, $amount: 0.5);
+  text-shadow: 0 0 transparentize($color: #555, $amount: 0.3);
+  .emptyTipContainer {
+    margin: auto;
+  }
+  i {
+    font-size: 125px;
+    transform: rotate(-30deg);
+    padding: 20px;
+  }
 }

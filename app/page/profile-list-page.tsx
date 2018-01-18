@@ -32,9 +32,9 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
             >
               <i className="material-icons">arrow_back</i>
             </button>
-            Profile List Page
+            Profiles
           </div>
-      </div>
+        </div>
         <div className={styles.profileContainer}>
           {
             this.props.profileList.map((p) => (
@@ -65,8 +65,13 @@ class ProfileListPageView extends React.Component<IPageViewProps & IProps> {
           }
           {
             this.props.profileList.length === 0 &&
-            <div className="empty-tip">
-              No connection profile, please add new profile.
+            <div className={styles.emptyTip}>
+              <div className={styles.emptyTipContainer}>
+                <i className="material-icons">hourglass_empty</i>
+                <div>
+                  create a new profile first
+                </div>
+              </div>
             </div>
           }
         </div>

@@ -12,3 +12,5 @@ export const profileInfo: string;
 export const btnGroup: string;
 export const NavBtn: string;
 export const navBtn: string;
+export const emptyTip: string;
+export const emptyTipContainer: string;

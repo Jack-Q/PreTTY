@@ -2,38 +2,46 @@
  * Build config for electron 'Renderer Process' file
  */
 
-const path = require('path');
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const merge = require('webpack-merge');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const fs = require('fs');
-const baseConfig = require('./webpack.config.base');
+const path = require("path");
+const webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const merge = require("webpack-merge");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fs = require("fs");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const baseConfig = require("./webpack.config.base");
 
 const generatePackageSpec = () => {
-  const base = require('../package.json');
-  const template = require('./target-package.json');
+  const base = require("../package.json");
+  const template = require("./target-package.json");
   [
-    "name", "productName", "version",
-    "author", "description", "license",
-    "bugs", "keywords", "repository",
-    "homepage",
-  ].forEach(i => template[i] = base[i]);
-  fs.writeFileSync(path.resolve(__dirname, '../dist/package.json'), JSON.stringify(template, null, 2));
-}
+    "name",
+    "productName",
+    "version",
+    "author",
+    "description",
+    "license",
+    "bugs",
+    "keywords",
+    "repository",
+    "homepage"
+  ].forEach(i => (template[i] = base[i]));
+  fs.writeFileSync(
+    path.resolve(__dirname, "../dist/package.json"),
+    JSON.stringify(template, null, 2)
+  );
+};
 
 generatePackageSpec();
 
 module.exports = merge(baseConfig, {
-  devtool: 'cheap-module-source-map',
+  devtool: "cheap-module-source-map",
 
-  entry: [
-    'app/index'
-  ],
+  entry: ["app/index"],
 
   output: {
-    path: path.join(__dirname, '../dist/dist'),
-    publicPath: 'dist/'
+    path: path.join(__dirname, "../dist/dist"),
+    publicPath: "dist/"
   },
 
   module: {
@@ -43,16 +51,16 @@ module.exports = merge(baseConfig, {
         test: /\.global\.scss$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: "style-loader"
           },
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              sourceMap: true,
-            },
+              sourceMap: true
+            }
           },
           {
-            loader: 'sass-loader'
+            loader: "sass-loader"
           }
         ]
       },
@@ -60,19 +68,21 @@ module.exports = merge(baseConfig, {
         test: /\.(scss|sass)$/,
         exclude: /\.global\.(scss|sass)$/,
         use: ExtractTextPlugin.extract({
-          use: [{
-            loader: 'typings-for-css-modules-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              namedExport: true,
-              camelCase: true,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+          use: [
+            {
+              loader: "typings-for-css-modules-loader",
+              options: {
+                modules: true,
+                importLoaders: 1,
+                namedExport: true,
+                camelCase: true,
+                localIdentName: "[name]__[local]__[hash:base64:5]"
+              }
+            },
+            {
+              loader: "sass-loader"
             }
-          },
-          {
-            loader: 'sass-loader'
-          }]
+          ]
         })
       },
 
@@ -80,21 +90,21 @@ module.exports = merge(baseConfig, {
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         use: {
-          loader: 'url-loader',
+          loader: "url-loader",
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
+            mimetype: "application/font-woff"
           }
-        },
+        }
       },
       // WOFF2 Font
       {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
         use: {
-          loader: 'url-loader',
+          loader: "url-loader",
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
+            mimetype: "application/font-woff"
           }
         }
       },
@@ -102,33 +112,33 @@ module.exports = merge(baseConfig, {
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         use: {
-          loader: 'url-loader',
+          loader: "url-loader",
           options: {
             limit: 10000,
-            mimetype: 'application/octet-stream'
+            mimetype: "application/octet-stream"
           }
         }
       },
       // EOT Font
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader',
+        use: "file-loader"
       },
       // SVG Font
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         use: {
-          loader: 'url-loader',
+          loader: "url-loader",
           options: {
             limit: 10000,
-            mimetype: 'image/svg+xml',
+            mimetype: "image/svg+xml"
           }
         }
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader',
+        use: "url-loader"
       }
     ]
   },
@@ -140,18 +150,25 @@ module.exports = merge(baseConfig, {
 
     // NODE_ENV should be production so that modules do not perform certain development checks
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      "process.env.NODE_ENV": JSON.stringify("production")
     }),
 
-    new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin("style.css"),
 
     new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, '../dist/app.html'),
-      template: path.resolve(__dirname, '../app/app.html'),
+      filename: path.resolve(__dirname, "../dist/app.html"),
+      template: path.resolve(__dirname, "../app/app.html"),
       inject: false
-    })
+    }),
+
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, "target-extra"),
+        to: path.join(__dirname, "..", "dist")
+      },
+    ])
   ],
 
   // https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
-  target: 'electron-renderer'
+  target: "electron-renderer"
 });

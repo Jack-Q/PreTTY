@@ -3,9 +3,7 @@ const state = {
 };
 
 export function getUid() {
-    var time = Date.now();
-    var last = state.last || time;
-    state.last = time > last ? time : time + 1;
+    const time = Date.now();
+    state.last = time > state.last ? time : state.last + 1;
     return state.last.toString(36);
 }
-

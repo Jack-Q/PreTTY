@@ -83,7 +83,11 @@
         "deb",
         "AppImage"
       ],
-      "category": "System.TerminalEmulator"
+      "category": "TerminalEmulator",
+      "desktop": {
+        "Type": "Application",
+        "Terminal": false
+      }
     }
   },
   "bin": {

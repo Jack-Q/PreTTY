@@ -22,12 +22,12 @@ describe('main window', function spec() {
     }
   });
 
-  const findCounter = () => app.client.element('[data-tid="counter"]');
+  // const findCounter = () => app.client.element('[data-tid="counter"]');
 
-  const findButtons = async () => {
-    const { value } = await app.client.elements('[data-tclass="btn"]');
-    return value.map((btn: any) => btn.ELEMENT);
-  };
+  // const findButtons = async () => {
+  //   const { value } = await app.client.elements('[data-tclass="btn"]');
+  //   return value.map((btn: any) => btn.ELEMENT);
+  // };
 
   it('should open window', async () => {
     const { client, browserWindow } = app;
@@ -50,66 +50,66 @@ describe('main window', function spec() {
     expect(logs).toHaveLength(0);
   });
 
-  it('should navigate to Counter by "to Counter" link', async () => {
-    const { client } = app;
+  // it('should navigate to Counter by "to Counter" link', async () => {
+  //   const { client } = app;
 
-    await client.click('[data-tid="container"] > a');
-    await delay(100);
-    expect(await findCounter().getText()).toBe('0');
-  });
+  //   await client.click('[data-tid="container"] > a');
+  //   await delay(100);
+  //   expect(await findCounter().getText()).toBe('0');
+  // });
 
-  it('should display updated count after increment button click', async () => {
-    const { client } = app;
+  // it('should display updated count after increment button click', async () => {
+  //   const { client } = app;
 
-    const buttons = await findButtons();
-    await client.elementIdClick(buttons[0]);  // +
-    expect(await findCounter().getText()).toBe('1');
-  });
+  //   const buttons = await findButtons();
+  //   await client.elementIdClick(buttons[0]);  // +
+  //   expect(await findCounter().getText()).toBe('1');
+  // });
 
-  it('should display updated count after descrement button click', async () => {
-    const { client } = app;
+  // it('should display updated count after descrement button click', async () => {
+  //   const { client } = app;
 
-    const buttons = await findButtons();
-    await client.elementIdClick(buttons[1]);  // -
-    expect(await findCounter().getText()).toBe('0');
-  });
+  //   const buttons = await findButtons();
+  //   await client.elementIdClick(buttons[1]);  // -
+  //   expect(await findCounter().getText()).toBe('0');
+  // });
 
-  it('shouldn\'t change if even and if odd button clicked', async () => {
-    const { client } = app;
+  // it('shouldn\'t change if even and if odd button clicked', async () => {
+  //   const { client } = app;
 
-    const buttons = await findButtons();
-    await client.elementIdClick(buttons[2]);  // odd
-    expect(await findCounter().getText()).toBe('0');
-  });
+  //   const buttons = await findButtons();
+  //   await client.elementIdClick(buttons[2]);  // odd
+  //   expect(await findCounter().getText()).toBe('0');
+  // });
 
-  it('should change if odd and if odd button clicked', async () => {
-    const { client } = app;
+  // it('should change if odd and if odd button clicked', async () => {
+  //   const { client } = app;
 
-    const buttons = await findButtons();
-    await client.elementIdClick(buttons[0]);  // +
-    await client.elementIdClick(buttons[2]);  // odd
-    expect(await findCounter().getText()).toBe('2');
-  });
+  //   const buttons = await findButtons();
+  //   await client.elementIdClick(buttons[0]);  // +
+  //   await client.elementIdClick(buttons[2]);  // odd
+  //   expect(await findCounter().getText()).toBe('2');
+  // });
 
-  it('should change if async button clicked and a second later', async () => {
-    const { client } = app;
+  // it('should change if async button clicked and a second later', async () => {
+  //   const { client } = app;
 
-    const buttons = await findButtons();
-    await client.elementIdClick(buttons[3]);  // async
-    expect(await findCounter().getText()).toBe('2');
-    await delay(1000);
-    expect(await findCounter().getText()).toBe('3');
-  });
+  //   const buttons = await findButtons();
+  //   await client.elementIdClick(buttons[3]);  // async
+  //   expect(await findCounter().getText()).toBe('2');
+  //   await delay(1000);
+  //   expect(await findCounter().getText()).toBe('3');
+  // });
 
-  it('should navigate to home using back button', async () => {
-    const { client } = app;
-    await client.element(
-      '[data-tid="backButton"] > a',
-    ).click();
-    await delay(100);
+  // it('should navigate to home using back button', async () => {
+  //   const { client } = app;
+  //   await client.element(
+  //     '[data-tid="backButton"] > a',
+  //   ).click();
+  //   await delay(100);
 
-    expect(
-      await client.isExisting('[data-tid="container"]'),
-    ).toBe(true);
-  });
+  //   expect(
+  //     await client.isExisting('[data-tid="container"]'),
+  //   ).toBe(true);
+  // });
 });

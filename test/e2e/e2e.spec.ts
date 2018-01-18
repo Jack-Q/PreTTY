@@ -11,7 +11,7 @@ describe('main window', function spec() {
   beforeAll(async () => {
     app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, '..', '..', 'app')],
+      args: [path.join(__dirname, '..', '..', 'dist', 'main.js')],
     });
     return app.start();
   });
@@ -35,7 +35,7 @@ describe('main window', function spec() {
     await client.waitUntilWindowLoaded();
     await delay(500);
     const title = await browserWindow.getTitle();
-    expect(title).toBe('Hello Electron React!');
+    expect(title).toBe('PreTTY');
   });
 
   it('should not have any logs in console of main window', async () => {

@@ -33,7 +33,7 @@ module.exports = merge(baseConfig, {
 
   output: {
     path: path.join(__dirname, '../dist/dist'),
-    publicPath: '../dist/'
+    publicPath: 'dist/'
   },
 
   module: {

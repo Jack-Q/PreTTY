@@ -146,7 +146,7 @@ module.exports = merge(baseConfig, {
     new ExtractTextPlugin('style.css'),
 
     new HtmlWebpackPlugin({
-      filename: 'app.html',
+      filename: path.resolve(__dirname, '../dist/app.html'),
       template: path.resolve(__dirname, '../app/app.html'),
       inject: false
     })

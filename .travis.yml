@@ -40,8 +40,6 @@ script:
 - yarn build
 - yarn package
 - yarn test
-- yarn build
-- ls -alR dist
 - yarn test-e2e
 
 notifications:

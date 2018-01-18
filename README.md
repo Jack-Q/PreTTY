@@ -4,6 +4,7 @@
 # PreTTY
 
 [![Build Status](https://travis-ci.org/Jack-Q/PreTTY.svg?branch=master)](https://travis-ci.org/Jack-Q/PreTTY) 
+[![Build status](https://ci.appveyor.com/api/projects/status/vayjdsp0w7u4gfm1?svg=true)](https://ci.appveyor.com/project/Jack-Q/pretty)
 [![Dependency Status](https://david-dm.org/Jack-Q/PreTTY.svg)](https://david-dm.org/Jack-Q/PreTTY)
 [![devDependencies Status](https://david-dm.org/Jack-Q/PreTTY/dev-status.svg)](https://david-dm.org/Jack-Q/PreTTY?type=dev)
 [![Join the chat at Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Pre-TTY/PreTTY)

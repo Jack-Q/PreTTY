@@ -4,7 +4,6 @@ language: node_js
 
 node_js:
 - 8
-- 7
 
 cache:
   yarn: true
@@ -38,7 +37,17 @@ before_script:
 
 script:
 - node --version
+- yarn build
 - yarn package
 - yarn test
+- yarn build
+- ls -alR dist
 - yarn test-e2e
 
+notifications:
+  webhooks:
+    urls:
+      - "https://webhooks.gitter.im/e/14c28d8557a926030966"
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always

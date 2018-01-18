@@ -1,8 +1,14 @@
-# PreTTY
-
-> PreTTY is prettier than PuTTY
 
 <img src="./artwork/icon-draft-1/flat.png" width="200" style="margin: auto; display: block" />
+
+# PreTTY
+
+[![Build Status](https://travis-ci.org/Jack-Q/PreTTY.svg?branch=master)](https://travis-ci.org/Jack-Q/PreTTY) 
+[![Dependency Status](https://david-dm.org/Jack-Q/PreTTY.svg)](https://david-dm.org/Jack-Q/PreTTY)
+[![devDependencies Status](https://david-dm.org/Jack-Q/PreTTY/dev-status.svg)](https://david-dm.org/Jack-Q/PreTTY?type=dev)
+[![Join the chat at Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Pre-TTY/PreTTY)
+
+> PreTTY is prettier than PuTTY
 
 ## Project Management & Documentation
 

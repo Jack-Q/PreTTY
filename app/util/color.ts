@@ -1,5 +1,10 @@
 import { logger } from './logger';
 
+/**
+ * RGB Color
+ *
+ * each component should be an value of 0 to 255
+ */
 export interface IColor {
   r: number;
   g: number;
@@ -28,5 +33,6 @@ export const parseColor = (rgbColor: string): IColor => {
 
 export const toRgba = (rgbColor: string, opacity: number): string => {
   const c = parseColor(rgbColor);
-  return `rgba(${c.r}, ${c.g}, ${c.b}, ${opacity})`;
+  const o = Math.min(Math.max(opacity, 0), 1);
+  return `rgba(${c.r}, ${c.g}, ${c.b}, ${o})`;
 };

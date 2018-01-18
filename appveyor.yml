@@ -1,0 +1,38 @@
+version: 0.1.0-{branch}-{build}
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+init:
+  - git config --global core.autocrlf input
+install:
+  - ps: Install-Product node 8 x64
+  - npm install -g npm
+cache:
+  - node_modules
+  - '%USERPROFILE%\.electron'
+  - '%LOCALAPPDATA%\Yarn'
+build_script:
+  - npm install
+  - npm run build
+  - npm run package
+
+test_script:
+  - npm run test
+  - npm run test-e2e
+
+notifications:
+  - provider: Webhook
+    url: https://webhooks.gitter.im/e/6e3e74baddcd89b28993
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+  - provider: GitHubPullRequest
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+  - provider: Email
+    to:
+      - qiaobo@outlook.com
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true

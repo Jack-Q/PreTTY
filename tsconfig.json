@@ -30,6 +30,7 @@
     "app/index.tsx"
   ],
   "include": [
+    "app/modules.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
     "test/**/*.ts",

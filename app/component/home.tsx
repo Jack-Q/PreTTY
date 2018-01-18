@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Client, ClientChannel } from 'ssh2';
-import * as Terminal from 'xterm';
+import { Terminal } from 'xterm';
 import * as styles from './home.scss';
 // const styles = {} as any;
 
-// tslint:disable-next-line:no-var-requires
-require('xterm/lib/addons/fit');
-(Terminal as any).loadAddon('fit');
+import * as fit from 'xterm/lib/addons/fit/fit';
+Terminal.applyAddon(fit);
 
 enum ConnectionState {
   NO_CONNECT, CONNECTING, CONNECTED,

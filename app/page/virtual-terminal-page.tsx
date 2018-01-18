@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Terminal from 'xterm';
+import { Terminal } from 'xterm';
 
 import * as styles from './virtual-terminal-page.scss';
 import { IPageViewProps, PageViewType } from '../model/page';
@@ -14,9 +14,9 @@ import { pageService } from '../service/page-service';
 import { modelService } from '../service/model-service';
 import { ProfileListPage } from './profile-list-page';
 
-// tslint:disable-next-line:no-var-requires
-require('xterm/lib/addons/fit');
-(Terminal as any).loadAddon('fit');
+import * as fit from 'xterm/lib/addons/fit/fit';
+Terminal.applyAddon(fit);
+
 interface IProps {
   connection: ISshConnection;
   terminal: Terminal;
@@ -39,7 +39,8 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     sshEvents.addListener(SshConnectionEvent.data, this.handleSshData);
 
     // display content
-    term.open(this.termRef, true);
+    term.open(this.termRef);
+    term.focus();
     this.handleWindowResize();
   }
 

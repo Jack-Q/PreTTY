@@ -1,3 +1,5 @@
+# App Veyor Configuration for CI on Windows 
+
 version: 0.1.0-{branch}-{build}
 pull_requests:
   do_not_increment_build_number: true

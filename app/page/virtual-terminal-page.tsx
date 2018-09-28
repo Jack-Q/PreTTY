@@ -15,6 +15,7 @@ import { modelService } from '../service/model-service';
 import { ProfileListPage } from './profile-list-page';
 
 import * as fit from 'xterm/lib/addons/fit/fit';
+import { clipboard } from 'electron';
 Terminal.applyAddon(fit);
 
 interface IProps {
@@ -31,6 +32,7 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     // bind event handler
     term.on('resize', this.handleTermResize);
     term.on('data', this.handleTermData);
+    term.attachCustomKeyEventHandler(this.handleTermKeyOperation);
 
     // handle resize
     window.addEventListener('resize', this.handleWindowResize);
@@ -139,6 +141,29 @@ class VirtualTerminalPageView extends React.Component<IPageViewProps & IProps> {
     if (data && this.props.connection.channel) {
       this.props.connection.channel.write(data);
     }
+  }
+
+
+  private inTermQuickKeyHandler(ev: KeyboardEvent, code: string) {
+    switch (code) {
+      case 'KeyV':
+        const clipboardString = clipboard.readText();
+        console.log(clipboardString);
+        this.handleTermData(clipboardString);
+        return false;
+    }
+    return true;
+  }
+
+  private handleTermKeyOperation = (keyEvent?: KeyboardEvent): boolean => {
+    // key operation
+    if (!keyEvent) { return true; }
+    const keyCode = keyEvent.code;
+    const withControl = keyEvent.ctrlKey;
+    if (withControl) {
+      return this.inTermQuickKeyHandler(keyEvent, keyCode);
+    }
+    return true;
   }
 
   private handleWindowResize = () => {
